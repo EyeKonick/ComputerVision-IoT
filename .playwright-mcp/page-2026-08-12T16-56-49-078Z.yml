@@ -1,0 +1,144 @@
+- generic [active] [ref=f5e1]:
+  - generic [ref=f5e3]:
+    - complementary [ref=f5e4]:
+      - button "Collapse the chain" [expanded] [ref=f5e5] [cursor=pointer]:
+        - generic [ref=f5e6]: The chain
+        - generic [ref=f5e9]: −
+      - generic [ref=f5e10]:
+        - paragraph [ref=f5e11]: Every step is a landmark; every session, a joint. Click any node to jump straight to it.
+        - generic [ref=f5e12]:
+          - generic [ref=f5e13]:
+            - generic [ref=f5e14]:
+              - generic [ref=f5e15]: //
+              - text: 01 — Setup & Environment
+            - generic [ref=f5e16]:
+              - link "Confirm Python is installed and on PATH" [ref=f5e17] [cursor=pointer]:
+                - /url: /hand-tracking/setup-1
+              - link "Create the project folder and a virtual environment" [ref=f5e19] [cursor=pointer]:
+                - /url: /hand-tracking/setup-2
+              - link "Activate the virtual environment" [ref=f5e21] [cursor=pointer]:
+                - /url: /hand-tracking/setup-3
+              - link "Confirm the venv is actually active" [ref=f5e23] [cursor=pointer]:
+                - /url: /hand-tracking/setup-4
+              - link "Install both activities' dependencies" [ref=f5e25] [cursor=pointer]:
+                - /url: /hand-tracking/setup-5
+              - generic [ref=f5e31]:
+                - generic [ref=f5e32]:
+                  - 'button "Set up your camera source: laptop webcam or phone over USB — Path A" [ref=f5e33] [cursor=pointer]'
+                  - generic [ref=f5e34]: A · Laptop webcam
+                - generic [ref=f5e35]:
+                  - 'button "Set up your camera source: laptop webcam or phone over USB — Path B" [ref=f5e36] [cursor=pointer]'
+                  - generic [ref=f5e37]: B · Phone over USB
+              - 'link "\"Hello, Camera\": prove your camera source works before writing anything real" [ref=f5e42] [cursor=pointer]':
+                - /url: /hand-tracking/setup-7
+          - generic [ref=f5e43]:
+            - generic [ref=f5e44]:
+              - generic [ref=f5e45]: //
+              - text: 02 — Hand Tracking — Session 1 (Webcam Loop)
+            - generic [ref=f5e46]:
+              - link "Imports and config constants" [ref=f5e48] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s1-1
+              - link "Auto-download the hand landmark model (ensure_model)" [ref=f5e50] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s1-2
+              - link "Open the camera via CAM_SOURCE" [ref=f5e52] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s1-3
+              - 'link "The capture loop: read, mirror, show" [ref=f5e54] [cursor=pointer]':
+                - /url: /hand-tracking/hand-s1-4
+              - link "Quit key handling and cleanup" [ref=f5e56] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s1-5
+          - generic [ref=f5e57]:
+            - generic [ref=f5e58]:
+              - generic [ref=f5e59]: //
+              - text: 03 — Hand Tracking — Session 2 (Landmarks & Skeleton)
+            - generic [ref=f5e60]:
+              - link "Load the hand-tracking model" [ref=f5e62] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s2-1
+              - link "Run detection on every frame" [ref=f5e64] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s2-2
+              - link "Extract landmark points and draw the skeleton connections" [ref=f5e66] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s2-3
+              - link "Draw the joints" [ref=f5e68] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s2-4
+              - link "Composite the glow onto the camera image" [ref=f5e70] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s2-5
+          - generic [ref=f5e71]:
+            - generic [ref=f5e72]:
+              - generic [ref=f5e73]: //
+              - text: 04 — Hand Tracking — Session 3 (Trails & Gesture Recognition)
+            - generic [ref=f5e74]:
+              - link "Fingertip particle trails" [ref=f5e76] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s3-1
+              - link "Count extended fingers" [ref=f5e78] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s3-2
+              - link "Pinch detection and the handedness label" [ref=f5e80] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s3-3
+              - 'link "Show it: the on-screen gesture readout" [ref=f5e82] [cursor=pointer]':
+                - /url: /hand-tracking/hand-s3-4
+          - generic [ref=f5e83]:
+            - generic [ref=f5e84]:
+              - generic [ref=f5e85]: //
+              - text: 05 — Hand Tracking — Session 4 (Virtual Orb & Wrap-up)
+            - generic [ref=f5e86]:
+              - link "Orb state and picking which hand controls it" [ref=f5e88] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s4-1
+              - link "Grab-and-drag logic" [ref=f5e90] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s4-2
+              - link "Draw the orb" [ref=f5e92] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s4-3
+              - link "FPS counter and title HUD" [ref=f5e94] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s4-4
+              - link "The 'r' reset key" [ref=f5e96] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s4-5
+        - generic [ref=f5e97]:
+          - generic [ref=f5e98]: Completed
+          - generic [ref=f5e100]: Current
+          - generic [ref=f5e102]: Upcoming
+        - generic [ref=f5e104]:
+          - generic [ref=f5e105]: Progress is saved only in this browser
+          - button "Reset saved progress" [ref=f5e106] [cursor=pointer]
+    - generic [ref=f5e108]:
+      - generic [ref=f5e109]:
+        - generic [ref=f5e110]:
+          - heading "Hand Tracking — Session 4 (Virtual Orb & Wrap-up)" [level=2] [ref=f5e111]
+          - generic [ref=f5e112]: Hand Tracking (4 of 4 — final session for this activity)
+        - paragraph [ref=f5e113]: Module 10 — Hand Tracking & Gesture Control
+        - generic [ref=f5e114]:
+          - generic [ref=f5e115]:
+            - generic [ref=f5e116]: Hand Tracking — Session 4 (Virtual Orb & Wrap-up) — Step 5 of 5
+            - heading "The 'r' reset key" [level=2] [ref=f5e117]
+            - paragraph [ref=f5e118]: "Last piece: a way to snap the orb back to the center if it drifts somewhere inconvenient."
+            - generic [ref=f5e119]: Why it matters
+            - paragraph [ref=f5e120]: This reassigns orb_pos to a brand-new list rather than mutating it in place — perfectly fine here, since nothing is holding a separate reference to the old list the way the drag logic temporarily does mid-frame. Setting orb_held = False alongside the reset ensures a held orb doesn't immediately snap back to your fingertip on the very next frame.
+            - generic [ref=f5e121]: Common problems
+            - list [ref=f5e122]:
+              - listitem [ref=f5e123]: "Pressing r and nothing happening — same focus issue as the q quit key from Session 1: the OpenCV window needs to be the clicked/focused one for cv2.waitKey to see the keypress."
+              - listitem [ref=f5e124]: This is the last piece of hand_ar.py — a good moment to run the finished file start-to-finish once as a class, without stopping to explain, just to see the whole thing work end to end.
+          - generic [ref=f5e125]:
+            - generic [ref=f5e126]:
+              - generic [ref=f5e127]: hand_ar.py
+              - generic [ref=f5e128]: Step 5 of 5
+            - generic [ref=f5e129]:
+              - generic [ref=f5e130]: Type this
+              - generic [ref=f5e131]:
+                - generic: Type it yourself — that's the point. No copy-paste here.
+                - generic [ref=f5e132]: "if key == ord('r'): orb_pos = [w // 2, h // 2] orb_held = False"
+            - button "▸ Show the full file so far (245 lines) — to compare against yours" [ref=f5e135] [cursor=pointer]:
+              - generic [ref=f5e136]: ▸
+              - generic [ref=f5e137]: Show the full file so far (245 lines) — to compare against yours
+            - generic [ref=f5e138]:
+              - generic [ref=f5e139]: Run it
+              - code [ref=f5e140]: python hand_ar.py
+              - paragraph [ref=f5e141]: Press r at any point and the orb should snap back to the center of the screen, released from any grab.
+        - generic [ref=f5e142]:
+          - heading "Wrap-up — say this before ending the session" [level=3] [ref=f5e143]
+          - paragraph [ref=f5e144]: "That's hand_ar.py, complete — camera in, hand detected, gesture read, and a pinch turned into a real interaction. Four sessions, one file, every line explained before you typed it. Next activity: the AR Face Tracker, starting from the exact same webcam-loop foundation you already know."
+          - heading "Closing framing note — say this before wrap-up" [level=3] [ref=f5e145]
+          - paragraph [ref=f5e146]: "The orb you just built is standing in for something bigger. Your syllabus calls this module's theme \"touchless actuation as an IoT action\" — in a real IoT system, that pinch-and-drag wouldn't move a picture on your own screen, it would trigger something in the physical world: turning on a smart light, moving a servo, sending an HTTP request to a device on the network. We didn't build that connection today — this is a deliberately simple stand-in so we could focus on the computer-vision side: detecting the hand, recognizing the gesture, and turning it into some kind of action. Swapping the orb-drawing code for a real network call or hardware signal is a natural next step, not something built into this activity."
+        - link "← Previous FPS counter and title HUD" [ref=f5e148] [cursor=pointer]:
+          - /url: /hand-tracking/hand-s4-4
+          - generic [ref=f5e149]: ← Previous
+          - generic [ref=f5e150]: FPS counter and title HUD
+      - contentinfo [ref=f5e151]:
+        - generic [ref=f5e152]: Hand Tracking Guide
+        - generic [ref=f5e153]: ITE 3 — Applied Computer Vision & IoT
+  - button "Open Next.js Dev Tools" [ref=f5e159] [cursor=pointer]

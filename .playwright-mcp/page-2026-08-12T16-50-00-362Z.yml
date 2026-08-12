@@ -1,0 +1,167 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - button "Collapse the chain" [expanded] [ref=e5] [cursor=pointer]:
+        - generic [ref=e6]: The chain
+        - generic [ref=e9]: −
+      - generic [ref=e10]:
+        - paragraph [ref=e11]: Every step is a landmark; every session, a joint. Click any node to jump straight to it.
+        - generic [ref=e12]:
+          - generic [ref=e13]:
+            - generic [ref=e14]:
+              - generic [ref=e15]: //
+              - text: 01 — Setup & Environment
+            - generic [ref=e16]:
+              - link "Confirm Python is installed and on PATH" [ref=e17] [cursor=pointer]:
+                - /url: /hand-tracking/setup-1
+              - link "Create the project folder and a virtual environment" [ref=e19] [cursor=pointer]:
+                - /url: /hand-tracking/setup-2
+              - link "Activate the virtual environment" [ref=e21] [cursor=pointer]:
+                - /url: /hand-tracking/setup-3
+              - link "Confirm the venv is actually active" [ref=e23] [cursor=pointer]:
+                - /url: /hand-tracking/setup-4
+              - link "Install both activities' dependencies" [ref=e25] [cursor=pointer]:
+                - /url: /hand-tracking/setup-5
+              - generic [ref=e31]:
+                - generic [ref=e32]:
+                  - 'button "Set up your camera source: laptop webcam or phone over USB — Path A" [ref=e33] [cursor=pointer]'
+                  - generic [ref=e34]: A · Laptop webcam
+                - generic [ref=e35]:
+                  - 'button "Set up your camera source: laptop webcam or phone over USB — Path B" [ref=e36] [cursor=pointer]'
+                  - generic [ref=e37]: B · Phone over USB
+              - 'link "\"Hello, Camera\": prove your camera source works before writing anything real" [ref=e42] [cursor=pointer]':
+                - /url: /hand-tracking/setup-7
+          - generic [ref=e43]:
+            - generic [ref=e44]:
+              - generic [ref=e45]: //
+              - text: 02 — Hand Tracking — Session 1 (Webcam Loop)
+            - generic [ref=e46]:
+              - link "Imports and config constants" [ref=e48] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s1-1
+              - link "Auto-download the hand landmark model (ensure_model)" [ref=e50] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s1-2
+              - link "Open the camera via CAM_SOURCE" [ref=e52] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s1-3
+              - 'link "The capture loop: read, mirror, show" [ref=e54] [cursor=pointer]':
+                - /url: /hand-tracking/hand-s1-4
+              - link "Quit key handling and cleanup" [ref=e56] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s1-5
+          - generic [ref=e57]:
+            - generic [ref=e58]:
+              - generic [ref=e59]: //
+              - text: 03 — Hand Tracking — Session 2 (Landmarks & Skeleton)
+            - generic [ref=e60]:
+              - link "Load the hand-tracking model" [ref=e62] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s2-1
+              - link "Run detection on every frame" [ref=e64] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s2-2
+              - link "Extract landmark points and draw the skeleton connections" [ref=e66] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s2-3
+              - link "Draw the joints" [ref=e68] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s2-4
+              - link "Composite the glow onto the camera image" [ref=e70] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s2-5
+          - generic [ref=e71]:
+            - generic [ref=e72]:
+              - generic [ref=e73]: //
+              - text: 04 — Hand Tracking — Session 3 (Trails & Gesture Recognition)
+            - generic [ref=e74]:
+              - link "Fingertip particle trails" [ref=e76] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s3-1
+              - link "Count extended fingers" [ref=e78] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s3-2
+              - link "Pinch detection and the handedness label" [ref=e80] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s3-3
+              - 'link "Show it: the on-screen gesture readout" [ref=e82] [cursor=pointer]':
+                - /url: /hand-tracking/hand-s3-4
+          - generic [ref=e83]:
+            - generic [ref=e84]:
+              - generic [ref=e85]: //
+              - text: 05 — Hand Tracking — Session 4 (Virtual Orb & Wrap-up)
+            - generic [ref=e86]:
+              - link "Orb state and picking which hand controls it" [ref=e88] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s4-1
+              - link "Grab-and-drag logic" [ref=e90] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s4-2
+              - link "Draw the orb" [ref=e92] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s4-3
+              - link "FPS counter and title HUD" [ref=e94] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s4-4
+              - link "The 'r' reset key" [ref=e96] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s4-5
+        - generic [ref=e97]:
+          - generic [ref=e98]: Completed
+          - generic [ref=e100]: Current
+          - generic [ref=e102]: Upcoming
+        - generic [ref=e104]:
+          - generic [ref=e105]: Progress is saved only in this browser
+          - button "Reset saved progress" [ref=e106] [cursor=pointer]
+    - generic [ref=e108]:
+      - generic [ref=e109]:
+        - generic [ref=e110]: ITE 3 — Applied Computer Vision & IoT
+        - heading [level=1] [ref=e112]:
+          - text: Twenty-six steps.One camera feed.
+          - emphasis [ref=e113]: A skeleton made of light.
+        - paragraph [ref=e114]:
+          - text: The Hand Tracking guide — the same node-and-connection language you draw over your own hand in
+          - code [ref=e115]: hand_ar.py
+          - text: ", reused here as the way you navigate the lesson itself."
+        - generic [ref=e116]:
+          - generic [ref=e117]:
+            - generic [ref=e118]: "5"
+            - text: Sessions
+          - generic [ref=e119]:
+            - generic [ref=e120]: "26"
+            - text: Steps
+      - generic [ref=e121]:
+        - generic [ref=e122]:
+          - heading "Setup & Environment" [level=2] [ref=e123]
+          - generic [ref=e124]: Lead-in (before Hand Tracking and Face Tracking)
+        - paragraph [ref=e125]: Module 1 (abbreviated) — installing Python, pip, and a virtual environment; installing OpenCV; "Hello, Image" first program
+        - generic [ref=e126]:
+          - heading "Session goal — say this out loud at the start" [level=3] [ref=e127]
+          - paragraph [ref=e128]: By the end of today, everyone has Python, an isolated project environment, and both activities' libraries installed — and we've proven the camera works from Python before we build anything real on top of it.
+          - list [ref=e129]:
+            - listitem [ref=e130]: "`source code/hand-tracking/requirements.txt` now also pins `mediapipe==0.10.14`, matching `source code/facial-recognition/requirements.txt`. Step 5 keeps the discussion of why pinning matters, since it's a useful, real example for students, but there's no longer a live mismatch in the repo."
+            - listitem [ref=e131]: "Two-path classroom note: Lab PCs have no built-in webcam and the room has no WiFi (Ethernet only). Students on lab PCs use their Android phone over USB as the camera instead; students with their own laptop keep using its built-in webcam. Step 6 below covers both. Both `hand_ar.py` and `face_tracker.py` read a single `CAM_SOURCE` config value (an int device index, or a URL string) instead of a hardcoded camera index, so the same script works either way."
+        - generic [ref=e132]:
+          - generic [ref=e133]:
+            - generic [ref=e134]: Setup & Environment — Step 1 of 7
+            - heading "Confirm Python is installed and on PATH" [level=2] [ref=e135]
+            - paragraph [ref=e136]: "Before anything else, we need to know which Python we're actually running — mediapipe (the ML library both activities depend on) only ships pre-built wheels for specific Python versions, so \"some Python is installed\" isn't enough; we need to know which one. (Windows users: if `python --version` fails, try `py --version` instead.)"
+            - generic [ref=e137]: New in this step
+            - generic [ref=e138]:
+              - generic [ref=e139]:
+                - term [ref=e140]: python --version
+                - definition [ref=e141]: a command that asks Python to tell you which version of itself is installed.
+              - generic [ref=e142]:
+                - term [ref=e143]: PATH
+                - definition [ref=e144]: a list your computer checks to find a program when you type its name in the terminal. If a program "isn't on PATH," the terminal doesn't know where to find it.
+              - generic [ref=e145]:
+                - term [ref=e146]: py
+                - definition [ref=e147]: an alternative launcher command Windows installs alongside Python; useful when plain python doesn't work.
+            - generic [ref=e148]: Why it matters
+            - paragraph [ref=e149]: "mediapipe's published wheels typically trail the newest Python release by a few months. If `python --version` reports something very new (e.g. a version released in the last month or two), `pip install mediapipe` in Step 5 may fail with no matching distribution — better to catch that now than mid-install."
+            - generic [ref=e150]: Common problems
+            - list [ref=e151]:
+              - listitem [ref=e152]: "'python' is not recognized... (Windows) — Python isn't on PATH. Reinstall from python.org with \"Add python.exe to PATH\" checked, or use the py launcher instead."
+              - listitem [ref=e153]: Windows opens the Microsoft Store instead of running Python — that's the store-app stub shadowing the real python command; same fix as above, or use py.
+              - listitem [ref=e154]: "macOS/Linux: python not found but python3 works — that's normal on those platforms; use python3 for every command in this session."
+              - listitem [ref=e155]: Multiple Pythons installed, unsure which one's active — where python (Windows) / which python (macOS/Linux) shows the exact path being used.
+          - generic [ref=e156]:
+            - generic [ref=e157]:
+              - generic [ref=e158]: Terminal
+              - generic [ref=e159]: Step 1 of 7
+            - generic [ref=e160]:
+              - generic [ref=e161]: Type this
+              - generic [ref=e163]:
+                - generic: Type it yourself — that's the point. No copy-paste here.
+                - generic [ref=e164]: python --version
+        - link "Next → Create the project folder and a virtual environment" [ref=e166] [cursor=pointer]:
+          - /url: /hand-tracking/setup-2
+          - generic [ref=e167]: Next →
+          - generic [ref=e168]: Create the project folder and a virtual environment
+      - contentinfo [ref=e169]:
+        - generic [ref=e170]: Hand Tracking Guide
+        - generic [ref=e171]: ITE 3 — Applied Computer Vision & IoT
+  - button "Open Next.js Dev Tools" [ref=e177] [cursor=pointer]

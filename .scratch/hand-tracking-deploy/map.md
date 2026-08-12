@@ -1,0 +1,45 @@
+# Map: Hand Tracking Guide — Build & Deploy
+
+## Destination
+
+The **Hand Tracking track only** (Setup & Environment + Hand Tracking Sessions 1–4) built as real, responsive pages in this Next.js app — using a Fable-designed visual direction and a structured JSON/TS content model converted from the already-drafted markdown — and **deployed live on Vercel** (via GitHub integration) at a public URL students can visit on their own laptop or phone, not just a projector.
+
+This is a **narrower, faster-moving sibling** of the [CV/IoT Student Guide map](../cv-iot-student-guide/map.md), not a replacement for it. Face Tracking content, the multi-activity node overview, and the general Claude Code + Fable build-prompt stay parked on that map for later — explicitly out of scope here.
+
+## Notes
+
+- **"Fast" means narrow scope and priority order, not lower quality.** The user wants Hand Tracking finished and shipped *before* other topics — that's the speed lever (don't wait on Face Tracking or the rest of the course to ship this) — not a license to cut corners on this track itself. The output is a **full, polished product**: real design (via the Fable pass), genuinely working responsive pages, a real deploy. No "basic MVP" framing on any ticket here.
+- **This effort carries execution into the tickets** (same override as the sibling map): resolving a ticket here means actually building the thing — pages, components, data, deployment — not just deciding an approach.
+- **Source content is final** — do not redraft it. Convert faithfully from the 5 already-drafted, instructor-approved markdown files:
+  - `../cv-iot-student-guide/content/01-setup-environment.md`
+  - `../cv-iot-student-guide/content/02-hand-session-1-webcam-loop.md`
+  - `../cv-iot-student-guide/content/03-hand-session-2-landmarks-skeleton.md`
+  - `../cv-iot-student-guide/content/04-hand-session-3-trails-gestures.md`
+  - `../cv-iot-student-guide/content/05-hand-session-4-orb-wrapup.md`
+- **Visual/navigation metaphor carried over as a given** from the sibling map's earlier grilling (do not re-litigate): a linear step-chain of connected nodes in strict sequence (no branching), next/previous, no in-browser code execution (read-along reference; students code in VS Code). **Superseded for this track:** the "jump-to-any-step overview" part of that given was overturned by direct instructor feedback (see [Sequential lock & single-path fork display](issues/05-sequential-lock-and-fork-display.md)) — steps now unlock strictly in order; a step's node isn't clickable (or reachable by direct URL) until the one before it has been visited.
+- Responsive from the start — must work reasonably well on both a laptop/projector and a student's phone.
+- Repo has no git remote configured yet and no Vercel config — first deploy requires creating/pushing to a GitHub repo and connecting it in Vercel.
+- **Progress tracking: per-device only, via `localStorage`.** Each student's own browser remembers their last-visited step and resumes there next visit — no accounts, no server-side state, nothing synced across devices or visible to the instructor. Compatible with the sibling map's original "no login, no tracking" decision (still true — nothing leaves the device). Confirmed via the Fable mockup, which now demonstrates this live.
+- **Per-symbol glossary, added to every step.** Every new built-in function/symbol/concept a step introduces gets its own short, plain-language, non-technical definition — a distinct "New in this step" list, separate from the "why it matters" prose (which stays focused on design rationale, not vocabulary). Demonstrated in the Fable mockup on 5 real steps, then authored across all 26 steps in the sibling map's approved content files (`content/01-setup-environment.md` through `05-hand-session-4-orb-wrapup.md`) — **done**, ready for ticket 02 to transcribe as-is.
+- **Code blocks block copy/paste.** Students must type code themselves — the code panel disables text selection and intercepts copy/cut/right-click with a message ("Type it yourself — that's the point"). Demonstrated live in the Fable mockup.
+- **Camera-setup fork gets a visual split in the node-chain.** The Setup track's "Set up your camera source" step is one step in the data model (Path A/B are documented together within it, not separate steps) but is rendered as two labeled branches connected by smooth flowing curves (not a hard bracket) that visibly re-merge into the single chain before the next step. The two branches carry **independent visual state**: clicking the path you actually took lights up only that curve+node (cyan for Laptop, amber for Phone), the other stays dimmed — persisted per-device via `localStorage` alongside the rest of progress tracking, so it's not just "which one did I click most recently," it remembers which path is *yours*. Demonstrated live in the Fable mockup. This is the one deliberate exception to the "strictly linear, no branching" navigation rule — it's a visual split *within* one step's content, not an alternate route through the guide; the chain itself never forks.
+- Consult `AGENTS.md` at the repo root before touching any Next.js code — this project has non-standard/breaking-change docs under `node_modules/next/dist/docs/` since it's pinned to a pre-release Next.js version.
+- If a ticket surfaces a real open decision or ambiguity, invoke `/grilling` and `/domain-modeling` rather than guessing.
+
+## Decisions so far
+
+- [Fable design pass](issues/01-fable-design-pass.md) — approved visual direction: near-black ground with three accents pulled from `hand_ar.py`'s own colors (magenta/cyan/amber), monospace-for-chrome + sans-for-prose typography, and a signature node-chain overview literally styled like a hand-landmark skeleton. Also where progress tracking (`localStorage`), the per-step glossary format, and no-copy code blocks were decided and demonstrated live. Published mockup: `https://claude.ai/code/artifact/0ef32d70-0ff0-4bf9-a42c-4d19748a630d`.
+- [Content data model & conversion](issues/02-content-data-model.md) — `Session`/`Step` TypeScript shape built in `app/hand-tracking/data/types.ts`; all 5 source markdown files converted into `sessions/00-setup.ts` … `04-hand-session-4.ts` plus a combining `index.ts` (26 flattened steps total). Step/code-block/common-problem counts verified to match the source markdown exactly; two harmless pre-existing content quirks (not conversion errors) found and flagged in place rather than silently fixed.
+- [Build guide pages](issues/03-build-guide-pages.md) — real Next.js pages built under `app/hand-tracking/` (one static route per step, sticky chain-rail layout, camera-fork SVG branches, two-part code panels, no-copy, `localStorage` progress). Ported the approved Fable mockup's CSS near-verbatim for pixel fidelity. Verified live in-browser (desktop + phone viewport); found and fixed a real resume-redirect race-condition bug along the way. One scope note: real syntax highlighting was flagged, not built — the approved mockup never actually showed it, only diff-style new-line highlighting.
+- [Sequential lock & single-path fork display](issues/05-sequential-lock-and-fork-display.md) — direct instructor feedback, resolved live: the camera-fork step now shows only the chosen path (a chooser until one is picked), never both at once; and chain nodes now unlock strictly in order (locked nodes are unclickable and un-deep-linkable via a `LockGuard` redirect), overturning the earlier "jump to any step" given. Found and fixed a real race condition where the chain rail was silently legitimizing locked steps before the lock guard could check them.
+- [File creation, CAM_SOURCE line, and line context](issues/06-file-creation-camsource-line-context.md) — direct instructor feedback, resolved live: added a "create a new file" callout on the two steps that actually create one (a real ticket 02 transcription gap despite ticket 01 claiming it was fixed); the `CAM_SOURCE` line now shows the student's concrete Path A/B value everywhere it recurs, not a generic both-paths comment; and every "Type this" code group now shows its approximate line range plus the next unchanged line as trailing context, so students can tell a continuation from an insertion.
+
+## Not yet specified
+
+- Exact GitHub account/repo visibility (public vs. private) and Vercel account specifics — resolved when the deploy ticket is actually worked, not blocking the build.
+- Whether Face Tracking gets folded into this same deployed app later, or ships as a separate addition once the sibling map's Face Tracking content is done — a question for after this destination is reached, not before.
+
+## Out of scope
+
+- Face Tracking content/pages, the cross-activity node overview, and the general Claude Code + Fable build-prompt — all remain on the [CV/IoT Student Guide map](../cv-iot-student-guide/map.md) for later.
+- Anything from that map's own Out of Scope section (other 10 syllabus modules, real face recognition, real IoT actuation) — unchanged, still out of scope here too.

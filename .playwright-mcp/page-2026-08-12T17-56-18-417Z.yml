@@ -1,0 +1,125 @@
+- generic [active] [ref=f25e1]:
+  - generic [ref=f25e3]:
+    - complementary [ref=f25e4]:
+      - button "Collapse the chain" [expanded] [ref=f25e5] [cursor=pointer]:
+        - generic [ref=f25e6]: The chain
+        - generic [ref=f25e9]: −
+      - generic [ref=f25e10]:
+        - paragraph [ref=f25e11]: Every step is a landmark; every session, a joint. Steps unlock in order — finish one to reveal the next.
+        - generic [ref=f25e12]:
+          - generic [ref=f25e13]:
+            - generic [ref=f25e14]:
+              - generic [ref=f25e15]: //
+              - text: 01 — Setup & Environment
+            - generic [ref=f25e16]:
+              - link "Confirm Python is installed and on PATH" [ref=f25e17] [cursor=pointer]:
+                - /url: /hand-tracking/setup-1
+              - generic "Create the project folder and a virtual environment — locked" [ref=f25e19]
+              - generic "Activate the virtual environment — locked" [ref=f25e21]
+              - generic "Confirm the venv is actually active — locked" [ref=f25e23]
+              - generic "Install both activities' dependencies — locked" [ref=f25e25]
+              - generic [ref=f25e31]:
+                - generic [ref=f25e32]:
+                  - 'button "Set up your camera source: laptop webcam or phone over USB — Path A — locked" [disabled] [ref=f25e33]'
+                  - generic [ref=f25e34]: A · Laptop webcam
+                - generic [ref=f25e35]:
+                  - 'button "Set up your camera source: laptop webcam or phone over USB — Path B — locked" [disabled] [ref=f25e36]'
+                  - generic [ref=f25e37]: B · Phone over USB
+              - 'generic "\"Hello, Camera\": prove your camera source works before writing anything real — locked" [ref=f25e42]'
+          - generic [ref=f25e43]:
+            - generic [ref=f25e44]:
+              - generic [ref=f25e45]: //
+              - text: 02 — Hand Tracking — Session 1 (Webcam Loop)
+            - generic [ref=f25e46]:
+              - generic "Imports and config constants — locked" [ref=f25e48]
+              - generic "Auto-download the hand landmark model (ensure_model) — locked" [ref=f25e50]
+              - generic "Open the camera via CAM_SOURCE — locked" [ref=f25e52]
+              - 'generic "The capture loop: read, mirror, show — locked" [ref=f25e54]'
+              - generic "Quit key handling and cleanup — locked" [ref=f25e56]
+          - generic [ref=f25e57]:
+            - generic [ref=f25e58]:
+              - generic [ref=f25e59]: //
+              - text: 03 — Hand Tracking — Session 2 (Landmarks & Skeleton)
+            - generic [ref=f25e60]:
+              - generic "Load the hand-tracking model — locked" [ref=f25e62]
+              - generic "Run detection on every frame — locked" [ref=f25e64]
+              - generic "Extract landmark points and draw the skeleton connections — locked" [ref=f25e66]
+              - generic "Draw the joints — locked" [ref=f25e68]
+              - generic "Composite the glow onto the camera image — locked" [ref=f25e70]
+          - generic [ref=f25e71]:
+            - generic [ref=f25e72]:
+              - generic [ref=f25e73]: //
+              - text: 04 — Hand Tracking — Session 3 (Trails & Gesture Recognition)
+            - generic [ref=f25e74]:
+              - generic "Fingertip particle trails — locked" [ref=f25e76]
+              - generic "Count extended fingers — locked" [ref=f25e78]
+              - generic "Pinch detection and the handedness label — locked" [ref=f25e80]
+              - 'generic "Show it: the on-screen gesture readout — locked" [ref=f25e82]'
+          - generic [ref=f25e83]:
+            - generic [ref=f25e84]:
+              - generic [ref=f25e85]: //
+              - text: 05 — Hand Tracking — Session 4 (Virtual Orb & Wrap-up)
+            - generic [ref=f25e86]:
+              - generic "Orb state and picking which hand controls it — locked" [ref=f25e88]
+              - generic "Grab-and-drag logic — locked" [ref=f25e90]
+              - generic "Draw the orb — locked" [ref=f25e92]
+              - generic "FPS counter and title HUD — locked" [ref=f25e94]
+              - generic "The 'r' reset key — locked" [ref=f25e96]
+        - generic [ref=f25e97]:
+          - generic [ref=f25e98]: Completed
+          - generic [ref=f25e100]: Current
+          - generic [ref=f25e102]: Upcoming
+          - generic [ref=f25e104]: Locked
+        - generic [ref=f25e106]:
+          - generic [ref=f25e107]: Progress is saved only in this browser
+          - button "Reset saved progress" [ref=f25e108] [cursor=pointer]
+    - generic [ref=f25e110]:
+      - generic [ref=f25e111]:
+        - generic [ref=f25e112]:
+          - heading "Setup & Environment" [level=2] [ref=f25e113]
+          - generic [ref=f25e114]: Lead-in (before Hand Tracking and Face Tracking)
+        - paragraph [ref=f25e115]: Module 1 (abbreviated) — installing Python, pip, and a virtual environment; installing OpenCV; "Hello, Image" first program
+        - generic [ref=f25e116]:
+          - generic [ref=f25e117]:
+            - generic [ref=f25e118]: Setup & Environment — Step 6 of 7 (two paths, one step)
+            - 'heading "Set up your camera source: laptop webcam or phone over USB" [level=2] [ref=f25e119]'
+            - paragraph [ref=f25e120]: Everyone's camera situation today is one of two paths. If you're on your own laptop with a built-in camera, you're already done — skip to Step 7. If you're on a lab PC, there's no webcam, and this room has no WiFi, so your phone becomes the camera, connected by USB cable only.
+            - generic [ref=f25e121]: New in this step
+            - generic [ref=f25e122]:
+              - generic [ref=f25e123]:
+                - term [ref=f25e124]: adb (Android Debug Bridge)
+                - definition [ref=f25e125]: Google's official tool that lets a computer talk to an Android phone over a USB cable.
+              - generic [ref=f25e126]:
+                - term [ref=f25e127]: adb reverse
+                - definition [ref=f25e128]: a specific adb command that makes something running on the phone reachable from the computer, through that same USB cable.
+              - generic [ref=f25e129]:
+                - term [ref=f25e130]: USB debugging
+                - definition [ref=f25e131]: an Android setting that allows tools like adb to actually communicate with the phone; it's off by default for security, which is why it needs turning on.
+              - generic [ref=f25e132]:
+                - term [ref=f25e133]: localhost
+                - definition [ref=f25e134]: a special address meaning "this same computer." It's used here because the phone's video stream gets tunneled through USB to look like it's coming from the PC itself.
+            - generic [ref=f25e135]: Why it matters
+            - paragraph [ref=f25e136]: adb reverse is official Android developer tooling — it's the reverse direction of port forwarding (device → host instead of host → device), so a server the phone is already running on itself becomes reachable on the PC. This avoids installing a third-party virtual-camera driver on every lab PC — school antivirus/locked-down images are far more likely to block or quarantine those than a plain, Google-signed adb.exe. Both real activities read whichever source you set through one shared CAM_SOURCE value, so nothing else in the code changes between Path A and Path B.
+            - generic [ref=f25e137]: Common problems
+            - list [ref=f25e138]:
+              - listitem [ref=f25e139]: Phone not detected by adb at all — install the OEM USB driver for your phone brand (Samsung, Pixel, etc.); needed once per phone model.
+              - listitem [ref=f25e140]: adb reverse "command not found" — Android Platform Tools isn't installed/on PATH on this PC; the instructor installs this once per lab machine ahead of time, not per student.
+              - listitem [ref=f25e141]: Stream drops mid-class — the phone's screen locked or IP Webcam got backgrounded; re-open the app and tap Start server again, and double-check "Keep screen on."
+              - listitem [ref=f25e142]: Different PC than last time — the "Allow USB debugging?" prompt reappears, since authorization is per phone-PC pairing, not global to the phone. Tap Allow again.
+              - listitem [ref=f25e143]: "Documented fallback if IP Webcam / adb reverse won't cooperate on a given phone: try DroidCam (USB mode, free, official Windows client, bundles its own adb) — install the Windows client, connect via USB in the client, then use its assigned device index the same way as Path A."
+          - generic [ref=f25e145]:
+            - generic [ref=f25e146]: Camera source
+            - generic [ref=f25e147]: Path A / Path B
+        - generic [ref=f25e148]:
+          - link "← Previous Install both activities' dependencies" [ref=f25e149] [cursor=pointer]:
+            - /url: /hand-tracking/setup-5
+            - generic [ref=f25e150]: ← Previous
+            - generic [ref=f25e151]: Install both activities' dependencies
+          - 'link "Next → \"Hello, Camera\": prove your camera source works before writing anything real" [ref=f25e152] [cursor=pointer]':
+            - /url: /hand-tracking/setup-7
+            - generic [ref=f25e153]: Next →
+            - generic [ref=f25e154]: "\"Hello, Camera\": prove your camera source works before writing anything real"
+      - contentinfo [ref=f25e155]:
+        - generic [ref=f25e156]: Hand Tracking Guide
+        - generic [ref=f25e157]: ITE 3 — Applied Computer Vision & IoT
+  - button "Open Next.js Dev Tools" [ref=f25e163] [cursor=pointer]

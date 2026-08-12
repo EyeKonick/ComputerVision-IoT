@@ -1,0 +1,148 @@
+- generic [active] [ref=f6e1]:
+  - generic [ref=f6e3]:
+    - complementary [ref=f6e4]:
+      - button "Collapse the chain" [expanded] [ref=f6e5] [cursor=pointer]:
+        - generic [ref=f6e6]: The chain
+        - generic [ref=f6e9]: −
+      - generic [ref=f6e10]:
+        - paragraph [ref=f6e11]: Every step is a landmark; every session, a joint. Click any node to jump straight to it.
+        - generic [ref=f6e12]:
+          - generic [ref=f6e13]:
+            - generic [ref=f6e14]:
+              - generic [ref=f6e15]: //
+              - text: 01 — Setup & Environment
+            - generic [ref=f6e16]:
+              - link "Confirm Python is installed and on PATH" [ref=f6e17] [cursor=pointer]:
+                - /url: /hand-tracking/setup-1
+              - link "Create the project folder and a virtual environment" [ref=f6e19] [cursor=pointer]:
+                - /url: /hand-tracking/setup-2
+              - link "Activate the virtual environment" [ref=f6e21] [cursor=pointer]:
+                - /url: /hand-tracking/setup-3
+              - link "Confirm the venv is actually active" [ref=f6e23] [cursor=pointer]:
+                - /url: /hand-tracking/setup-4
+              - link "Install both activities' dependencies" [ref=f6e25] [cursor=pointer]:
+                - /url: /hand-tracking/setup-5
+              - generic [ref=f6e31]:
+                - generic [ref=f6e32]:
+                  - 'button "Set up your camera source: laptop webcam or phone over USB — Path A" [ref=f6e33] [cursor=pointer]'
+                  - generic [ref=f6e34]: A · Laptop webcam
+                - generic [ref=f6e35]:
+                  - 'button "Set up your camera source: laptop webcam or phone over USB — Path B" [ref=f6e36] [cursor=pointer]'
+                  - generic [ref=f6e37]: B · Phone over USB
+              - 'link "\"Hello, Camera\": prove your camera source works before writing anything real" [ref=f6e42] [cursor=pointer]':
+                - /url: /hand-tracking/setup-7
+          - generic [ref=f6e43]:
+            - generic [ref=f6e44]:
+              - generic [ref=f6e45]: //
+              - text: 02 — Hand Tracking — Session 1 (Webcam Loop)
+            - generic [ref=f6e46]:
+              - link "Imports and config constants" [ref=f6e48] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s1-1
+              - link "Auto-download the hand landmark model (ensure_model)" [ref=f6e50] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s1-2
+              - link "Open the camera via CAM_SOURCE" [ref=f6e52] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s1-3
+              - 'link "The capture loop: read, mirror, show" [ref=f6e54] [cursor=pointer]':
+                - /url: /hand-tracking/hand-s1-4
+              - link "Quit key handling and cleanup" [ref=f6e56] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s1-5
+          - generic [ref=f6e57]:
+            - generic [ref=f6e58]:
+              - generic [ref=f6e59]: //
+              - text: 03 — Hand Tracking — Session 2 (Landmarks & Skeleton)
+            - generic [ref=f6e60]:
+              - link "Load the hand-tracking model" [ref=f6e62] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s2-1
+              - link "Run detection on every frame" [ref=f6e64] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s2-2
+              - link "Extract landmark points and draw the skeleton connections" [ref=f6e66] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s2-3
+              - link "Draw the joints" [ref=f6e68] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s2-4
+              - link "Composite the glow onto the camera image" [ref=f6e70] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s2-5
+          - generic [ref=f6e71]:
+            - generic [ref=f6e72]:
+              - generic [ref=f6e73]: //
+              - text: 04 — Hand Tracking — Session 3 (Trails & Gesture Recognition)
+            - generic [ref=f6e74]:
+              - link "Fingertip particle trails" [ref=f6e76] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s3-1
+              - link "Count extended fingers" [ref=f6e78] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s3-2
+              - link "Pinch detection and the handedness label" [ref=f6e80] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s3-3
+              - 'link "Show it: the on-screen gesture readout" [ref=f6e82] [cursor=pointer]':
+                - /url: /hand-tracking/hand-s3-4
+          - generic [ref=f6e83]:
+            - generic [ref=f6e84]:
+              - generic [ref=f6e85]: //
+              - text: 05 — Hand Tracking — Session 4 (Virtual Orb & Wrap-up)
+            - generic [ref=f6e86]:
+              - link "Orb state and picking which hand controls it" [ref=f6e88] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s4-1
+              - link "Grab-and-drag logic" [ref=f6e90] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s4-2
+              - link "Draw the orb" [ref=f6e92] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s4-3
+              - link "FPS counter and title HUD" [ref=f6e94] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s4-4
+              - link "The 'r' reset key" [ref=f6e96] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s4-5
+        - generic [ref=f6e97]:
+          - generic [ref=f6e98]: Completed
+          - generic [ref=f6e100]: Current
+          - generic [ref=f6e102]: Upcoming
+        - generic [ref=f6e104]:
+          - generic [ref=f6e105]: Progress is saved only in this browser
+          - button "Reset saved progress" [ref=f6e106] [cursor=pointer]
+    - generic [ref=f6e108]:
+      - generic [ref=f6e109]:
+        - generic [ref=f6e110]:
+          - heading "Setup & Environment" [level=2] [ref=f6e111]
+          - generic [ref=f6e112]: Lead-in (before Hand Tracking and Face Tracking)
+        - paragraph [ref=f6e113]: Module 1 (abbreviated) — installing Python, pip, and a virtual environment; installing OpenCV; "Hello, Image" first program
+        - generic [ref=f6e114]:
+          - generic [ref=f6e115]:
+            - generic [ref=f6e116]: Setup & Environment — Step 3 of 7
+            - heading "Activate the virtual environment" [level=2] [ref=f6e117]
+            - paragraph [ref=f6e118]: Creating the venv doesn't turn it on — we still have to activate it in this terminal session so python/pip point inside venv/ instead of the system install.
+            - generic [ref=f6e119]: New in this step
+            - generic [ref=f6e120]:
+              - generic [ref=f6e121]:
+                - term [ref=f6e122]: Activate
+                - definition [ref=f6e123]: switches your current terminal to use the virtual environment's private Python instead of the computer's main one.
+              - generic [ref=f6e124]:
+                - term [ref=f6e125]: source (macOS/Linux)
+                - definition [ref=f6e126]: runs a script's commands directly inside your current terminal, rather than starting it as a separate process. That's needed here, since activation only works if it changes this terminal's own settings.
+            - generic [ref=f6e127]: Why it matters
+            - paragraph [ref=f6e128]: Activation temporarily rewrites PATH for this terminal window only, so pip install in Step 5 lands inside venv/ instead of globally. You'll see (venv) appear at the start of the prompt when it worked.
+            - generic [ref=f6e129]: Common problems
+            - list [ref=f6e130]:
+              - listitem [ref=f6e131]: "PowerShell error: \"cannot be loaded because running scripts is disabled on this system\" — PowerShell's execution policy is blocking the activation script. Fix (run once, in an admin PowerShell): Set-ExecutionPolicy -Scope CurrentUser RemoteSigned."
+              - listitem [ref=f6e132]: Opening a new terminal tab/window later in the semester and forgetting to reactivate — if (venv) isn't showing, packages will silently install globally again.
+              - listitem [ref=f6e133]: VS Code's integrated terminal or "Run" button using a different Python interpreter than the one you activated manually — see Step 4.
+          - generic [ref=f6e134]:
+            - generic [ref=f6e135]:
+              - generic [ref=f6e136]: Terminal
+              - generic [ref=f6e137]: Step 3 of 7
+            - generic [ref=f6e138]:
+              - generic [ref=f6e139]: Type this
+              - generic [ref=f6e140]:
+                - paragraph [ref=f6e141]: Pick the line for your shell
+                - generic [ref=f6e142]:
+                  - generic: Type it yourself — that's the point. No copy-paste here.
+                  - generic [ref=f6e143]: "# Windows PowerShell .\\venv\\Scripts\\Activate.ps1 # Windows cmd.exe venv\\Scripts\\activate.bat # macOS / Linux / Git Bash on Windows source venv/bin/activate"
+        - generic [ref=f6e144]:
+          - link "← Previous Create the project folder and a virtual environment" [ref=f6e145] [cursor=pointer]:
+            - /url: /hand-tracking/setup-2
+            - generic [ref=f6e146]: ← Previous
+            - generic [ref=f6e147]: Create the project folder and a virtual environment
+          - link "Next → Confirm the venv is actually active" [ref=f6e148] [cursor=pointer]:
+            - /url: /hand-tracking/setup-4
+            - generic [ref=f6e149]: Next →
+            - generic [ref=f6e150]: Confirm the venv is actually active
+      - contentinfo [ref=f6e151]:
+        - generic [ref=f6e152]: Hand Tracking Guide
+        - generic [ref=f6e153]: ITE 3 — Applied Computer Vision & IoT
+  - button "Open Next.js Dev Tools" [ref=f6e159] [cursor=pointer]

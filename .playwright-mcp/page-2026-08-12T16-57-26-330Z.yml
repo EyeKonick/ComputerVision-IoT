@@ -1,0 +1,98 @@
+- generic [active] [ref=f7e1]:
+  - complementary [ref=f7e4]:
+    - button "Collapse the chain" [expanded] [ref=f7e5] [cursor=pointer]:
+      - generic [ref=f7e6]: The chain
+      - generic [ref=f7e9]: −
+    - generic [ref=f7e10]:
+      - paragraph [ref=f7e11]: Every step is a landmark; every session, a joint. Click any node to jump straight to it.
+      - generic [ref=f7e12]:
+        - generic [ref=f7e13]:
+          - generic [ref=f7e14]:
+            - generic [ref=f7e15]: //
+            - text: 01 — Setup & Environment
+          - generic [ref=f7e16]:
+            - link "Confirm Python is installed and on PATH" [ref=f7e17] [cursor=pointer]:
+              - /url: /hand-tracking/setup-1
+            - link "Create the project folder and a virtual environment" [ref=f7e19] [cursor=pointer]:
+              - /url: /hand-tracking/setup-2
+            - link "Activate the virtual environment" [ref=f7e21] [cursor=pointer]:
+              - /url: /hand-tracking/setup-3
+            - link "Confirm the venv is actually active" [ref=f7e23] [cursor=pointer]:
+              - /url: /hand-tracking/setup-4
+            - link "Install both activities' dependencies" [ref=f7e25] [cursor=pointer]:
+              - /url: /hand-tracking/setup-5
+            - generic [ref=f7e31]:
+              - generic [ref=f7e32]:
+                - 'button "Set up your camera source: laptop webcam or phone over USB — Path A" [ref=f7e33] [cursor=pointer]'
+                - generic [ref=f7e34]: A · Laptop webcam
+              - generic [ref=f7e35]:
+                - 'button "Set up your camera source: laptop webcam or phone over USB — Path B" [ref=f7e36] [cursor=pointer]'
+                - generic [ref=f7e37]: B · Phone over USB
+            - 'link "\"Hello, Camera\": prove your camera source works before writing anything real" [ref=f7e42] [cursor=pointer]':
+              - /url: /hand-tracking/setup-7
+        - generic [ref=f7e43]:
+          - generic [ref=f7e44]:
+            - generic [ref=f7e45]: //
+            - text: 02 — Hand Tracking — Session 1 (Webcam Loop)
+          - generic [ref=f7e46]:
+            - link "Imports and config constants" [ref=f7e48] [cursor=pointer]:
+              - /url: /hand-tracking/hand-s1-1
+            - link "Auto-download the hand landmark model (ensure_model)" [ref=f7e50] [cursor=pointer]:
+              - /url: /hand-tracking/hand-s1-2
+            - link "Open the camera via CAM_SOURCE" [ref=f7e52] [cursor=pointer]:
+              - /url: /hand-tracking/hand-s1-3
+            - 'link "The capture loop: read, mirror, show" [ref=f7e54] [cursor=pointer]':
+              - /url: /hand-tracking/hand-s1-4
+            - link "Quit key handling and cleanup" [ref=f7e56] [cursor=pointer]:
+              - /url: /hand-tracking/hand-s1-5
+        - generic [ref=f7e57]:
+          - generic [ref=f7e58]:
+            - generic [ref=f7e59]: //
+            - text: 03 — Hand Tracking — Session 2 (Landmarks & Skeleton)
+          - generic [ref=f7e60]:
+            - link "Load the hand-tracking model" [ref=f7e62] [cursor=pointer]:
+              - /url: /hand-tracking/hand-s2-1
+            - link "Run detection on every frame" [ref=f7e64] [cursor=pointer]:
+              - /url: /hand-tracking/hand-s2-2
+            - link "Extract landmark points and draw the skeleton connections" [ref=f7e66] [cursor=pointer]:
+              - /url: /hand-tracking/hand-s2-3
+            - link "Draw the joints" [ref=f7e68] [cursor=pointer]:
+              - /url: /hand-tracking/hand-s2-4
+            - link "Composite the glow onto the camera image" [ref=f7e70] [cursor=pointer]:
+              - /url: /hand-tracking/hand-s2-5
+        - generic [ref=f7e71]:
+          - generic [ref=f7e72]:
+            - generic [ref=f7e73]: //
+            - text: 04 — Hand Tracking — Session 3 (Trails & Gesture Recognition)
+          - generic [ref=f7e74]:
+            - link "Fingertip particle trails" [ref=f7e76] [cursor=pointer]:
+              - /url: /hand-tracking/hand-s3-1
+            - link "Count extended fingers" [ref=f7e78] [cursor=pointer]:
+              - /url: /hand-tracking/hand-s3-2
+            - link "Pinch detection and the handedness label" [ref=f7e80] [cursor=pointer]:
+              - /url: /hand-tracking/hand-s3-3
+            - 'link "Show it: the on-screen gesture readout" [ref=f7e82] [cursor=pointer]':
+              - /url: /hand-tracking/hand-s3-4
+        - generic [ref=f7e83]:
+          - generic [ref=f7e84]:
+            - generic [ref=f7e85]: //
+            - text: 05 — Hand Tracking — Session 4 (Virtual Orb & Wrap-up)
+          - generic [ref=f7e86]:
+            - link "Orb state and picking which hand controls it" [ref=f7e88] [cursor=pointer]:
+              - /url: /hand-tracking/hand-s4-1
+            - link "Grab-and-drag logic" [ref=f7e90] [cursor=pointer]:
+              - /url: /hand-tracking/hand-s4-2
+            - link "Draw the orb" [ref=f7e92] [cursor=pointer]:
+              - /url: /hand-tracking/hand-s4-3
+            - link "FPS counter and title HUD" [ref=f7e94] [cursor=pointer]:
+              - /url: /hand-tracking/hand-s4-4
+            - link "The 'r' reset key" [ref=f7e96] [cursor=pointer]:
+              - /url: /hand-tracking/hand-s4-5
+      - generic [ref=f7e97]:
+        - generic [ref=f7e98]: Completed
+        - generic [ref=f7e100]: Current
+        - generic [ref=f7e102]: Upcoming
+      - generic [ref=f7e104]:
+        - generic [ref=f7e105]: Progress is saved only in this browser
+        - button "Reset saved progress" [ref=f7e106] [cursor=pointer]
+  - button "Open Next.js Dev Tools" [ref=f7e112] [cursor=pointer]

@@ -1,0 +1,155 @@
+- generic [active] [ref=f3e1]:
+  - generic [ref=f3e3]:
+    - complementary [ref=f3e4]:
+      - button "Collapse the chain" [expanded] [ref=f3e5] [cursor=pointer]:
+        - generic [ref=f3e6]: The chain
+        - generic [ref=f3e9]: −
+      - generic [ref=f3e10]:
+        - paragraph [ref=f3e11]: Every step is a landmark; every session, a joint. Click any node to jump straight to it.
+        - generic [ref=f3e12]:
+          - generic [ref=f3e13]:
+            - generic [ref=f3e14]:
+              - generic [ref=f3e15]: //
+              - text: 01 — Setup & Environment
+            - generic [ref=f3e16]:
+              - link "Confirm Python is installed and on PATH" [ref=f3e17] [cursor=pointer]:
+                - /url: /hand-tracking/setup-1
+              - link "Create the project folder and a virtual environment" [ref=f3e19] [cursor=pointer]:
+                - /url: /hand-tracking/setup-2
+              - link "Activate the virtual environment" [ref=f3e21] [cursor=pointer]:
+                - /url: /hand-tracking/setup-3
+              - link "Confirm the venv is actually active" [ref=f3e23] [cursor=pointer]:
+                - /url: /hand-tracking/setup-4
+              - link "Install both activities' dependencies" [ref=f3e25] [cursor=pointer]:
+                - /url: /hand-tracking/setup-5
+              - generic [ref=f3e31]:
+                - generic [ref=f3e32]:
+                  - 'button "Set up your camera source: laptop webcam or phone over USB — Path A" [ref=f3e33] [cursor=pointer]'
+                  - generic [ref=f3e34]: A · Laptop webcam
+                - generic [ref=f3e35]:
+                  - 'button "Set up your camera source: laptop webcam or phone over USB — Path B" [ref=f3e36] [cursor=pointer]'
+                  - generic [ref=f3e37]: B · Phone over USB
+              - 'link "\"Hello, Camera\": prove your camera source works before writing anything real" [ref=f3e42] [cursor=pointer]':
+                - /url: /hand-tracking/setup-7
+          - generic [ref=f3e43]:
+            - generic [ref=f3e44]:
+              - generic [ref=f3e45]: //
+              - text: 02 — Hand Tracking — Session 1 (Webcam Loop)
+            - generic [ref=f3e46]:
+              - link "Imports and config constants" [ref=f3e48] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s1-1
+              - link "Auto-download the hand landmark model (ensure_model)" [ref=f3e50] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s1-2
+              - link "Open the camera via CAM_SOURCE" [ref=f3e52] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s1-3
+              - 'link "The capture loop: read, mirror, show" [ref=f3e54] [cursor=pointer]':
+                - /url: /hand-tracking/hand-s1-4
+              - link "Quit key handling and cleanup" [ref=f3e56] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s1-5
+          - generic [ref=f3e57]:
+            - generic [ref=f3e58]:
+              - generic [ref=f3e59]: //
+              - text: 03 — Hand Tracking — Session 2 (Landmarks & Skeleton)
+            - generic [ref=f3e60]:
+              - link "Load the hand-tracking model" [ref=f3e62] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s2-1
+              - link "Run detection on every frame" [ref=f3e64] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s2-2
+              - link "Extract landmark points and draw the skeleton connections" [ref=f3e66] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s2-3
+              - link "Draw the joints" [ref=f3e68] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s2-4
+              - link "Composite the glow onto the camera image" [ref=f3e70] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s2-5
+          - generic [ref=f3e71]:
+            - generic [ref=f3e72]:
+              - generic [ref=f3e73]: //
+              - text: 04 — Hand Tracking — Session 3 (Trails & Gesture Recognition)
+            - generic [ref=f3e74]:
+              - link "Fingertip particle trails" [ref=f3e76] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s3-1
+              - link "Count extended fingers" [ref=f3e78] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s3-2
+              - link "Pinch detection and the handedness label" [ref=f3e80] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s3-3
+              - 'link "Show it: the on-screen gesture readout" [ref=f3e82] [cursor=pointer]':
+                - /url: /hand-tracking/hand-s3-4
+          - generic [ref=f3e83]:
+            - generic [ref=f3e84]:
+              - generic [ref=f3e85]: //
+              - text: 05 — Hand Tracking — Session 4 (Virtual Orb & Wrap-up)
+            - generic [ref=f3e86]:
+              - link "Orb state and picking which hand controls it" [ref=f3e88] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s4-1
+              - link "Grab-and-drag logic" [ref=f3e90] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s4-2
+              - link "Draw the orb" [ref=f3e92] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s4-3
+              - link "FPS counter and title HUD" [ref=f3e94] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s4-4
+              - link "The 'r' reset key" [ref=f3e96] [cursor=pointer]:
+                - /url: /hand-tracking/hand-s4-5
+        - generic [ref=f3e97]:
+          - generic [ref=f3e98]: Completed
+          - generic [ref=f3e100]: Current
+          - generic [ref=f3e102]: Upcoming
+        - generic [ref=f3e104]:
+          - generic [ref=f3e105]: Progress is saved only in this browser
+          - button "Reset saved progress" [ref=f3e106] [cursor=pointer]
+    - generic [ref=f3e108]:
+      - generic [ref=f3e109]:
+        - generic [ref=f3e110]:
+          - heading "Hand Tracking — Session 4 (Virtual Orb & Wrap-up)" [level=2] [ref=f3e111]
+          - generic [ref=f3e112]: Hand Tracking (4 of 4 — final session for this activity)
+        - paragraph [ref=f3e113]: Module 10 — Hand Tracking & Gesture Control
+        - generic [ref=f3e114]:
+          - generic [ref=f3e115]:
+            - generic [ref=f3e116]: Hand Tracking — Session 4 (Virtual Orb & Wrap-up) — Step 3 of 5
+            - heading "Draw the orb" [level=2] [ref=f3e117]
+            - paragraph [ref=f3e118]: Time to actually see it — a glowing orb sitting in the middle of the screen, waiting to be grabbed.
+            - generic [ref=f3e119]: New in this step
+            - generic [ref=f3e120]:
+              - generic [ref=f3e121]:
+                - term [ref=f3e122]: tuple(orb_pos)
+                - definition [ref=f3e123]: converts a list into a tuple, here just for this one function call, since glow_circle expects a tuple-style point.
+              - generic [ref=f3e124]:
+                - term [ref=f3e125]: X if condition else Y (a conditional expression)
+                - definition [ref=f3e126]: picks between two values on a single line, depending on whether condition is true.
+              - generic [ref=f3e127]:
+                - term [ref=f3e128]: math.sin(...)
+                - definition [ref=f3e129]: a math function that smoothly rises and falls between -1 and 1, forever, like a gentle wave — used here to make the orb pulse.
+            - generic [ref=f3e130]: Why it matters
+            - paragraph [ref=f3e131]: glow_circle needs a tuple for its center argument (matching how it's used everywhere else in the file), so tuple(orb_pos) converts the mutable list back for just this call without changing what orb_pos actually is. When idle, pulse = int(6 * math.sin(time.time() * 4)) makes the orb's radius gently oscillate — math.sin cycles smoothly between -1 and 1 forever, time.time() * 4 speeds up how fast it cycles, and * 6 sets how many pixels it swells and shrinks by; the if not orb_held else 0 turns the pulse off while held, so a grabbed orb stays a steady, predictable size instead of pulsing under your finger. The orb_color swap (brighter ORB_GLOW_COLOR while held) gives an extra visual cue that the grab registered, on top of the orb actually following your finger.
+            - generic [ref=f3e132]: Common problems
+            - list [ref=f3e133]:
+              - listitem [ref=f3e134]: Orb position feels laggy or jittery — this tracks directly to camera FPS (which Step 4 finally makes visible), since the orb only updates once per processed frame; a slow phone-stream connection (Path B) will visibly lag more than a local laptop webcam.
+              - listitem [ref=f3e135]: Students may ask why the orb doesn't pulse while held — that's intentional (see above), not a missing feature; worth stating outright so it isn't reported as a bug.
+          - generic [ref=f3e136]:
+            - generic [ref=f3e137]:
+              - generic [ref=f3e138]: hand_ar.py
+              - generic [ref=f3e139]: Step 3 of 5
+            - generic [ref=f3e140]:
+              - generic [ref=f3e141]: Type this
+              - generic [ref=f3e142]:
+                - generic: Type it yourself — that's the point. No copy-paste here.
+                - generic [ref=f3e143]: orb_color = ORB_GLOW_COLOR if orb_held else ORB_COLOR pulse = int(6 * math.sin(time.time() * 4)) if not orb_held else 0 glow_circle(overlay_layer, tuple(orb_pos), ORB_RADIUS + pulse, ORB_COLOR, orb_color) draw_text_with_bg(overlay_layer, "touch me", (orb_pos[0] - 45, orb_pos[1] - ORB_RADIUS - 16), scale=0.55, color=(255, 255, 255), bg=(0, 0, 0), alpha=0.4)
+            - button "▸ Show the full file so far (232 lines) — to compare against yours" [ref=f3e146] [cursor=pointer]:
+              - generic [ref=f3e147]: ▸
+              - generic [ref=f3e148]: Show the full file so far (232 lines) — to compare against yours
+            - generic [ref=f3e149]:
+              - generic [ref=f3e150]: Run it
+              - code [ref=f3e151]: python hand_ar.py
+              - paragraph [ref=f3e152]: A glowing orb should appear in the middle of the screen, gently pulsing, labeled "touch me." Pinch near it and it should follow your fingertip; release the pinch and it stays where you left it.
+        - generic [ref=f3e153]:
+          - link "← Previous Grab-and-drag logic" [ref=f3e154] [cursor=pointer]:
+            - /url: /hand-tracking/hand-s4-2
+            - generic [ref=f3e155]: ← Previous
+            - generic [ref=f3e156]: Grab-and-drag logic
+          - link "Next → FPS counter and title HUD" [ref=f3e157] [cursor=pointer]:
+            - /url: /hand-tracking/hand-s4-4
+            - generic [ref=f3e158]: Next →
+            - generic [ref=f3e159]: FPS counter and title HUD
+      - contentinfo [ref=f3e160]:
+        - generic [ref=f3e161]: Hand Tracking Guide
+        - generic [ref=f3e162]: ITE 3 — Applied Computer Vision & IoT
+  - button "Open Next.js Dev Tools" [ref=f3e168] [cursor=pointer]
