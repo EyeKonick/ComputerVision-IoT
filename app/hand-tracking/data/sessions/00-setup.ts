@@ -228,7 +228,8 @@ export const setupSession: Session = {
         filename: "hello_webcam.py",
         code: helloWebcamCode,
         newLineIndices: allLines(helloWebcamCode),
-        newFileNote: "Create a new file called hello_webcam.py.",
+        newFileNote:
+          "Create a new file called hello_webcam.py inside your cv-iot-class folder — the same folder you made in Step 2, right alongside (not inside) the venv/ folder. In VS Code: File → Open Folder… → pick cv-iot-class, then File → New File → type the filename.",
       },
       commands: [],
       runCommand: "python hello_webcam.py",

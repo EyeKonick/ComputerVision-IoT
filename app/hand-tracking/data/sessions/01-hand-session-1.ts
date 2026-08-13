@@ -185,7 +185,7 @@ export const handSession1: Session = {
         code: step1Code,
         newLineIndices: allLines(step1Code),
         newFileNote:
-          "Create a new file called hand_ar.py, in the same project folder as hello_webcam.py from the Setup session — hello_webcam.py isn't touched again after this.",
+          "Create a new file called hand_ar.py inside your cv-iot-class folder — the same folder as hello_webcam.py from the Setup session (not inside venv/). hello_webcam.py isn't touched again after this.",
       },
       commands: [],
       why: "os.path.dirname(os.path.abspath(__file__)) builds a path relative to this file's own location rather than wherever the terminal happens to be cd'd into — so the model always downloads next to hand_ar.py no matter where you run it from. MODEL_PATH/MODEL_URL aren't used yet, but defining them now means Step 2 (and next session's real detection) doesn't require touching this block again.",

@@ -18,11 +18,50 @@ import { ChainForkNode } from "./ChainForkNode";
 
 const flatIndexById = new Map(flatSteps.map((fs) => [fs.step.id, fs.flatIndex]));
 
+// flatIndex of each session's own last step — used to decide whether the
+// *next* session is revealed at all in the rail (not just unlocked step
+// by step, but hidden entirely until the previous session is fully done).
+const sessionEndFlatIndex: number[] = (() => {
+  const ends: number[] = [];
+  let cursor = -1;
+  handTrackingData.forEach((session) => {
+    cursor += session.steps.length;
+    ends.push(cursor);
+  });
+  return ends;
+})();
+
 // Which session (track) each step belongs to, by index — used to decide
 // whether that step's row reads left-to-right or right-to-left.
 const stepTrackIndex = new Map<string, number>();
 handTrackingData.forEach((session, ti) => {
   session.steps.forEach((step) => stepTrackIndex.set(step.id, ti));
+});
+
+// Setup has 8 steps (2 forks eat extra width), too many for one visual
+// line at the rail's width — it wraps onto a second line. Split index:
+// steps before this render on line 1 (L-to-R), from this index on render
+// on line 2. Chosen to match where it naturally wraps at the rail's
+// design width — see SETUP_ROW_2_REVERSED below for why line 2 reads
+// right-to-left instead of restarting at the left margin.
+const SETUP_ROW_SPLIT_INDEX = 5;
+
+// Every session row reads right-to-left on odd "visual rows" so the whole
+// rail reads as one continuous snake (boustrophedon) — a row's end sits
+// directly above/below the next row's start, never a long jump back to
+// the opposite margin. This used to exempt Setup's own internal wrap
+// (it has 8 steps, more than fit on one line, per SETUP_ROW_SPLIT_INDEX
+// above) as a special case that always restarted at the left margin —
+// that read as a visual glitch (line 2 looked disconnected from where
+// line 1 ended), so Setup's own line 2 now reverses too, exactly like
+// every other wrap. Keyed by step id (not session index) because Setup
+// is the one session whose own single row splits into two independently-
+// directioned lines; every other session is still one row, one direction.
+const stepRowReversed = new Map<string, boolean>();
+handTrackingData.forEach((session, ti) => {
+  session.steps.forEach((step, si) => {
+    stepRowReversed.set(step.id, ti === 0 ? si >= SETUP_ROW_SPLIT_INDEX : isReversedTrack(ti));
+  });
 });
 
 function trackLabel(session: Session, ti: number) {
@@ -47,15 +86,14 @@ interface ConnectorPath {
 // a true boustrophedon (serpentine) flow, so the connector between one
 // session and the next is always a short, natural U-turn on whichever
 // edge the two rows actually meet at, never a long loop back to the far
-// margin. The camera-fork step (Setup only) is never reversed — its own
-// merge curves assume left-to-right and aren't touched here.
+// margin.
 //
-// Reversal starts at session index 2, not 1: Setup's own 7 steps wrap
-// onto a second internal line (the fork eats a slot), and that wrapped
-// line — being unreversed like the rest of Setup — always lands back at
-// the left margin. Starting the alternation one session later means
-// Session 1 also reads left-to-right, picking up exactly where Setup's
-// wrapped line left off (both near the left edge) instead of jumping to
+// Reversal starts at session index 2, not 1: Setup's own line 2 (see
+// SETUP_ROW_SPLIT_INDEX/stepRowReversed above) is already reversed on
+// its own terms and lands at the left margin (reading right-to-left ends
+// on the left); starting the session-level alternation one session later
+// means Session 1 also reads left-to-right, picking up exactly where
+// Setup's line 2 left off (both at the left edge) instead of jumping to
 // the opposite edge and drawing one long diagonal across the whole rail.
 function isReversedTrack(ti: number): boolean {
   return ti > 0 && ti % 2 === 0;
@@ -64,10 +102,12 @@ function isReversedTrack(ti: number): boolean {
 // +1 if this step's own row reads left-to-right, -1 if right-to-left —
 // the direction the connector should be "continuing in" as it leaves this
 // step, used to pick which side of the chain the row-to-row turn happens
-// on. Branch nodes (the Python/camera forks) don't belong to a reading
-// row; they use the direction of the row their merge point sits on.
+// on. Uses the step's own resolved row direction (stepRowReversed), not
+// just its session's, since Setup's own line 2 reverses independently of
+// the session-level alternation everyone else uses.
 function stepDir(stepId: string): 1 | -1 {
-  return isReversedTrack(stepTrackIndex.get(stepId) ?? 0) ? -1 : 1;
+  const reversed = stepRowReversed.get(stepId) ?? isReversedTrack(stepTrackIndex.get(stepId) ?? 0);
+  return reversed ? -1 : 1;
 }
 
 // A step's connection point: fork steps have a real left/right edge (the
@@ -139,8 +179,18 @@ export function ChainRail() {
       const elB = nodeRefs.current.get(stepB.id);
       if (!elA || !elB) continue;
 
-      const pA = connectionPoint(stepA, elA, "exit", isReversedTrack(stepTrackIndex.get(stepA.id) ?? 0));
-      const pB = connectionPoint(stepB, elB, "entry", isReversedTrack(stepTrackIndex.get(stepB.id) ?? 0));
+      const pA = connectionPoint(
+        stepA,
+        elA,
+        "exit",
+        stepRowReversed.get(stepA.id) ?? isReversedTrack(stepTrackIndex.get(stepA.id) ?? 0)
+      );
+      const pB = connectionPoint(
+        stepB,
+        elB,
+        "entry",
+        stepRowReversed.get(stepB.id) ?? isReversedTrack(stepTrackIndex.get(stepB.id) ?? 0)
+      );
 
       if (Math.abs(pA.y - pB.y) < 6) continue; // same line — the plain link already connects them
 
@@ -246,6 +296,12 @@ export function ChainRail() {
     else nodeRefs.current.delete(stepId);
   }
 
+  // PROTOTYPE — ticket 09: troubleshooting pages live entirely outside the
+  // node-chain (ticket 07 decision #2), so the rail hides itself there
+  // rather than showing stale/misleading step-progress state. Hooks above
+  // still run unconditionally every render — only the JSX output changes.
+  if (pathname?.startsWith("/hand-tracking/troubleshooting")) return null;
+
   let flatIndexCursor = -1;
 
   return (
@@ -280,69 +336,102 @@ export function ChainRail() {
             })}
           </svg>
 
-          {handTrackingData.map((session, ti) => (
-            <div key={session.id}>
-              <div className="ht-track-label">
-                <span className="ht-idx">//</span> {trackLabel(session, ti)}
-              </div>
-              <div className={`ht-node-row${isReversedTrack(ti) ? " ht-node-row-reversed" : ""}`}>
-                {session.steps.map((step, si) => {
-                  flatIndexCursor++;
-                  const myIndex = flatIndexCursor;
-                  const showLink = si > 0 || ti > 0;
-                  const linkState = computeState(myIndex - 1, currentFlatIndex, progress.visited);
-                  const locked = isLocked(myIndex, progress.visited);
-                  const linkHidden = wrappedKeys.has(step.id);
+          {handTrackingData.map((session, ti) => {
+            // Sessions after the first are hidden from the rail entirely
+            // (not just step-by-step locked) until the previous session's
+            // own last step has been visited — reveal one session at a
+            // time as each is fully finished, rather than showing every
+            // future session's row of locked placeholders up front.
+            const revealed = ti === 0 || progress.visited.includes(sessionEndFlatIndex[ti - 1]);
+            if (!revealed) {
+              flatIndexCursor += session.steps.length;
+              return null;
+            }
 
-                  return (
-                    <Fragment key={step.id}>
-                      {showLink && (
-                        <span
-                          className={`ht-link${linkState !== "upcoming" ? " ht-lit" : ""}`}
-                          style={linkHidden ? { visibility: "hidden" } : undefined}
-                        />
-                      )}
-                      {step.fork ? (
-                        <ChainForkNode
-                          step={step}
-                          flatIndex={myIndex}
-                          currentFlatIndex={currentFlatIndex}
-                          visited={progress.visited}
-                          choice={progress.forkChoices[step.id] ?? null}
-                          locked={locked}
-                          onChoose={chooseFork}
-                          onHover={showTooltip}
-                          onMove={moveTooltip}
-                          onLeave={hideTooltip}
-                          rootRef={(el) => registerNode(step.id, el)}
-                        />
-                      ) : locked ? (
-                        <span
-                          ref={(el) => registerNode(step.id, el)}
-                          className="ht-node ht-upcoming ht-locked"
-                          aria-label={`${step.title} — locked`}
-                          aria-disabled="true"
-                          onMouseEnter={(e) => showTooltip(e, "🔒 Locked — finish the previous step first")}
-                          onMouseMove={moveTooltip}
-                          onMouseLeave={hideTooltip}
-                        />
-                      ) : (
-                        <Link
-                          ref={(el) => registerNode(step.id, el)}
-                          href={`/hand-tracking/${step.id}`}
-                          className={`ht-node ht-${computeState(myIndex, currentFlatIndex, progress.visited)}`}
-                          aria-label={step.title}
-                          onMouseEnter={(e) => showTooltip(e, step.title)}
-                          onMouseMove={moveTooltip}
-                          onMouseLeave={hideTooltip}
-                        />
-                      )}
-                    </Fragment>
-                  );
-                })}
+            // Setup's 8 steps don't fit one visual line at the rail's
+            // width, so its single row splits into two explicit lines
+            // here (rather than relying on the browser's own flex-wrap,
+            // which can't alternate direction per wrapped line) — line 2
+            // reverses, continuing the snake instead of jumping back to
+            // the left margin. Every other session still renders as one
+            // row/one direction, same as before.
+            const rowGroups: { steps: Step[]; reversed: boolean }[] =
+              ti === 0
+                ? [
+                    { steps: session.steps.slice(0, SETUP_ROW_SPLIT_INDEX), reversed: false },
+                    { steps: session.steps.slice(SETUP_ROW_SPLIT_INDEX), reversed: true },
+                  ]
+                : [{ steps: session.steps, reversed: isReversedTrack(ti) }];
+
+            return (
+              <div key={session.id}>
+                <div className="ht-track-label">
+                  <span className="ht-idx">//</span> {trackLabel(session, ti)}
+                </div>
+                {rowGroups.map((group, gi) => (
+                  <div
+                    key={gi}
+                    className={`ht-node-row${group.reversed ? " ht-node-row-reversed" : ""}`}
+                  >
+                    {group.steps.map((step) => {
+                      flatIndexCursor++;
+                      const myIndex = flatIndexCursor;
+                      const showLink = myIndex > 0;
+                      const linkState = computeState(myIndex - 1, currentFlatIndex, progress.visited);
+                      const locked = isLocked(myIndex, progress.visited);
+                      const linkHidden = wrappedKeys.has(step.id);
+
+                      return (
+                        <Fragment key={step.id}>
+                          {showLink && (
+                            <span
+                              className={`ht-link${linkState !== "upcoming" ? " ht-lit" : ""}`}
+                              style={linkHidden ? { visibility: "hidden" } : undefined}
+                            />
+                          )}
+                          {step.fork ? (
+                            <ChainForkNode
+                              step={step}
+                              flatIndex={myIndex}
+                              currentFlatIndex={currentFlatIndex}
+                              visited={progress.visited}
+                              choice={progress.forkChoices[step.id] ?? null}
+                              locked={locked}
+                              onChoose={chooseFork}
+                              onHover={showTooltip}
+                              onMove={moveTooltip}
+                              onLeave={hideTooltip}
+                              rootRef={(el) => registerNode(step.id, el)}
+                            />
+                          ) : locked ? (
+                            <span
+                              ref={(el) => registerNode(step.id, el)}
+                              className="ht-node ht-upcoming ht-locked"
+                              aria-label={`${step.title} — locked`}
+                              aria-disabled="true"
+                              onMouseEnter={(e) => showTooltip(e, "🔒 Locked — finish the previous step first")}
+                              onMouseMove={moveTooltip}
+                              onMouseLeave={hideTooltip}
+                            />
+                          ) : (
+                            <Link
+                              ref={(el) => registerNode(step.id, el)}
+                              href={`/hand-tracking/${step.id}`}
+                              className={`ht-node ht-${computeState(myIndex, currentFlatIndex, progress.visited)}`}
+                              aria-label={step.title}
+                              onMouseEnter={(e) => showTooltip(e, step.title)}
+                              onMouseMove={moveTooltip}
+                              onMouseLeave={hideTooltip}
+                            />
+                          )}
+                        </Fragment>
+                      );
+                    })}
+                  </div>
+                ))}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div className="ht-legend">
