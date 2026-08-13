@@ -1,42 +1,48 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { CameraFork } from "../data/types";
+import type { TwoPathFork } from "../data/types";
 import { loadProgress, saveProgress, subscribeToProgress } from "../lib/progress";
 import { CommandBlockView } from "./CommandBlockView";
 
-// Shows only the chosen camera path's instructions — never both at once.
-// The choice is made either here or by clicking a fork branch node in the
-// chain rail; both write to the same localStorage record, and this
+// Shows only the chosen path's instructions — never both at once. The
+// choice is made either here or by clicking a fork branch node in the
+// chain rail; both write to the same localStorage record (keyed by this
+// step's own id, so multiple forks in the guide don't collide), and this
 // component stays in sync with rail-driven choices via subscribeToProgress.
-export function ForkPathChooser({ fork, flatIndex }: { fork: CameraFork; flatIndex: number }) {
-  const [cameraPath, setCameraPath] = useState<string | null>(null);
+export function ForkPathChooser({
+  fork,
+  stepId,
+  flatIndex,
+}: {
+  fork: TwoPathFork;
+  stepId: string;
+  flatIndex: number;
+}) {
+  const [choice, setChoice] = useState<"A" | "B" | null>(null);
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    setCameraPath(loadProgress()?.cameraPath ?? null);
+    setChoice(loadProgress()?.forkChoices[stepId] ?? null);
     setHydrated(true);
     return subscribeToProgress(() => {
-      setCameraPath(loadProgress()?.cameraPath ?? null);
+      setChoice(loadProgress()?.forkChoices[stepId] ?? null);
     });
-  }, []);
+  }, [stepId]);
 
   function choose(letter: "A" | "B") {
-    const updated = saveProgress(flatIndex, letter);
-    setCameraPath(updated.cameraPath);
+    const updated = saveProgress(flatIndex, stepId, letter);
+    setChoice(updated.forkChoices[stepId] ?? null);
   }
 
   if (!hydrated) return null;
 
-  const chosenPath = cameraPath === "A" ? fork.pathA : cameraPath === "B" ? fork.pathB : null;
+  const chosenPath = choice === "A" ? fork.pathA : choice === "B" ? fork.pathB : null;
 
   if (!chosenPath) {
     return (
       <div className="ht-fork-detail">
-        <p className="ht-fork-choice-prompt">
-          Which camera source are you using today? Pick one — the chain rail on the left will
-          remember it.
-        </p>
+        <p className="ht-fork-choice-prompt">{fork.prompt}</p>
         <div className="ht-fork-choice-row">
           {[fork.pathA, fork.pathB].map((path) => (
             <button

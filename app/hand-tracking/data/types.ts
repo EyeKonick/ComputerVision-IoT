@@ -47,19 +47,25 @@ export interface GlossaryEntry {
   explanation: string;
 }
 
-/** The one deliberate exception to the linear chain: the camera-setup
- * step's two setup paths. Presentation-only — this is still one step in
- * the data model, not two (see the map's Notes). */
-export interface CameraForkPath {
+/** A two-path fork within a single step — the camera-source setup step
+ * (laptop webcam vs. phone over USB) and the Python-install step
+ * (already installed vs. needs installing) both use this same shape.
+ * Presentation-only — each fork is still one step in the data model, not
+ * two (see the map's Notes), and always merges back into the linear
+ * chain before the next step. */
+export interface ForkPath {
   letter: "A" | "B";
   label: string;
   body: string;
   commands: CommandBlock[];
 }
 
-export interface CameraFork {
-  pathA: CameraForkPath;
-  pathB: CameraForkPath;
+export interface TwoPathFork {
+  /** Shown above the two path cards until the student picks one, e.g.
+   * "Which camera source are you using today?" */
+  prompt: string;
+  pathA: ForkPath;
+  pathB: ForkPath;
 }
 
 export interface Step {
@@ -87,8 +93,10 @@ export interface Step {
   why: string;
   glossary: GlossaryEntry[];
   commonProblems: string[];
-  /** Only set on the Setup track's camera-source step. */
-  fork?: CameraFork;
+  /** Set on any step that forks into two paths merging back before the
+   * next step — currently the Setup track's Python-install check and its
+   * camera-source step. */
+  fork?: TwoPathFork;
 }
 
 export interface Session {
@@ -116,6 +124,6 @@ export type HandTrackingData = Session[];
 export interface FlatStep {
   session: Session;
   step: Step;
-  /** Position across the entire 26-step track, 0-indexed. */
+  /** Position across the entire track, 0-indexed. */
   flatIndex: number;
 }

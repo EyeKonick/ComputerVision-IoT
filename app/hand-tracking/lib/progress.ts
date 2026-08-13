@@ -3,11 +3,17 @@
 export interface Progress {
   lastFlatIndex: number;
   visited: number[];
-  cameraPath: string | null;
+  /** Per-fork-step choice ("A" or "B"), keyed by the fork step's own id —
+   * generic across every two-path fork in the guide (camera source,
+   * Python-installed-or-not, ...), not just the original camera fork. */
+  forkChoices: Record<string, "A" | "B">;
 }
 
 const STORAGE_KEY = "htg_progress_v1";
 const PROGRESS_EVENT = "htg-progress-changed";
+// The camera-source fork step's own id — also used to migrate a
+// pre-existing single `cameraPath` field from before forkChoices existed.
+export const CAMERA_FORK_STEP_ID = "setup-6";
 
 export function loadProgress(): Progress | null {
   try {
@@ -15,18 +21,25 @@ export function loadProgress(): Progress | null {
     if (!raw) return null;
     const parsed = JSON.parse(raw);
     if (typeof parsed.lastFlatIndex !== "number" || !Array.isArray(parsed.visited)) return null;
-    if (typeof parsed.cameraPath !== "string") parsed.cameraPath = null;
+    if (typeof parsed.forkChoices !== "object" || parsed.forkChoices === null) {
+      parsed.forkChoices = {};
+    }
+    // Migrate the old single-purpose `cameraPath` field, if present.
+    if (typeof parsed.cameraPath === "string" && !parsed.forkChoices[CAMERA_FORK_STEP_ID]) {
+      parsed.forkChoices[CAMERA_FORK_STEP_ID] = parsed.cameraPath;
+    }
+    delete parsed.cameraPath;
     return parsed as Progress;
   } catch {
     return null; // private browsing / storage disabled — guide still works, just doesn't persist
   }
 }
 
-export function saveProgress(flatIndex: number, cameraPath?: string | null): Progress {
-  const progress = loadProgress() ?? { lastFlatIndex: -1, visited: [], cameraPath: null };
+export function saveProgress(flatIndex: number, forkStepId?: string, forkChoice?: "A" | "B"): Progress {
+  const progress = loadProgress() ?? { lastFlatIndex: -1, visited: [], forkChoices: {} };
   progress.lastFlatIndex = flatIndex;
   if (!progress.visited.includes(flatIndex)) progress.visited.push(flatIndex);
-  if (cameraPath) progress.cameraPath = cameraPath;
+  if (forkStepId && forkChoice) progress.forkChoices[forkStepId] = forkChoice;
   try {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
   } catch {
@@ -67,7 +80,7 @@ export function isLocked(flatIndex: number, visited: number[]): boolean {
 }
 
 // Same-tab pub/sub so a progress change made in one client component (the
-// in-page camera-path chooser) is reflected immediately in another (the
+// in-page fork-path chooser) is reflected immediately in another (the
 // chain rail's fork node) without waiting for a navigation/remount. The
 // browser's native `storage` event only fires in *other* tabs, not this one.
 export function notifyProgressChanged() {

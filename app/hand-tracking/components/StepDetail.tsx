@@ -60,14 +60,14 @@ export function StepDetail({
 
       <div className="ht-detail-code-side">
         <div className="ht-code-header">
-          <span>{step.fork ? "Camera source" : step.file ? step.file.filename : "Terminal"}</span>
+          <span>{step.fork ? step.title : step.file ? step.file.filename : "Terminal"}</span>
           <span className="ht-badge">
             {step.fork ? "Path A / Path B" : `Step ${stepNumber} of ${totalSteps}`}
           </span>
         </div>
 
         {step.fork ? (
-          <ForkPathChooser fork={step.fork} flatIndex={flatIndex} />
+          <ForkPathChooser fork={step.fork} stepId={step.id} flatIndex={flatIndex} />
         ) : step.file ? (
           <FileCodePanel file={step.file} />
         ) : (

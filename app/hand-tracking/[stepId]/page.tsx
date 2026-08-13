@@ -31,7 +31,7 @@ export default async function StepPage(props: PageProps<"/hand-tracking/[stepId]
             <span className="ht-dot" /> ITE 3 — Applied Computer Vision &amp; IoT
           </div>
           <h1>
-            Twenty-six steps.
+            {flatSteps.length} steps.
             <br />
             One camera feed.
             <br />
@@ -48,7 +48,7 @@ export default async function StepPage(props: PageProps<"/hand-tracking/[stepId]
               <span className="ht-l">Sessions</span>
             </div>
             <div className="ht-stat">
-              <span className="ht-n">26</span>
+              <span className="ht-n">{flatSteps.length}</span>
               <span className="ht-l">Steps</span>
             </div>
           </div>

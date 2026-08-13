@@ -1,0 +1,115 @@
+- generic [active] [ref=f14e1]:
+  - generic [ref=f14e3]:
+    - complementary [ref=f14e4]:
+      - button "Collapse the chain" [expanded] [ref=f14e5] [cursor=pointer]:
+        - generic [ref=f14e6]: The chain
+        - generic [ref=f14e9]: −
+      - generic [ref=f14e10]:
+        - paragraph [ref=f14e11]: Every step is a landmark; every session, a joint. Steps unlock in order — finish one to reveal the next.
+        - generic [ref=f14e12]:
+          - generic [ref=f14e13]:
+            - generic [ref=f14e14]:
+              - generic [ref=f14e15]: //
+              - text: 01 — Setup & Environment
+            - generic [ref=f14e16]:
+              - link "Confirm Python is installed and on PATH" [ref=f14e17] [cursor=pointer]:
+                - /url: /hand-tracking/setup-1
+              - generic [ref=f14e23]:
+                - generic [ref=f14e24]:
+                  - button "Got Python installed already? — Path A — locked" [disabled] [ref=f14e25]
+                  - generic [ref=f14e26]: A · Already have Python
+                - generic [ref=f14e27]:
+                  - button "Got Python installed already? — Path B — locked" [disabled] [ref=f14e28]
+                  - generic [ref=f14e29]: B · Need to install it
+              - generic "Create the project folder and a virtual environment — locked" [ref=f14e34]
+              - generic "Activate the virtual environment — locked" [ref=f14e36]
+              - generic "Confirm the venv is actually active — locked" [ref=f14e38]
+              - generic "Install both activities' dependencies — locked" [ref=f14e40]
+              - generic [ref=f14e46]:
+                - generic [ref=f14e47]:
+                  - 'button "Set up your camera source: laptop webcam or phone over USB — Path A — locked" [disabled] [ref=f14e48]'
+                  - generic [ref=f14e49]: A · Laptop webcam
+                - generic [ref=f14e50]:
+                  - 'button "Set up your camera source: laptop webcam or phone over USB — Path B — locked" [disabled] [ref=f14e51]'
+                  - generic [ref=f14e52]: B · Phone over USB
+              - 'generic "\"Hello, Camera\": prove your camera source works before writing anything real — locked" [ref=f14e57]'
+          - generic [ref=f14e58]:
+            - generic [ref=f14e59]:
+              - generic [ref=f14e60]: //
+              - text: 02 — Hand Tracking — Session 1 (Webcam Loop)
+            - generic [ref=f14e61]:
+              - generic "Imports and config constants — locked" [ref=f14e63]
+              - generic "Auto-download the hand landmark model (ensure_model) — locked" [ref=f14e65]
+              - generic "Open the camera via CAM_SOURCE — locked" [ref=f14e67]
+              - 'generic "The capture loop: read, mirror, show — locked" [ref=f14e69]'
+              - generic "Quit key handling and cleanup — locked" [ref=f14e71]
+          - generic [ref=f14e72]:
+            - generic [ref=f14e73]:
+              - generic [ref=f14e74]: //
+              - text: 03 — Hand Tracking — Session 2 (Landmarks & Skeleton)
+            - generic [ref=f14e75]:
+              - generic "Load the hand-tracking model — locked" [ref=f14e77]
+              - generic "Run detection on every frame — locked" [ref=f14e79]
+              - generic "Extract landmark points and draw the skeleton connections — locked" [ref=f14e81]
+              - generic "Draw the joints — locked" [ref=f14e83]
+              - generic "Composite the glow onto the camera image — locked" [ref=f14e85]
+          - generic [ref=f14e86]:
+            - generic [ref=f14e87]:
+              - generic [ref=f14e88]: //
+              - text: 04 — Hand Tracking — Session 3 (Trails & Gesture Recognition)
+            - generic [ref=f14e89]:
+              - generic "Fingertip particle trails — locked" [ref=f14e91]
+              - generic "Count extended fingers — locked" [ref=f14e93]
+              - generic "Pinch detection and the handedness label — locked" [ref=f14e95]
+              - 'generic "Show it: the on-screen gesture readout — locked" [ref=f14e97]'
+          - generic [ref=f14e98]:
+            - generic [ref=f14e99]:
+              - generic [ref=f14e100]: //
+              - text: 05 — Hand Tracking — Session 4 (Virtual Orb & Wrap-up)
+            - generic [ref=f14e101]:
+              - generic "Orb state and picking which hand controls it — locked" [ref=f14e103]
+              - generic "Grab-and-drag logic — locked" [ref=f14e105]
+              - generic "Draw the orb — locked" [ref=f14e107]
+              - generic "FPS counter and title HUD — locked" [ref=f14e109]
+              - generic "The 'r' reset key — locked" [ref=f14e111]
+        - generic [ref=f14e112]:
+          - generic [ref=f14e113]: Completed
+          - generic [ref=f14e115]: Current
+          - generic [ref=f14e117]: Upcoming
+          - generic [ref=f14e119]: Locked
+        - generic [ref=f14e121]:
+          - generic [ref=f14e122]: Progress is saved only in this browser
+          - button "Reset saved progress" [ref=f14e123] [cursor=pointer]
+    - generic [ref=f14e125]:
+      - generic [ref=f14e126]:
+        - generic [ref=f14e127]:
+          - heading "Setup & Environment" [level=2] [ref=f14e128]
+          - generic [ref=f14e129]: Lead-in (before Hand Tracking and Face Tracking)
+        - paragraph [ref=f14e130]: Module 1 (abbreviated) — installing Python, pip, and a virtual environment; installing OpenCV; "Hello, Image" first program
+        - generic [ref=f14e131]:
+          - generic [ref=f14e132]:
+            - generic [ref=f14e133]: Setup & Environment — Step 2 of 8 (two paths, one step)
+            - heading "Got Python installed already?" [level=2] [ref=f14e134]
+            - paragraph [ref=f14e135]: Quick fork before we go further. If Step 1 printed a real version number, you're already set — just continue. If it didn't (or you don't have Python on this machine at all), install it now; once it's done, you land right back on the same track as everyone else.
+            - generic [ref=f14e136]: New in this step
+            - generic [ref=f14e138]:
+              - term [ref=f14e139]: Installer
+              - definition [ref=f14e140]: a program you download and run once to put another program (here, Python itself) onto your computer.
+            - generic [ref=f14e141]: Why it matters
+            - paragraph [ref=f14e142]: Nothing downstream works without a working Python on PATH, so this is the one place in the whole guide where "go install something first" has to happen before continuing makes sense — everywhere else assumes Python already exists. Keeping it as an explicit fork (rather than a paragraph students skim past) means the rare student who genuinely needs to install it gets real, complete steps instead of being expected to already know how.
+          - generic [ref=f14e144]:
+            - generic [ref=f14e145]: Got Python installed already?
+            - generic [ref=f14e146]: Path A / Path B
+        - generic [ref=f14e147]:
+          - link "← Previous Confirm Python is installed and on PATH" [ref=f14e148] [cursor=pointer]:
+            - /url: /hand-tracking/setup-1
+            - generic [ref=f14e149]: ← Previous
+            - generic [ref=f14e150]: Confirm Python is installed and on PATH
+          - link "Next → Create the project folder and a virtual environment" [ref=f14e151] [cursor=pointer]:
+            - /url: /hand-tracking/setup-2
+            - generic [ref=f14e152]: Next →
+            - generic [ref=f14e153]: Create the project folder and a virtual environment
+      - contentinfo [ref=f14e154]:
+        - generic [ref=f14e155]: Hand Tracking Guide
+        - generic [ref=f14e156]: ITE 3 — Applied Computer Vision & IoT
+  - button "Open Next.js Dev Tools" [ref=f14e162] [cursor=pointer]

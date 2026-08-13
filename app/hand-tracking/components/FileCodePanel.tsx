@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import type { FileSnapshot } from "../data/types";
 import { applyCameraPath, hasCameraPathSubstitution } from "../lib/camSource";
 import { describeNewLines, newLineGroupsWithContext } from "../lib/code";
-import { loadProgress, subscribeToProgress } from "../lib/progress";
+import { CAMERA_FORK_STEP_ID, loadProgress, subscribeToProgress } from "../lib/progress";
 import { NoCopyWrapper } from "./NoCopyWrapper";
 
 export function FileCodePanel({ file }: { file: FileSnapshot }) {
@@ -12,7 +12,7 @@ export function FileCodePanel({ file }: { file: FileSnapshot }) {
   const [cameraPath, setCameraPath] = useState<"A" | "B" | null>(null);
 
   useEffect(() => {
-    const sync = () => setCameraPath((loadProgress()?.cameraPath as "A" | "B" | null) ?? null);
+    const sync = () => setCameraPath(loadProgress()?.forkChoices[CAMERA_FORK_STEP_ID] ?? null);
     sync();
     return subscribeToProgress(sync);
   }, []);

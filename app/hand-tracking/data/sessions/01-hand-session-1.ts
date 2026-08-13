@@ -170,7 +170,7 @@ export const handSession1: Session = {
     "Today we don't detect a single hand — we just get a live, mirrored camera window on screen that we can cleanly quit. Every session after this adds one more layer on top of exactly this loop.",
   instructorNotes: [
     "Code-display convention (used in every session): each step shows the entire file as it should look after that step, with every line added in this step marked as new. Nothing else in the file changes shape between steps.",
-    "Camera source note: students already set up their CAM_SOURCE value in the Setup & Environment session (Step 6/7 — laptop webcam as an int, or \"http://localhost:8080/video\" for lab-PC students on Path B). Step 3 below reuses that exact pattern; don't re-teach it from scratch, just point back to it.",
+    "Camera source note: students already set up their CAM_SOURCE value in the Setup & Environment session (Step 7/8 — laptop webcam as an int, or \"http://localhost:8080/video\" for lab-PC students on Path B). Step 3 below reuses that exact pattern; don't re-teach it from scratch, just point back to it.",
   ],
   wrapUp:
     "That's the whole shape every future session builds on: open the camera through CAM_SOURCE, loop — read, mirror, show, check for quit — then clean up. Nothing was detected today; next session we load the hand landmark model we already prepared for and start drawing a skeleton over real hands.",

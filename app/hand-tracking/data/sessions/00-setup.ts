@@ -31,8 +31,9 @@ export const setupSession: Session = {
   sessionGoal:
     "By the end of today, everyone has Python, an isolated project environment, and both activities' libraries installed — and we've proven the camera works from Python before we build anything real on top of it.",
   instructorNotes: [
-    "`source code/hand-tracking/requirements.txt` now also pins `mediapipe==0.10.14`, matching `source code/facial-recognition/requirements.txt`. Step 5 keeps the discussion of why pinning matters, since it's a useful, real example for students, but there's no longer a live mismatch in the repo.",
-    "Two-path classroom note: Lab PCs have no built-in webcam and the room has no WiFi (Ethernet only). Students on lab PCs use their Android phone over USB as the camera instead; students with their own laptop keep using its built-in webcam. Step 6 below covers both. Both `hand_ar.py` and `face_tracker.py` read a single `CAM_SOURCE` config value (an int device index, or a URL string) instead of a hardcoded camera index, so the same script works either way.",
+    "`source code/hand-tracking/requirements.txt` now also pins `mediapipe==0.10.14`, matching `source code/facial-recognition/requirements.txt`. Step 6 keeps the discussion of why pinning matters, since it's a useful, real example for students, but there's no longer a live mismatch in the repo.",
+    "Two-path classroom note: Lab PCs have no built-in webcam and the room has no WiFi (Ethernet only). Students on lab PCs use their Android phone over USB as the camera instead; students with their own laptop keep using its built-in webcam. Step 7 below covers both. Both `hand_ar.py` and `face_tracker.py` read a single `CAM_SOURCE` config value (an int device index, or a URL string) instead of a hardcoded camera index, so the same script works either way.",
+    "Step 2 (below) is a genuine conditional branch, not just a hardware fork like the camera step: most students already have Python, so Path A is a no-op \"you're set, continue.\" Path B is only for the rare student who needs to install it from scratch, and merges straight back into Step 3 once done — don't spend class time walking everyone through Path B if only one or two students need it.",
   ],
   wrapUp:
     "Everyone now has: Python confirmed, an isolated virtual environment, both activities' libraries installed at matching versions, and a proven working camera feed in Python — whether that's your laptop's webcam or your phone over USB. Next session, we open `hand_ar.py` and get real hand detection running on top of exactly this same camera loop.",
@@ -44,7 +45,7 @@ export const setupSession: Session = {
       say: "Before anything else, we need to know which Python we're actually running — mediapipe (the ML library both activities depend on) only ships pre-built wheels for specific Python versions, so \"some Python is installed\" isn't enough; we need to know which one.\n\n(Windows users: if `python --version` fails, try `py --version` instead.)",
       file: null,
       commands: [{ language: "bash", code: "python --version" }],
-      why: "mediapipe's published wheels typically trail the newest Python release by a few months. If `python --version` reports something very new (e.g. a version released in the last month or two), `pip install mediapipe` in Step 5 may fail with no matching distribution — better to catch that now than mid-install.",
+      why: "mediapipe's published wheels typically trail the newest Python release by a few months. If `python --version` reports something very new (e.g. a version released in the last month or two), `pip install mediapipe` in Step 6 may fail with no matching distribution — better to catch that now than mid-install.",
       glossary: [
         { term: "python --version", explanation: "a command that asks Python to tell you which version of itself is installed." },
         { term: "PATH", explanation: "a list your computer checks to find a program when you type its name in the terminal. If a program \"isn't on PATH,\" the terminal doesn't know where to find it." },
@@ -58,8 +59,52 @@ export const setupSession: Session = {
       ],
     },
     {
-      id: "setup-2",
+      id: "setup-1b",
       index: 1,
+      title: "Got Python installed already?",
+      say: "Quick fork before we go further. If Step 1 printed a real version number, you're already set — just continue. If it didn't (or you don't have Python on this machine at all), install it now; once it's done, you land right back on the same track as everyone else.",
+      file: null,
+      commands: [],
+      why: "Nothing downstream works without a working Python on PATH, so this is the one place in the whole guide where \"go install something first\" has to happen before continuing makes sense — everywhere else assumes Python already exists. Keeping it as an explicit fork (rather than a paragraph students skim past) means the rare student who genuinely needs to install it gets real, complete steps instead of being expected to already know how.",
+      glossary: [
+        { term: "Installer", explanation: "a program you download and run once to put another program (here, Python itself) onto your computer." },
+      ],
+      commonProblems: [],
+      fork: {
+        prompt: "Did python --version (or py --version) just print a real version number in Step 1?",
+        pathA: {
+          letter: "A",
+          label: "A · Already have Python",
+          body: "Nothing to do here — Step 1 already confirmed it. Continue to the next step.",
+          commands: [],
+        },
+        pathB: {
+          letter: "B",
+          label: "B · Need to install it",
+          body: "Pick the line for your OS, then re-run python --version (or py --version / python3 --version) to confirm it worked before continuing.",
+          commands: [
+            {
+              label: "Windows",
+              language: "bash",
+              code: "# Download the installer from python.org/downloads, run it, and\n# CHECK \"Add python.exe to PATH\" on the very first screen before\n# clicking Install — this is the single most common install mistake.\npython --version",
+            },
+            {
+              label: "macOS",
+              language: "bash",
+              code: "# Download the official installer from python.org/downloads and run it,\n# or with Homebrew already installed:\nbrew install python3\npython3 --version",
+            },
+            {
+              label: "Linux (Debian/Ubuntu)",
+              language: "bash",
+              code: "sudo apt update\nsudo apt install python3 python3-venv python3-pip\npython3 --version",
+            },
+          ],
+        },
+      },
+    },
+    {
+      id: "setup-2",
+      index: 2,
       title: "Create the project folder and a virtual environment",
       say: "We're about to install two different sets of libraries into \"Python.\" If we install them globally, they'll collide with whatever else is on this machine — maybe a different mediapipe version another course needs. A virtual environment is a private, throwaway copy of Python just for this course's packages.",
       file: null,
@@ -78,7 +123,7 @@ export const setupSession: Session = {
     },
     {
       id: "setup-3",
-      index: 2,
+      index: 3,
       title: "Activate the virtual environment",
       say: "Creating the venv doesn't turn it on — we still have to activate it in this terminal session so python/pip point inside venv/ instead of the system install.",
       file: null,
@@ -89,7 +134,7 @@ export const setupSession: Session = {
           code: "# Windows PowerShell\n.\\venv\\Scripts\\Activate.ps1\n\n# Windows cmd.exe\nvenv\\Scripts\\activate.bat\n\n# macOS / Linux / Git Bash on Windows\nsource venv/bin/activate",
         },
       ],
-      why: "Activation temporarily rewrites PATH for this terminal window only, so pip install in Step 5 lands inside venv/ instead of globally. You'll see (venv) appear at the start of the prompt when it worked.",
+      why: "Activation temporarily rewrites PATH for this terminal window only, so pip install in Step 6 lands inside venv/ instead of globally. You'll see (venv) appear at the start of the prompt when it worked.",
       glossary: [
         { term: "Activate", explanation: "switches your current terminal to use the virtual environment's private Python instead of the computer's main one." },
         { term: "source (macOS/Linux)", explanation: "runs a script's commands directly inside your current terminal, rather than starting it as a separate process. That's needed here, since activation only works if it changes this terminal's own settings." },
@@ -102,7 +147,7 @@ export const setupSession: Session = {
     },
     {
       id: "setup-4",
-      index: 3,
+      index: 4,
       title: "Confirm the venv is actually active",
       say: "This is the single most common setup mistake, so we check it explicitly instead of assuming Step 3 worked.",
       file: null,
@@ -118,7 +163,7 @@ export const setupSession: Session = {
     },
     {
       id: "setup-5",
-      index: 4,
+      index: 5,
       title: "Install both activities' dependencies",
       say: "Both activities need OpenCV (camera + image handling) and MediaPipe (the hand/face ML models); the hand-tracking activity also uses NumPy directly for the trail math.",
       file: null,
@@ -136,9 +181,9 @@ export const setupSession: Session = {
     },
     {
       id: "setup-6",
-      index: 5,
+      index: 6,
       title: "Set up your camera source: laptop webcam or phone over USB",
-      say: "Everyone's camera situation today is one of two paths. If you're on your own laptop with a built-in camera, you're already done — skip to Step 7. If you're on a lab PC, there's no webcam, and this room has no WiFi, so your phone becomes the camera, connected by USB cable only.",
+      say: "Everyone's camera situation today is one of two paths. If you're on your own laptop with a built-in camera, you're already done — skip to Step 8. If you're on a lab PC, there's no webcam, and this room has no WiFi, so your phone becomes the camera, connected by USB cable only.",
       file: null,
       commands: [],
       why: "adb reverse is official Android developer tooling — it's the reverse direction of port forwarding (device → host instead of host → device), so a server the phone is already running on itself becomes reachable on the PC. This avoids installing a third-party virtual-camera driver on every lab PC — school antivirus/locked-down images are far more likely to block or quarantine those than a plain, Google-signed adb.exe. Both real activities read whichever source you set through one shared CAM_SOURCE value, so nothing else in the code changes between Path A and Path B.",
@@ -156,10 +201,11 @@ export const setupSession: Session = {
         "Documented fallback if IP Webcam / adb reverse won't cooperate on a given phone: try DroidCam (USB mode, free, official Windows client, bundles its own adb) — install the Windows client, connect via USB in the client, then use its assigned device index the same way as Path A.",
       ],
       fork: {
+        prompt: "Which camera source are you using today?",
         pathA: {
           letter: "A",
           label: "Path A · Laptop webcam",
-          body: "Nothing to install. Your camera is device index 0 (occasionally 1 if the laptop has multiple cameras — Step 7 covers what to do if you get a black frame).",
+          body: "Nothing to install. Your camera is device index 0 (occasionally 1 if the laptop has multiple cameras — Step 8 covers what to do if you get a black frame).",
           commands: [],
         },
         pathB: {
@@ -175,7 +221,7 @@ export const setupSession: Session = {
     },
     {
       id: "setup-7",
-      index: 6,
+      index: 7,
       title: "\"Hello, Camera\": prove your camera source works before writing anything real",
       say: "Before we touch either real project, we isolate one question: does Python see your camera — whichever path you're on — at all? If this fails weeks from now inside a much bigger file, it's hard to tell a camera problem from a code problem. We rule it out now, with the smallest possible script.",
       file: {

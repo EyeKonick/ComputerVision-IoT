@@ -18,6 +18,13 @@ import { ChainForkNode } from "./ChainForkNode";
 
 const flatIndexById = new Map(flatSteps.map((fs) => [fs.step.id, fs.flatIndex]));
 
+// Which session (track) each step belongs to, by index — used to decide
+// whether that step's row reads left-to-right or right-to-left.
+const stepTrackIndex = new Map<string, number>();
+handTrackingData.forEach((session, ti) => {
+  session.steps.forEach((step) => stepTrackIndex.set(step.id, ti));
+});
+
 function trackLabel(session: Session, ti: number) {
   return `${String(ti + 1).padStart(2, "0")} — ${session.title}`;
 }
@@ -36,12 +43,48 @@ interface ConnectorPath {
   flatIndex: number;
 }
 
+// Every other session row reads right-to-left instead of left-to-right —
+// a true boustrophedon (serpentine) flow, so the connector between one
+// session and the next is always a short, natural U-turn on whichever
+// edge the two rows actually meet at, never a long loop back to the far
+// margin. The camera-fork step (Setup only) is never reversed — its own
+// merge curves assume left-to-right and aren't touched here.
+//
+// Reversal starts at session index 2, not 1: Setup's own 7 steps wrap
+// onto a second internal line (the fork eats a slot), and that wrapped
+// line — being unreversed like the rest of Setup — always lands back at
+// the left margin. Starting the alternation one session later means
+// Session 1 also reads left-to-right, picking up exactly where Setup's
+// wrapped line left off (both near the left edge) instead of jumping to
+// the opposite edge and drawing one long diagonal across the whole rail.
+function isReversedTrack(ti: number): boolean {
+  return ti > 0 && ti % 2 === 0;
+}
+
+// +1 if this step's own row reads left-to-right, -1 if right-to-left —
+// the direction the connector should be "continuing in" as it leaves this
+// step, used to pick which side of the chain the row-to-row turn happens
+// on. Branch nodes (the Python/camera forks) don't belong to a reading
+// row; they use the direction of the row their merge point sits on.
+function stepDir(stepId: string): 1 | -1 {
+  return isReversedTrack(stepTrackIndex.get(stepId) ?? 0) ? -1 : 1;
+}
+
 // A step's connection point: fork steps have a real left/right edge (the
-// merge curves), everything else is just its own node center.
-function connectionPoint(step: Step, el: HTMLElement, side: "exit" | "entry"): { x: number; y: number } {
+// merge curves), everything else is just its own node center. `exit` is
+// the side the path leaves toward the *next* step; `entry` is the side it
+// arrives from the *previous* step — both flip when the step's own row
+// reads right-to-left.
+function connectionPoint(
+  step: Step,
+  el: HTMLElement,
+  side: "exit" | "entry",
+  reversed: boolean
+): { x: number; y: number } {
   const rect = el.getBoundingClientRect();
   if (step.fork) {
-    return { x: side === "exit" ? rect.right : rect.left, y: rect.top + rect.height / 2 };
+    const leavesRight = side === "exit" ? !reversed : reversed;
+    return { x: leavesRight ? rect.right : rect.left, y: rect.top + rect.height / 2 };
   }
   return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
 }
@@ -53,7 +96,7 @@ export function ChainRail() {
   const currentFlatIndex = flatIndexById.get(currentStepId) ?? 0;
 
   const [collapsed, setCollapsed] = useState(false);
-  const [progress, setProgress] = useState<Progress>({ lastFlatIndex: -1, visited: [], cameraPath: null });
+  const [progress, setProgress] = useState<Progress>({ lastFlatIndex: -1, visited: [], forkChoices: {} });
   const [resumed, setResumed] = useState(false);
   const [tooltip, setTooltip] = useState<TooltipState | null>(null);
   const [connectors, setConnectors] = useState<ConnectorPath[]>([]);
@@ -66,8 +109,17 @@ export function ChainRail() {
   // the end of Hand Session 4 — every step connects to the next, whether
   // that's a plain horizontal link on the same line or (when the narrow
   // rail wraps a row, whether mid-session like the camera fork's merge or
-  // between sessions) a measured S-curve bridging the two real node
-  // positions, never a disconnected stub.
+  // between sessions) a measured racetrack turn bridging the two real
+  // node positions, never a disconnected stub.
+  //
+  // The turn shape is ported from the approved reference roadmap's own
+  // path-building geometry (straight run → quarter-circle → straight
+  // vertical run → quarter-circle → straight run into the next node) —
+  // a crisp, consistent "PCB trace" turn instead of a soft diagonal S.
+  // Unlike the reference's fixed-canvas version (a hardcoded lane just
+  // outside a known xL/xR), this adapts it to our responsive layout: the
+  // lane sits just outside whichever of the two measured endpoints is
+  // farther out in the exiting row's own reading direction.
   const measure = useCallback(() => {
     const chainEl = chainRef.current;
     if (!chainEl) return;
@@ -77,6 +129,9 @@ export function ChainRail() {
     const nextConnectors: ConnectorPath[] = [];
     const nextWrapped = new Set<string>();
 
+    const LANE_PAD = 14; // clearance between the lane and the nearer node
+    const MAX_CORNER_R = 10;
+
     for (let i = 0; i < flatSteps.length - 1; i++) {
       const stepA = flatSteps[i].step;
       const stepB = flatSteps[i + 1].step;
@@ -84,8 +139,8 @@ export function ChainRail() {
       const elB = nodeRefs.current.get(stepB.id);
       if (!elA || !elB) continue;
 
-      const pA = connectionPoint(stepA, elA, "exit");
-      const pB = connectionPoint(stepB, elB, "entry");
+      const pA = connectionPoint(stepA, elA, "exit", isReversedTrack(stepTrackIndex.get(stepA.id) ?? 0));
+      const pB = connectionPoint(stepB, elB, "entry", isReversedTrack(stepTrackIndex.get(stepB.id) ?? 0));
 
       if (Math.abs(pA.y - pB.y) < 6) continue; // same line — the plain link already connects them
 
@@ -95,23 +150,23 @@ export function ChainRail() {
       const y1 = pA.y - chainRect.top;
       const x2 = pB.x - chainRect.left;
       const y2 = pB.y - chainRect.top;
-      const midY = (y1 + y2) / 2;
 
-      // When both ends land in roughly the same column (e.g. a step that
-      // wrapped alone onto its own line, followed by a row that also
-      // starts at the left margin), a straight C-curve degenerates into a
-      // lifeless vertical line. Bulge the control points out to the right
-      // so it always reads as a proper flowing S-curve, never a flat drop.
-      const MIN_BULGE = 46;
-      const bulge = Math.abs(x2 - x1) < MIN_BULGE ? MIN_BULGE : 0;
-      const cx1 = x1 + bulge;
-      const cx2 = x2 + bulge;
+      const dir = stepDir(stepA.id);
+      const sweep = dir > 0 ? 1 : 0;
+      const laneX = dir > 0 ? Math.max(x1, x2) + LANE_PAD : Math.min(x1, x2) - LANE_PAD;
+      // Shrink the corner radius rather than let the two arcs overlap when
+      // a transition's rows sit unusually close together vertically.
+      const r = Math.max(3, Math.min(MAX_CORNER_R, (y2 - y1) / 2 - 2));
 
-      nextConnectors.push({
-        key: stepB.id,
-        flatIndex: i + 1,
-        d: `M${x1},${y1} C${cx1},${midY} ${cx2},${midY} ${x2},${y2}`,
-      });
+      const d =
+        `M${x1},${y1}` +
+        ` L${laneX - r * dir},${y1}` +
+        ` A${r},${r} 0 0 ${sweep} ${laneX},${y1 + r}` +
+        ` L${laneX},${y2 - r}` +
+        ` A${r},${r} 0 0 ${sweep} ${laneX - r * dir},${y2}` +
+        ` L${x2},${y2}`;
+
+      nextConnectors.push({ key: stepB.id, flatIndex: i + 1, d });
     }
 
     setConnectors(nextConnectors);
@@ -156,23 +211,23 @@ export function ChainRail() {
     }
   }, [currentStepId, currentFlatIndex]);
 
-  // Stay in sync with progress changes made elsewhere on the page (e.g. the
-  // fork step's own in-content camera-path chooser), not just navigation.
+  // Stay in sync with progress changes made elsewhere on the page (e.g. a
+  // fork step's own in-content path chooser), not just navigation.
   useEffect(() => {
     return subscribeToProgress(() => {
-      setProgress(loadProgress() ?? { lastFlatIndex: -1, visited: [], cameraPath: null });
+      setProgress(loadProgress() ?? { lastFlatIndex: -1, visited: [], forkChoices: {} });
     });
   }, []);
 
-  function chooseCameraPath(letter: "A" | "B", stepId: string, flatIndex: number) {
-    const updated = saveProgress(flatIndex, letter);
+  function chooseFork(letter: "A" | "B", stepId: string, flatIndex: number) {
+    const updated = saveProgress(flatIndex, stepId, letter);
     setProgress(updated);
     if (currentStepId !== stepId) router.push(`/hand-tracking/${stepId}`);
   }
 
   function handleReset() {
     clearProgress();
-    setProgress({ lastFlatIndex: currentFlatIndex, visited: [currentFlatIndex], cameraPath: null });
+    setProgress({ lastFlatIndex: currentFlatIndex, visited: [currentFlatIndex], forkChoices: {} });
     setResumed(false);
   }
 
@@ -230,7 +285,7 @@ export function ChainRail() {
               <div className="ht-track-label">
                 <span className="ht-idx">//</span> {trackLabel(session, ti)}
               </div>
-              <div className="ht-node-row">
+              <div className={`ht-node-row${isReversedTrack(ti) ? " ht-node-row-reversed" : ""}`}>
                 {session.steps.map((step, si) => {
                   flatIndexCursor++;
                   const myIndex = flatIndexCursor;
@@ -253,9 +308,9 @@ export function ChainRail() {
                           flatIndex={myIndex}
                           currentFlatIndex={currentFlatIndex}
                           visited={progress.visited}
-                          cameraPath={progress.cameraPath}
+                          choice={progress.forkChoices[step.id] ?? null}
                           locked={locked}
-                          onChoose={chooseCameraPath}
+                          onChoose={chooseFork}
                           onHover={showTooltip}
                           onMove={moveTooltip}
                           onLeave={hideTooltip}

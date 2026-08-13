@@ -1,0 +1,144 @@
+- generic [active] [ref=f3e1]:
+  - generic [ref=f3e3]:
+    - complementary [ref=f3e4]:
+      - button "Collapse the chain" [expanded] [ref=f3e5] [cursor=pointer]:
+        - generic [ref=f3e6]: The chain
+        - generic [ref=f3e9]: −
+      - generic [ref=f3e10]:
+        - paragraph [ref=f3e11]: Every step is a landmark; every session, a joint. Steps unlock in order — finish one to reveal the next.
+        - generic [ref=f3e12]:
+          - generic [ref=f3e13]:
+            - generic [ref=f3e14]:
+              - generic [ref=f3e15]: //
+              - text: 01 — Setup & Environment
+            - generic [ref=f3e16]:
+              - link "Confirm Python is installed and on PATH" [ref=f3e17] [cursor=pointer]:
+                - /url: /hand-tracking/setup-1
+              - generic "Create the project folder and a virtual environment — locked" [ref=f3e19]
+              - generic "Activate the virtual environment — locked" [ref=f3e21]
+              - generic "Confirm the venv is actually active — locked" [ref=f3e23]
+              - generic "Install both activities' dependencies — locked" [ref=f3e25]
+              - generic [ref=f3e31]:
+                - generic [ref=f3e32]:
+                  - 'button "Set up your camera source: laptop webcam or phone over USB — Path A — locked" [disabled] [ref=f3e33]'
+                  - generic [ref=f3e34]: A · Laptop webcam
+                - generic [ref=f3e35]:
+                  - 'button "Set up your camera source: laptop webcam or phone over USB — Path B — locked" [disabled] [ref=f3e36]'
+                  - generic [ref=f3e37]: B · Phone over USB
+              - 'generic "\"Hello, Camera\": prove your camera source works before writing anything real — locked" [ref=f3e42]'
+          - generic [ref=f3e43]:
+            - generic [ref=f3e44]:
+              - generic [ref=f3e45]: //
+              - text: 02 — Hand Tracking — Session 1 (Webcam Loop)
+            - generic [ref=f3e46]:
+              - generic "Imports and config constants — locked" [ref=f3e48]
+              - generic "Auto-download the hand landmark model (ensure_model) — locked" [ref=f3e50]
+              - generic "Open the camera via CAM_SOURCE — locked" [ref=f3e52]
+              - 'generic "The capture loop: read, mirror, show — locked" [ref=f3e54]'
+              - generic "Quit key handling and cleanup — locked" [ref=f3e56]
+          - generic [ref=f3e57]:
+            - generic [ref=f3e58]:
+              - generic [ref=f3e59]: //
+              - text: 03 — Hand Tracking — Session 2 (Landmarks & Skeleton)
+            - generic [ref=f3e60]:
+              - generic "Load the hand-tracking model — locked" [ref=f3e62]
+              - generic "Run detection on every frame — locked" [ref=f3e64]
+              - generic "Extract landmark points and draw the skeleton connections — locked" [ref=f3e66]
+              - generic "Draw the joints — locked" [ref=f3e68]
+              - generic "Composite the glow onto the camera image — locked" [ref=f3e70]
+          - generic [ref=f3e71]:
+            - generic [ref=f3e72]:
+              - generic [ref=f3e73]: //
+              - text: 04 — Hand Tracking — Session 3 (Trails & Gesture Recognition)
+            - generic [ref=f3e74]:
+              - generic "Fingertip particle trails — locked" [ref=f3e76]
+              - generic "Count extended fingers — locked" [ref=f3e78]
+              - generic "Pinch detection and the handedness label — locked" [ref=f3e80]
+              - 'generic "Show it: the on-screen gesture readout — locked" [ref=f3e82]'
+          - generic [ref=f3e83]:
+            - generic [ref=f3e84]:
+              - generic [ref=f3e85]: //
+              - text: 05 — Hand Tracking — Session 4 (Virtual Orb & Wrap-up)
+            - generic [ref=f3e86]:
+              - generic "Orb state and picking which hand controls it — locked" [ref=f3e88]
+              - generic "Grab-and-drag logic — locked" [ref=f3e90]
+              - generic "Draw the orb — locked" [ref=f3e92]
+              - generic "FPS counter and title HUD — locked" [ref=f3e94]
+              - generic "The 'r' reset key — locked" [ref=f3e96]
+        - generic [ref=f3e97]:
+          - generic [ref=f3e98]: Completed
+          - generic [ref=f3e100]: Current
+          - generic [ref=f3e102]: Upcoming
+          - generic [ref=f3e104]: Locked
+        - generic [ref=f3e106]:
+          - generic [ref=f3e107]: Progress is saved only in this browser
+          - button "Reset saved progress" [ref=f3e108] [cursor=pointer]
+    - generic [ref=f3e110]:
+      - generic [ref=f3e111]:
+        - generic [ref=f3e112]: ITE 3 — Applied Computer Vision & IoT
+        - heading [level=1] [ref=f3e114]:
+          - text: Twenty-six steps.One camera feed.
+          - emphasis [ref=f3e115]: A skeleton made of light.
+        - paragraph [ref=f3e116]:
+          - text: The Hand Tracking guide — the same node-and-connection language you draw over your own hand in
+          - code [ref=f3e117]: hand_ar.py
+          - text: ", reused here as the way you navigate the lesson itself."
+        - generic [ref=f3e118]:
+          - generic [ref=f3e119]:
+            - generic [ref=f3e120]: "5"
+            - text: Sessions
+          - generic [ref=f3e121]:
+            - generic [ref=f3e122]: "26"
+            - text: Steps
+      - generic [ref=f3e123]:
+        - generic [ref=f3e124]:
+          - heading "Setup & Environment" [level=2] [ref=f3e125]
+          - generic [ref=f3e126]: Lead-in (before Hand Tracking and Face Tracking)
+        - paragraph [ref=f3e127]: Module 1 (abbreviated) — installing Python, pip, and a virtual environment; installing OpenCV; "Hello, Image" first program
+        - generic [ref=f3e128]:
+          - heading "Session goal — say this out loud at the start" [level=3] [ref=f3e129]
+          - paragraph [ref=f3e130]: By the end of today, everyone has Python, an isolated project environment, and both activities' libraries installed — and we've proven the camera works from Python before we build anything real on top of it.
+          - list [ref=f3e131]:
+            - listitem [ref=f3e132]: "`source code/hand-tracking/requirements.txt` now also pins `mediapipe==0.10.14`, matching `source code/facial-recognition/requirements.txt`. Step 5 keeps the discussion of why pinning matters, since it's a useful, real example for students, but there's no longer a live mismatch in the repo."
+            - listitem [ref=f3e133]: "Two-path classroom note: Lab PCs have no built-in webcam and the room has no WiFi (Ethernet only). Students on lab PCs use their Android phone over USB as the camera instead; students with their own laptop keep using its built-in webcam. Step 6 below covers both. Both `hand_ar.py` and `face_tracker.py` read a single `CAM_SOURCE` config value (an int device index, or a URL string) instead of a hardcoded camera index, so the same script works either way."
+        - generic [ref=f3e134]:
+          - generic [ref=f3e135]:
+            - generic [ref=f3e136]: Setup & Environment — Step 1 of 7
+            - heading "Confirm Python is installed and on PATH" [level=2] [ref=f3e137]
+            - paragraph [ref=f3e138]: "Before anything else, we need to know which Python we're actually running — mediapipe (the ML library both activities depend on) only ships pre-built wheels for specific Python versions, so \"some Python is installed\" isn't enough; we need to know which one. (Windows users: if `python --version` fails, try `py --version` instead.)"
+            - generic [ref=f3e139]: New in this step
+            - generic [ref=f3e140]:
+              - generic [ref=f3e141]:
+                - term [ref=f3e142]: python --version
+                - definition [ref=f3e143]: a command that asks Python to tell you which version of itself is installed.
+              - generic [ref=f3e144]:
+                - term [ref=f3e145]: PATH
+                - definition [ref=f3e146]: a list your computer checks to find a program when you type its name in the terminal. If a program "isn't on PATH," the terminal doesn't know where to find it.
+              - generic [ref=f3e147]:
+                - term [ref=f3e148]: py
+                - definition [ref=f3e149]: an alternative launcher command Windows installs alongside Python; useful when plain python doesn't work.
+            - generic [ref=f3e150]: Why it matters
+            - paragraph [ref=f3e151]: "mediapipe's published wheels typically trail the newest Python release by a few months. If `python --version` reports something very new (e.g. a version released in the last month or two), `pip install mediapipe` in Step 5 may fail with no matching distribution — better to catch that now than mid-install."
+            - generic [ref=f3e152]: Common problems
+            - list [ref=f3e153]:
+              - listitem [ref=f3e154]: "'python' is not recognized... (Windows) — Python isn't on PATH. Reinstall from python.org with \"Add python.exe to PATH\" checked, or use the py launcher instead."
+              - listitem [ref=f3e155]: Windows opens the Microsoft Store instead of running Python — that's the store-app stub shadowing the real python command; same fix as above, or use py.
+              - listitem [ref=f3e156]: "macOS/Linux: python not found but python3 works — that's normal on those platforms; use python3 for every command in this session."
+              - listitem [ref=f3e157]: Multiple Pythons installed, unsure which one's active — where python (Windows) / which python (macOS/Linux) shows the exact path being used.
+          - generic [ref=f3e158]:
+            - generic [ref=f3e159]:
+              - generic [ref=f3e160]: Terminal
+              - generic [ref=f3e161]: Step 1 of 7
+            - generic [ref=f3e162]:
+              - generic [ref=f3e163]: Type this
+              - generic [ref=f3e165]:
+                - generic: Type it yourself — that's the point. No copy-paste here.
+                - generic [ref=f3e166]: python --version
+        - link "Next → Create the project folder and a virtual environment" [ref=f3e168] [cursor=pointer]:
+          - /url: /hand-tracking/setup-2
+          - generic [ref=f3e169]: Next →
+          - generic [ref=f3e170]: Create the project folder and a virtual environment
+      - contentinfo [ref=f3e171]:
+        - generic [ref=f3e172]: Hand Tracking Guide
+        - generic [ref=f3e173]: ITE 3 — Applied Computer Vision & IoT
+  - button "Open Next.js Dev Tools" [ref=f3e179] [cursor=pointer]

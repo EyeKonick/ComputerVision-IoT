@@ -227,6 +227,16 @@
   row-gap: 22px;
 }
 
+/* Boustrophedon flow: every other session's row reads right-to-left
+   instead of left-to-right, purely as a visual reversal — DOM order (and
+   therefore tab/keyboard order) is untouched, only rendered position
+   flips. Paired with the measured SVG connectors in ChainRail, this turns
+   the transition between sessions into a short natural U-turn instead of
+   always looping back across the full rail width. */
+.ht-node-row-reversed {
+  flex-direction: row-reverse;
+}
+
 .ht-link {
   width: 22px;
   height: 2px;

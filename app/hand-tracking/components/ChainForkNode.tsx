@@ -17,12 +17,15 @@ function ForkCurves({ direction, chosen }: { direction: "in" | "out"; chosen: "A
   );
 }
 
+// Renders any two-path fork step (camera source, Python-install check, …)
+// as a pair of branch nodes joined by merge curves. Generic over which
+// fork this is — the caller supplies this step's own persisted choice.
 export function ChainForkNode({
   step,
   flatIndex,
   currentFlatIndex,
   visited,
-  cameraPath,
+  choice,
   locked,
   onChoose,
   onHover,
@@ -34,14 +37,14 @@ export function ChainForkNode({
   flatIndex: number;
   currentFlatIndex: number;
   visited: number[];
-  cameraPath: string | null;
+  choice: "A" | "B" | null;
   locked: boolean;
   onChoose: (letter: "A" | "B", stepId: string, flatIndex: number) => void;
   onHover: (e: React.MouseEvent, text: string) => void;
   onMove: (e: React.MouseEvent) => void;
   onLeave: () => void;
   /** Lets the chain rail measure this block's real left/right edges for
-   * the S-curve connectors joining it to the steps before/after it. */
+   * the connectors joining it to the steps before/after it. */
   rootRef?: (el: HTMLDivElement | null) => void;
 }) {
   if (!step.fork) return null;
@@ -53,11 +56,11 @@ export function ChainForkNode({
 
   return (
     <div className="ht-fork" ref={rootRef}>
-      <ForkCurves direction="in" chosen={locked ? null : (cameraPath as "A" | "B" | null)} />
+      <ForkCurves direction="in" chosen={locked ? null : choice} />
       <div className="ht-fork-branches">
         {branches.map((branch) => {
-          const otherChosen = !locked && !!cameraPath && cameraPath !== branch.letter;
-          const chosen = !locked && cameraPath === branch.letter;
+          const otherChosen = !locked && !!choice && choice !== branch.letter;
+          const chosen = !locked && choice === branch.letter;
           return (
             <div key={branch.letter} className="ht-fork-branch">
               <button
@@ -70,7 +73,7 @@ export function ChainForkNode({
                 }
                 aria-disabled={locked}
                 onMouseEnter={(e) =>
-                  onHover(e, locked ? "🔒 Locked — finish the previous step first" : `Camera setup — Path ${branch.letter}`)
+                  onHover(e, locked ? "🔒 Locked — finish the previous step first" : `${step.title} — Path ${branch.letter}`)
                 }
                 onMouseMove={onMove}
                 onMouseLeave={onLeave}
@@ -89,7 +92,7 @@ export function ChainForkNode({
           );
         })}
       </div>
-      <ForkCurves direction="out" chosen={locked ? null : (cameraPath as "A" | "B" | null)} />
+      <ForkCurves direction="out" chosen={locked ? null : choice} />
     </div>
   );
 }
