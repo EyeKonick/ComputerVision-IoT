@@ -3,7 +3,6 @@ import { allLines } from "../lib";
 
 const helloWebcamCode = `import cv2
 
-
 #Choose only one 
 CAM_SOURCE = 0 # laptop webcam (Path A). 
 CAM_SOURCE = "http://localhost:8080/video" # Lab PC + phone (Path B): 
