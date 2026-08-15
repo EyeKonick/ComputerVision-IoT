@@ -750,9 +750,9 @@ export const handSession3: Session = {
         { term: "tuple(int(c * fade) for c in TRAIL_COLORS[f_idx]) (a generator expression)", explanation: "like a list comprehension, but built one item at a time; wrapped in tuple(...) here to turn it into a fixed group of numbers (the color)." },
       ],
       commonProblems: [
-        "Choppy or overly short trails — TRAIL_LENGTH is the tunable knob; a great \"make it your own\" experiment for students who finish early.",
-        "Trails can look like they \"jump\" if a hand briefly leaves and re-enters frame, since trails[hand_idx] is tracked by slot (first hand found, second hand found), not by a persistent hand identity — a one-line caveat worth mentioning, not something to fix today.",
-        "Forgetting trails must be created once, outside the while loop (right before it starts) — if a student accidentally moves the trail-creation code inside the loop, every trail resets to empty every single frame and nothing ever appears to trail at all.",
+        { error: "Choppy or overly short trails", solution: "TRAIL_LENGTH is the tunable knob; a great \"make it your own\" experiment for students who finish early." },
+        { error: "Trails can look like they \"jump\" if a hand briefly leaves and re-enters frame", solution: "trails[hand_idx] is tracked by slot (first hand found, second hand found), not by a persistent hand identity — a one-line caveat worth mentioning, not something to fix today." },
+        { error: "Forgetting trails must be created once, outside the while loop (right before it starts)", solution: "If a student accidentally moves the trail-creation code inside the loop, every trail resets to empty every single frame and nothing ever appears to trail at all." },
       ],
     },
     {
@@ -774,8 +774,8 @@ export const handSession3: Session = {
         { term: "\\ at the end of a line", explanation: "tells Python \"this statement continues on the next line,\" used purely to keep long lines readable." },
       ],
       commonProblems: [
-        "Finger count reading wrong at extreme angles (hand nearly edge-on to the camera) — the distance-based approach is far more robust than a simple axis comparison, but it isn't perfect; a brief live demo of tilting your hand and watching the count stay accurate (mostly) is a good moment to show why this approach was chosen over the naive one.",
-        "Forgetting math needs importing — a NameError: name 'math' is not defined the first time this runs is a common, easy-to-diagnose mistake if the import gets missed during live coding.",
+        { error: "Finger count reading wrong at extreme angles (hand nearly edge-on to the camera)", solution: "The distance-based approach is far more robust than a simple axis comparison, but it isn't perfect; a brief live demo of tilting your hand and watching the count stay accurate (mostly) is a good moment to show why this approach was chosen over the naive one." },
+        { error: "Forgetting math needs importing", solution: "A NameError: name 'math' is not defined the first time this runs is a common, easy-to-diagnose mistake if the import gets missed during live coding." },
       ],
     },
     {
@@ -796,8 +796,8 @@ export const handSession3: Session = {
         { term: "and (inside an if condition)", explanation: 'checks that both things on either side are true before continuing; here, "there is handedness data at all" and "there\'s an entry for this specific hand."' },
       ],
       commonProblems: [
-        'Confusing "Right"/"Left" with what\'s on-screen — remember the whole frame is mirrored (cv2.flip from Session 1), so MediaPipe\'s "Right hand" is the hand that looks like it\'s on your right in the window, matching how a real mirror would show it — genuinely your right hand, not flipped.',
-        "PINCH_THRESHOLD = 40 is tuned for a webcam roughly arm's length away at 1280px wide; a much closer or farther camera (or a very different resolution, especially on the phone-stream path) may need this number adjusted — worth a quick \"does pinch feel too sensitive or not sensitive enough?\" class check once Step 4 makes it visible.",
+        { error: 'Confusing "Right"/"Left" with what\'s on-screen', solution: 'Remember the whole frame is mirrored (cv2.flip from Session 1), so MediaPipe\'s "Right hand" is the hand that looks like it\'s on your right in the window, matching how a real mirror would show it — genuinely your right hand, not flipped.' },
+        { error: "PINCH_THRESHOLD = 40 may need adjusting for your setup", solution: "It's tuned for a webcam roughly arm's length away at 1280px wide; a much closer or farther camera (or a very different resolution, especially on the phone-stream path) may need this number adjusted — worth a quick \"does pinch feel too sensitive or not sensitive enough?\" class check once Step 4 makes it visible." },
       ],
     },
     {
@@ -824,9 +824,9 @@ export const handSession3: Session = {
         { term: "min(...) / max(...)", explanation: "pick the smaller or larger of two numbers; used here to keep a label from being drawn off-screen." },
       ],
       commonProblems: [
-        "Text drawn on overlay_layer (not frame directly) — same reason as the skeleton and trails: it needs to go through the Session 2 compositing step to actually appear, keeping every visual element funneled through one consistent draw-then-blend pipeline.",
-        "If two hands are close together, their labels can overlap and become hard to read — a fine, honest limitation to mention rather than a bug to chase down today.",
-        "Students may ask why the finger count occasionally flickers by one when fingers are close together (e.g. a mostly-closed fist) — that's the distance-based heuristic being right at its own decision boundary, a good opening to talk about why gesture recognition like this is a heuristic, not a guarantee.",
+        { error: "Text drawn on overlay_layer (not frame directly)", solution: "Same reason as the skeleton and trails: it needs to go through the Session 2 compositing step to actually appear, keeping every visual element funneled through one consistent draw-then-blend pipeline." },
+        { error: "If two hands are close together, their labels can overlap and become hard to read", solution: "A fine, honest limitation to mention rather than a bug to chase down today." },
+        { error: "Students may ask why the finger count occasionally flickers by one when fingers are close together", solution: "That's the distance-based heuristic being right at its own decision boundary (e.g. a mostly-closed fist) — a good opening to talk about why gesture recognition like this is a heuristic, not a guarantee." },
       ],
     },
   ],

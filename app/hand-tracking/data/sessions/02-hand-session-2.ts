@@ -515,8 +515,8 @@ export const handSession2: Session = {
         { term: "landmarker.close()", explanation: "releases the model's resources when you're done with it, the same idea as cap.release() for the camera." },
       ],
       commonProblems: [
-        "Creating the HandLandmarker inside the while True loop instead of once before it — an easy copy-paste mistake that re-loads the model 30+ times a second and makes the whole program crawl. It must be created exactly once, which is why it's placed right after ensure_model() and before the loop.",
-        "Model file missing — if ensure_model() from last session was skipped or the .task file got deleted, HandLandmarker.create_from_options will fail immediately with a file-not-found style error.",
+        { error: "Creating the HandLandmarker inside the while True loop instead of once before it", solution: "An easy copy-paste mistake that re-loads the model 30+ times a second and makes the whole program crawl. It must be created exactly once, which is why it's placed right after ensure_model() and before the loop." },
+        { error: "Model file missing", solution: "If ensure_model() from last session was skipped or the .task file got deleted, HandLandmarker.create_from_options will fail immediately with a file-not-found style error." },
       ],
     },
     {
@@ -535,9 +535,9 @@ export const handSession2: Session = {
         { term: "result", explanation: "the object holding everything the model found (or didn't find) in that frame." },
       ],
       commonProblems: [
-        "Nothing visibly changes on screen after this step — expected, see the note at the top of this session; result is being computed but nothing draws it yet.",
-        "On a stuttery connection (Path B's phone stream over a slow adb reverse link), frame timing can be uneven; if MediaPipe ever complains about timestamps not increasing, that's the symptom to look for.",
-        "Confusing result.hand_landmarks (the actual point positions, used in Step 3) with result.handedness (which hand is \"Left\"/\"Right\", not used until Session 3's gesture readout) — they're two separate lists on the same result object.",
+        { error: "Nothing visibly changes on screen after this step", solution: "Expected — see the note at the top of this session; result is being computed but nothing draws it yet." },
+        { error: "(Phone over USB) On a stuttery connection, frame timing can be uneven", solution: "If MediaPipe ever complains about timestamps not increasing, that's the symptom to look for." },
+        { error: "Confusing result.hand_landmarks with result.handedness", solution: "hand_landmarks is the actual point positions, used in Step 3; handedness is which hand is \"Left\"/\"Right\", not used until Session 3's gesture readout — they're two separate lists on the same result object." },
       ],
     },
     {
@@ -558,9 +558,9 @@ export const handSession2: Session = {
         { term: "cv2.LINE_AA", explanation: "tells OpenCV to smooth (anti-alias) a line's edges instead of drawing it jagged." },
       ],
       commonProblems: [
-        "overlay_layer = np.zeros_like(frame) must be recreated inside the loop, every frame — if a student accidentally moves it outside the loop (created once), old drawings never clear and every past hand position stays on screen, smearing into a mess.",
-        "If a hand is partly outside the frame, MediaPipe can still return estimated coordinates for its off-screen points — these can end up negative or larger than w/h; that's expected, not a crash, and Session 3 doesn't need to guard against it for this activity.",
-        "result.hand_landmarks[:2] — the [:2] slice is a defensive habit even though num_hands=2 already caps detections; worth a one-line mention, not worth dwelling on.",
+        { error: "overlay_layer = np.zeros_like(frame) must be recreated inside the loop, every frame", solution: "If a student accidentally moves it outside the loop (created once), old drawings never clear and every past hand position stays on screen, smearing into a mess." },
+        { error: "If a hand is partly outside the frame, MediaPipe can still return estimated coordinates for its off-screen points", solution: "These can end up negative or larger than w/h; that's expected, not a crash, and Session 3 doesn't need to guard against it for this activity." },
+        { error: "result.hand_landmarks[:2]", solution: "The [:2] slice is a defensive habit even though num_hands=2 already caps detections; worth a one-line mention, not worth dwelling on." },
       ],
     },
     {
@@ -575,8 +575,8 @@ export const handSession2: Session = {
         { term: "cv2.circle(img, center, radius, color, -1, ...)", explanation: "draws a circle; passing -1 for thickness fills it in solid instead of just drawing an outline." },
       ],
       commonProblems: [
-        "Still no visible change on screen yet — Step 5 is where all of this finally shows up; keep reassuring students of this if asked.",
-        "Easy to mix up glow_line's and glow_circle's argument order (color then glow_color in both, consistently) — a quick point-and-compare with the function definitions above the loop clears it up fast.",
+        { error: "Still no visible change on screen yet", solution: "Step 5 is where all of this finally shows up; keep reassuring students of this if asked." },
+        { error: "Easy to mix up glow_line's and glow_circle's argument order", solution: "Both take color then glow_color, consistently — a quick point-and-compare with the function definitions above the loop clears it up fast." },
       ],
     },
     {
@@ -594,9 +594,9 @@ export const handSession2: Session = {
         { term: "cv2.addWeighted(img1, w1, img2, w2, gamma)", explanation: "blends two same-size pictures together, each one weighted by how much it should show through." },
       ],
       commonProblems: [
-        "Forgetting to reassign the result — cv2.addWeighted(...) returns a new image, it doesn't modify frame in place; writing it as a bare expression instead of frame = cv2.addWeighted(...) means nothing visually changes and it's easy to think Step 3/4 \"didn't work.\"",
-        "If the skeleton looks too dim or washed out, the two weights (0.65 and 1.0) are exactly the two numbers to experiment with — a great optional \"make it your own\" moment for students who finish early.",
-        "If nothing is detected (no hand in frame), overlay_layer stays pure black and addWeighted just dims the camera slightly with no glow — that's correct behavior, not a bug, and a good way to demonstrate \"no hand = no skeleton\" live.",
+        { error: "Forgetting to reassign the result", solution: "cv2.addWeighted(...) returns a new image, it doesn't modify frame in place; writing it as a bare expression instead of frame = cv2.addWeighted(...) means nothing visually changes and it's easy to think Step 3/4 \"didn't work.\"" },
+        { error: "If the skeleton looks too dim or washed out", solution: "The two weights (0.65 and 1.0) are exactly the two numbers to experiment with — a great optional \"make it your own\" moment for students who finish early." },
+        { error: "If nothing is detected (no hand in frame)", solution: "overlay_layer stays pure black and addWeighted just dims the camera slightly with no glow — that's correct behavior, not a bug, and a good way to demonstrate \"no hand = no skeleton\" live." },
       ],
     },
   ],

@@ -47,6 +47,15 @@ export interface GlossaryEntry {
   explanation: string;
 }
 
+/** One entry in a step's "Common problems" accordion. `error` is the
+ * symptom/situation line shown collapsed; `solution` is the cause/fix
+ * text revealed on click. Split from what was previously a single
+ * "symptom — explanation" sentence per entry (see ticket 11). */
+export interface CommonProblem {
+  error: string;
+  solution: string;
+}
+
 /** A two-path fork within a single step — the camera-source setup step
  * (laptop webcam vs. phone over USB) and the Python-install step
  * (already installed vs. needs installing) both use this same shape.
@@ -92,7 +101,7 @@ export interface Step {
   goodToKnow?: string;
   why: string;
   glossary: GlossaryEntry[];
-  commonProblems: string[];
+  commonProblems: CommonProblem[];
   /** Set on any step that forks into two paths merging back before the
    * next step — currently the Setup track's Python-install check and its
    * camera-source step. */

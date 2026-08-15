@@ -1214,8 +1214,8 @@ export const handSession4: Session = {
         { term: "Mutable list vs. tuple", explanation: "a list's contents can be changed after it's created (e.g. orb_pos[0] = ...); a tuple's contents can't. That's exactly why orb_pos is a list here." },
       ],
       commonProblems: [
-        "orb_pos = [w // 2, h // 2] uses a list, not a tuple — deliberately, because Step 2 needs to mutate its contents (orb_pos[0] = ...) while dragging, and Python lists are mutable in a way tuples aren't. If a student \"cleans it up\" into a tuple, dragging will throw a TypeError later.",
-        "With two hands in frame, only one controls the orb at a time (whichever wins the Right-hand-preferred selection) — worth demonstrating live so it doesn't look like a bug when the second hand's pinch does nothing to the orb.",
+        { error: "orb_pos = [w // 2, h // 2] uses a list, not a tuple", solution: "Deliberately, because Step 2 needs to mutate its contents (orb_pos[0] = ...) while dragging, and Python lists are mutable in a way tuples aren't. If a student \"cleans it up\" into a tuple, dragging will throw a TypeError later." },
+        { error: "With two hands in frame, only one controls the orb at a time", solution: "Whichever wins the Right-hand-preferred selection — worth demonstrating live so it doesn't look like a bug when the second hand's pinch does nothing to the orb." },
       ],
     },
     {
@@ -1237,8 +1237,8 @@ export const handSession4: Session = {
         { term: "orb_pos[0], orb_pos[1] = index_tip_px", explanation: "unpacks two values from index_tip_px directly into the two slots of orb_pos, in one line." },
       ],
       commonProblems: [
-        "Orb \"grabbed\" from too far away, or not grabbing when it visually looks close enough — ORB_RADIUS + 30 is the number to tune; a good live experiment once Step 3 makes the orb visible.",
-        "orb_pos[0], orb_pos[1] = index_tip_px — this mutates the existing list in place rather than replacing it with a new one; this matters because orb_pos was captured by the loop shown above, and mutating in place is what makes the change \"stick\" without needing to reassign the whole variable.",
+        { error: "Orb \"grabbed\" from too far away, or not grabbing when it visually looks close enough", solution: "ORB_RADIUS + 30 is the number to tune; a good live experiment once Step 3 makes the orb visible." },
+        { error: "orb_pos[0], orb_pos[1] = index_tip_px", solution: "This mutates the existing list in place rather than replacing it with a new one; this matters because orb_pos was captured by the loop shown above, and mutating in place is what makes the change \"stick\" without needing to reassign the whole variable." },
       ],
     },
     {
@@ -1262,8 +1262,8 @@ export const handSession4: Session = {
         { term: "math.sin(...)", explanation: "a math function that smoothly rises and falls between -1 and 1, forever, like a gentle wave — used here to make the orb pulse." },
       ],
       commonProblems: [
-        "Orb position feels laggy or jittery — this tracks directly to camera FPS (which Step 4 finally makes visible), since the orb only updates once per processed frame; a slow phone-stream connection (Path B) will visibly lag more than a local laptop webcam.",
-        "Students may ask why the orb doesn't pulse while held — that's intentional (see above), not a missing feature; worth stating outright so it isn't reported as a bug.",
+        { error: "Orb position feels laggy or jittery", solution: "This tracks directly to camera FPS (which Step 4 finally makes visible), since the orb only updates once per processed frame; a slow phone-stream connection (Path B) will visibly lag more than a local laptop webcam." },
+        { error: "Students may ask why the orb doesn't pulse while held", solution: "That's intentional (see above), not a missing feature; worth stating outright so it isn't reported as a bug." },
       ],
     },
     {
@@ -1283,8 +1283,8 @@ export const handSession4: Session = {
         { term: 'f"FPS: {fps:0.0f}" (a format spec)', explanation: "an f-string with a format spec (:0.0f), telling it to show the number with zero decimal places." },
       ],
       commonProblems: [
-        "A consistently low FPS (well under ~15) is the single most useful number for diagnosing \"why does this feel laggy\" — especially valuable to point out on Path B (phone-over-USB), where FPS is the honest signal of whether the stream is keeping up.",
-        "Drawing this on overlay_layer by mistake instead of frame would make the title/FPS text dim and tinted by the compositing blend instead of crisp and clear — a good \"notice the difference\" comparison if a student tries it both ways.",
+        { error: "A consistently low FPS (well under ~15)", solution: "The single most useful number for diagnosing \"why does this feel laggy\" — especially valuable to point out on Path B (phone-over-USB), where FPS is the honest signal of whether the stream is keeping up." },
+        { error: "Drawing this on overlay_layer by mistake instead of frame", solution: "Would make the title/FPS text dim and tinted by the compositing blend instead of crisp and clear — a good \"notice the difference\" comparison if a student tries it both ways." },
       ],
     },
     {
@@ -1304,8 +1304,8 @@ export const handSession4: Session = {
       why: "This reassigns orb_pos to a brand-new list rather than mutating it in place — perfectly fine here, since nothing is holding a separate reference to the old list the way the drag logic temporarily does mid-frame. Setting orb_held = False alongside the reset ensures a held orb doesn't immediately snap back to your fingertip on the very next frame.",
       glossary: [],
       commonProblems: [
-        "Pressing r and nothing happening — same focus issue as the q quit key from Session 1: the OpenCV window needs to be the clicked/focused one for cv2.waitKey to see the keypress.",
-        "This is the last piece of hand_ar.py — a good moment to run the finished file start-to-finish once as a class, without stopping to explain, just to see the whole thing work end to end.",
+        { error: "Pressing r and nothing happening", solution: "Same focus issue as the q quit key from Session 1: the OpenCV window needs to be the clicked/focused one for cv2.waitKey to see the keypress." },
+        { error: "This is the last piece of hand_ar.py", solution: "A good moment to run the finished file start-to-finish once as a class, without stopping to explain, just to see the whole thing work end to end." },
       ],
     },
   ],

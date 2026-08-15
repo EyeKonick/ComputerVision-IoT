@@ -4,7 +4,7 @@
 **Maps to syllabus:** Module 1 (abbreviated) — installing Python, pip, and a virtual environment; installing OpenCV; "Hello, Image" first program
 **Session goal (say this out loud at the start):** "By the end of today, everyone has Python, an isolated project environment, and both activities' libraries installed — and we've proven the camera works from Python before we build anything real on top of it."
 
-> **Resolved:** `source code/hand-tracking/requirements.txt` now also pins `mediapipe==0.10.14`, matching `source code/facial-recognition/requirements.txt`. Step 5 keeps the discussion of *why* pinning matters, since it's a useful, real example for students, but there's no longer a live mismatch in the repo.
+> **Resolved:** Both `requirements.txt` files (hand-tracking and facial-recognition) install `mediapipe` unpinned, matching Step 5's `pip install` command below — resolves the most common install failure (no matching distribution for an exact-pinned version on a newer/older Python) at the cost of exact version reproducibility across students' machines.
 
 > **Two-path classroom note:** Lab PCs have no built-in webcam and the room has no WiFi (Ethernet only). Students on lab PCs use their Android phone over USB as the camera instead; students with their own laptop keep using its built-in webcam. Step 6 below covers both — see the full research behind this at `.scratch/cv-iot-student-guide/research/camera-source-lab-computers.md`. Both `hand_ar.py` and `face_tracker.py` now read a single `CAM_SOURCE` config value (an `int` device index, or a URL string) instead of a hardcoded camera index, so the same script works either way.
 
@@ -119,17 +119,16 @@ which python
 
 **Type (terminal):**
 ```bash
-pip install opencv-python mediapipe==0.10.14 numpy
+pip install opencv-python mediapipe numpy
 ```
 
 **New in this step:**
 - `pip install` — downloads and installs a Python package (a piece of reusable code someone else wrote) so your own code can use it.
-- `==0.10.14` (a version pin) — tells pip to install that *exact* version, not just "whatever's newest."
 
-**Why it matters:** `opencv-python` gives us `cv2` — capturing webcam frames, drawing shapes, showing windows. `mediapipe` gives us the pretrained hand-landmark and face-mesh/detection models we'll use in the next sessions. We're installing with an exact version pin (`==0.10.14`) rather than "whatever's newest" — both activities' `requirements.txt` files pin to this same version, so everyone in class ends up running identical mediapipe behavior instead of drifting depending on install date.
+**Why it matters:** `opencv-python` gives us `cv2` — capturing webcam frames, drawing shapes, showing windows. `mediapipe` gives us the pretrained hand-landmark and face-mesh/detection models we'll use in the next sessions. We're installing the latest release of each rather than pinning to an exact version — simpler for a first `pip install`, and it means pip automatically picks whichever mediapipe build actually matches your installed Python, instead of possibly failing to find a wheel for one exact pinned version. The trade-off is that students on different machines may end up on slightly different mediapipe versions; nothing in either activity depends on exact version behavior, so that's an acceptable trade for this course.
 
 **Common problems:**
-- `ERROR: No matching distribution found for mediapipe==0.10.14` — usually means your Python version is too new (or too old, or the wrong CPU architecture) for that mediapipe release. Check `python --version` against mediapipe's supported-version list, or fall back to an unpinned `pip install mediapipe` and note the version that actually installs.
+- `ERROR: No matching distribution found for mediapipe` — means your Python version is too new (or too old, or the wrong CPU architecture) for any published mediapipe build yet. Check `python --version` against mediapipe's supported-version list on PyPI — the fix is usually creating the venv with a supported Python version instead (see Step 1).
 - Install seems to hang — mediapipe's wheel is tens of MB; slow classroom wifi makes this look frozen. Let it run.
 - `pip install` succeeds but `import cv2` still fails in VS Code — interpreter mismatch again (see Step 4); reselect the venv interpreter and restart VS Code's terminal.
 

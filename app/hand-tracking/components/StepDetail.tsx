@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Session, Step } from "../data/types";
 import { CommandBlockView } from "./CommandBlockView";
+import { CommonProblems } from "./CommonProblems";
 import { FileCodePanel } from "./FileCodePanel";
 import { ForkPathChooser } from "./ForkPathChooser";
 
@@ -85,24 +86,18 @@ export function StepDetail({
                   having trouble with {categoryLabel(category)}? troubleshooting →
                 </Link>
               ))}
-            <ul className="ht-problems">
-              {step.commonProblems.map((p, i) => {
-                const match = variant === "A" ? stuckEntries.find((e) => e.bulletIndex === i) : undefined;
-                return (
-                  <li key={i}>
-                    {p}
-                    {match && (
-                      <>
-                        {" "}
-                        <Link href={hrefFor(match.category)} className="htp-stuck-link-a">
-                          → Fix this ↗
-                        </Link>
-                      </>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
+            <CommonProblems
+              problems={step.commonProblems}
+              extraLinks={
+                variant === "A"
+                  ? stuckEntries.map((e) => ({
+                      index: e.bulletIndex,
+                      href: hrefFor(e.category),
+                      label: "→ Fix this ↗",
+                    }))
+                  : undefined
+              }
+            />
             {variant === "A" &&
               stuckCategories.map((category) => (
                 <p key={category} className="htp-stuck-browse-a">

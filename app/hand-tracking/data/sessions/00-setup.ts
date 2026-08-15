@@ -3,7 +3,10 @@ import { allLines } from "../lib";
 
 const helloWebcamCode = `import cv2
 
-CAM_SOURCE = 0  # laptop webcam (Path A). Lab PC + phone (Path B): "http://localhost:8080/video"
+
+#Choose only one 
+CAM_SOURCE = 0 # laptop webcam (Path A). 
+CAM_SOURCE = "http://localhost:8080/video" # Lab PC + phone (Path B): 
 
 if isinstance(CAM_SOURCE, int):
     cap = cv2.VideoCapture(CAM_SOURCE, cv2.CAP_DSHOW)
@@ -36,7 +39,7 @@ export const setupSession: Session = {
   sessionGoal:
     "By the end of today, everyone has Python, an isolated project environment, and both activities' libraries installed — and we've proven the camera works from Python before we build anything real on top of it.",
   instructorNotes: [
-    "`source code/hand-tracking/requirements.txt` now also pins `mediapipe==0.10.14`, matching `source code/facial-recognition/requirements.txt`. Step 6 keeps the discussion of why pinning matters, since it's a useful, real example for students, but there's no longer a live mismatch in the repo.",
+    "Both `requirements.txt` files (hand-tracking and facial-recognition) install mediapipe unpinned, matching Step 6's `pip install` command below — resolves the most common install failure (no matching distribution for an exact-pinned version on a newer/older Python) at the cost of exact version reproducibility across students' machines.",
     "Two-path classroom note: Lab PCs have no built-in webcam and the room has no WiFi (Ethernet only). Students on lab PCs use their Android phone over USB as the camera instead; students with their own laptop keep using its built-in webcam. Step 7 below covers both. Both `hand_ar.py` and `face_tracker.py` read a single `CAM_SOURCE` config value (an int device index, or a URL string) instead of a hardcoded camera index, so the same script works either way.",
     "Step 2 (below) is a genuine conditional branch, not just a hardware fork like the camera step: most students already have Python, so Path A is a no-op \"you're set, continue.\" Path B is only for the rare student who needs to install it from scratch, and merges straight back into Step 3 once done — don't spend class time walking everyone through Path B if only one or two students need it.",
   ],
@@ -57,10 +60,10 @@ export const setupSession: Session = {
         { term: "py", explanation: "an alternative launcher command Windows installs alongside Python; useful when plain python doesn't work." },
       ],
       commonProblems: [
-        "'python' is not recognized... (Windows) — Python isn't on PATH. Reinstall from python.org with \"Add python.exe to PATH\" checked, or use the py launcher instead.",
-        "Windows opens the Microsoft Store instead of running Python — that's the store-app stub shadowing the real python command; same fix as above, or use py.",
-        "macOS/Linux: python not found but python3 works — that's normal on those platforms; use python3 for every command in this session.",
-        "Multiple Pythons installed, unsure which one's active — where python (Windows) / which python (macOS/Linux) shows the exact path being used.",
+        { error: "'python' is not recognized... (Windows)", solution: "Python isn't on PATH. Reinstall from python.org with \"Add python.exe to PATH\" checked, or use the py launcher instead." },
+        { error: "Windows opens the Microsoft Store instead of running Python", solution: "That's the store-app stub shadowing the real python command; same fix as above, or use py." },
+        { error: "macOS/Linux: python not found but python3 works", solution: "That's normal on those platforms; use python3 for every command in this session." },
+        { error: "Multiple Pythons installed, unsure which one's active", solution: "where python (Windows) / which python (macOS/Linux) shows the exact path being used." },
       ],
     },
     {
@@ -121,9 +124,9 @@ export const setupSession: Session = {
         { term: "mkdir / cd", explanation: "terminal commands for making a new folder and moving into it." },
       ],
       commonProblems: [
-        "Forgetting -m (python venv venv instead of python -m venv venv) — venv is a module, not a standalone command.",
-        "On minimal Linux installs, venv module is missing — sudo apt install python3-venv fixes it.",
-        "Creating the project folder inside a OneDrive-synced directory on Windows can cause odd permission/lock errors — prefer a local, non-synced folder (e.g. C:\\dev\\cv-iot-class) if this happens.",
+        { error: "Forgetting -m (python venv venv instead of python -m venv venv)", solution: "venv is a module, not a standalone command." },
+        { error: "On minimal Linux installs, venv module is missing", solution: "sudo apt install python3-venv fixes it." },
+        { error: "Creating the project folder inside a OneDrive-synced directory on Windows", solution: "Can cause odd permission/lock errors — prefer a local, non-synced folder (e.g. C:\\dev\\cv-iot-class) if this happens." },
       ],
     },
     {
@@ -145,9 +148,9 @@ export const setupSession: Session = {
         { term: "source (macOS/Linux)", explanation: "runs a script's commands directly inside your current terminal, rather than starting it as a separate process. That's needed here, since activation only works if it changes this terminal's own settings." },
       ],
       commonProblems: [
-        "PowerShell error: \"cannot be loaded because running scripts is disabled on this system\" — PowerShell's execution policy is blocking the activation script. Fix (run once, in an admin PowerShell): Set-ExecutionPolicy -Scope CurrentUser RemoteSigned.",
-        "Opening a new terminal tab/window later in the semester and forgetting to reactivate — if (venv) isn't showing, packages will silently install globally again.",
-        "VS Code's integrated terminal or \"Run\" button using a different Python interpreter than the one you activated manually — see Step 4.",
+        { error: "PowerShell error: \"cannot be loaded because running scripts is disabled on this system\"", solution: "PowerShell's execution policy is blocking the activation script. Fix (run once, in an admin PowerShell): Set-ExecutionPolicy -Scope CurrentUser RemoteSigned." },
+        { error: "Opening a new terminal tab/window later in the semester and forgetting to reactivate", solution: "If (venv) isn't showing, packages will silently install globally again." },
+        { error: "VS Code's integrated terminal or \"Run\" button uses a different Python interpreter than the one you activated manually", solution: "See Step 4." },
       ],
     },
     {
@@ -162,8 +165,8 @@ export const setupSession: Session = {
         { term: "where (Windows) / which (macOS/Linux)", explanation: "asks the terminal exactly which file it would run when you type a command's name." },
       ],
       commonProblems: [
-        "Path points outside venv/ — activation didn't take; repeat Step 3.",
-        "In VS Code specifically: the terminal can be activated correctly while the \"Run Python File\" button uses a different, VS Code–selected interpreter. Use the interpreter picker (bottom-right status bar, or Ctrl+Shift+P → \"Python: Select Interpreter\") and choose the one inside venv/.",
+        { error: "Path points outside venv/", solution: "Activation didn't take; repeat Step 3." },
+        { error: "In VS Code specifically: the terminal can be activated correctly while the \"Run Python File\" button uses a different, VS Code–selected interpreter", solution: "Use the interpreter picker (bottom-right status bar, or Ctrl+Shift+P → \"Python: Select Interpreter\") and choose the one inside venv/." },
       ],
     },
     {
@@ -172,16 +175,15 @@ export const setupSession: Session = {
       title: "Install both activities' dependencies",
       say: "Both activities need OpenCV (camera + image handling) and MediaPipe (the hand/face ML models); the hand-tracking activity also uses NumPy directly for the trail math.",
       file: null,
-      commands: [{ language: "bash", code: "pip install opencv-python mediapipe==0.10.14 numpy" }],
-      why: "opencv-python gives us cv2 — capturing webcam frames, drawing shapes, showing windows. mediapipe gives us the pretrained hand-landmark and face-mesh/detection models we'll use in the next sessions. We're installing with an exact version pin (==0.10.14) rather than \"whatever's newest\" — both activities' requirements.txt files pin to this same version, so everyone in class ends up running identical mediapipe behavior instead of drifting depending on install date.",
+      commands: [{ language: "bash", code: "pip install opencv-python mediapipe numpy" }],
+      why: "opencv-python gives us cv2 — capturing webcam frames, drawing shapes, showing windows. mediapipe gives us the pretrained hand-landmark and face-mesh/detection models we'll use in the next sessions. We're installing the latest release of each rather than pinning to an exact version — simpler for a first pip install, and it means pip automatically picks whichever mediapipe build actually matches your installed Python, instead of possibly failing to find a wheel for one exact pinned version. The trade-off is that students on different machines may end up on slightly different mediapipe versions; nothing in either activity depends on exact version behavior, so that's an acceptable trade for this course.",
       glossary: [
         { term: "pip install", explanation: "downloads and installs a Python package (a piece of reusable code someone else wrote) so your own code can use it." },
-        { term: "==0.10.14 (a version pin)", explanation: "tells pip to install that exact version, not just \"whatever's newest.\"" },
       ],
       commonProblems: [
-        "ERROR: No matching distribution found for mediapipe==0.10.14 — usually means your Python version is too new (or too old, or the wrong CPU architecture) for that mediapipe release. Check python --version against mediapipe's supported-version list, or fall back to an unpinned pip install mediapipe and note the version that actually installs.",
-        "Install seems to hang — mediapipe's wheel is tens of MB; slow classroom wifi makes this look frozen. Let it run.",
-        "pip install succeeds but import cv2 still fails in VS Code — interpreter mismatch again (see Step 4); reselect the venv interpreter and restart VS Code's terminal.",
+        { error: "ERROR: No matching distribution found for mediapipe", solution: "Means your Python version is too new (or too old, or the wrong CPU architecture) for any published mediapipe build yet. Check python --version against mediapipe's supported-version list on PyPI — the fix is usually creating the venv with a supported Python version instead (see Step 1)." },
+        { error: "Install seems to hang", solution: "mediapipe's wheel is tens of MB; slow classroom wifi makes this look frozen. Let it run." },
+        { error: "pip install succeeds but import cv2 still fails in VS Code", solution: "Interpreter mismatch again (see Step 4); reselect the venv interpreter and restart VS Code's terminal." },
       ],
     },
     {
@@ -199,11 +201,11 @@ export const setupSession: Session = {
         { term: "localhost", explanation: "a special address meaning \"this same computer.\" It's used here because the phone's video stream gets tunneled through USB to look like it's coming from the PC itself." },
       ],
       commonProblems: [
-        "Phone not detected by adb at all — install the OEM USB driver for your phone brand (Samsung, Pixel, etc.); needed once per phone model.",
-        "adb reverse \"command not found\" — Android Platform Tools isn't installed/on PATH on this PC; the instructor installs this once per lab machine ahead of time, not per student.",
-        "Stream drops mid-class — the phone's screen locked or IP Webcam got backgrounded; re-open the app and tap Start server again, and double-check \"Keep screen on.\"",
-        "Different PC than last time — the \"Allow USB debugging?\" prompt reappears, since authorization is per phone-PC pairing, not global to the phone. Tap Allow again.",
-        "Documented fallback if IP Webcam / adb reverse won't cooperate on a given phone: try DroidCam (USB mode, free, official Windows client, bundles its own adb) — install the Windows client, connect via USB in the client, then use its assigned device index the same way as Path A.",
+        { error: "(Phone over USB) Phone not detected by adb at all", solution: "Install the OEM USB driver for your phone brand (Samsung, Pixel, etc.); needed once per phone model." },
+        { error: "(Phone over USB) adb reverse \"command not found\"", solution: "Android Platform Tools isn't installed/on PATH on this PC; the instructor installs this once per lab machine ahead of time, not per student." },
+        { error: "(Phone over USB) Stream drops mid-class", solution: "The phone's screen locked or IP Webcam got backgrounded; re-open the app and tap Start server again, and double-check \"Keep screen on.\"" },
+        { error: "(Phone over USB) Different PC than last time", solution: "The \"Allow USB debugging?\" prompt reappears, since authorization is per phone-PC pairing, not global to the phone. Tap Allow again." },
+        { error: "(Phone over USB) IP Webcam / adb reverse won't cooperate on a given phone", solution: "Documented fallback: try DroidCam (USB mode, free, official Windows client, bundles its own adb) — install the Windows client, connect via USB in the client, then use its assigned device index the same way as Path A." },
       ],
       fork: {
         prompt: "Which camera source are you using today?",
@@ -258,16 +260,16 @@ export const setupSession: Session = {
         { term: "raise RuntimeError(...)", explanation: "stops the program immediately and shows an error message explaining what went wrong." },
       ],
       commonProblems: [
-        "AttributeError: module 'cv2' has no attribute 'cap_DSHOW' (or similar) — OpenCV's constants and camelCase function names are case-sensitive: it's cv2.CAP_DSHOW, cv2.waitKey, cv2.destroyAllWindows — not cv2.cap_DSHOW, cv2.waitkey, cv2.destroyAllwindows. This is the single most common typo in this whole script; if you see AttributeError, re-check casing against the code above character by character before anything else.",
-        "Script shows one picture and then the window seems frozen — this happens when cap.read() is called once outside any loop, then the camera is released immediately after. There's no code pulling new frames, so nothing more will ever appear; the fix is the whole while True: loop above, with cv2.waitKey(1) (not waitKey(0), which blocks forever waiting for a keypress instead of looping).",
-        "Loop exits instantly, window never even appears, camera \"won't open\" — this is almost always an inverted condition, e.g. if ok: break instead of if not ok: break. if ok: break exits the very first time a frame is read successfully — before cv2.imshow() ever runs — so it looks like the camera failed when it actually worked perfectly for one frame you never saw. The loop should only break when a read fails.",
-        "Live feed looks mirrored/reversed compared to what you'd expect — this is normal for a raw, unflipped webcam feed; movement looks reversed compared to a mirror. cv2.flip(frame, 1) before imshow fixes it by flipping horizontally, matching the \"selfie camera\" view everyone expects.",
-        "(Path A) Window shows a black frame, or the wrong camera — laptops with an IR camera (for Windows Hello face login) often register that as index 0. Try CAM_SOURCE = 1 instead.",
-        "(Path A) macOS: a permission dialog (\"Terminal would like to access the camera\") can appear behind other windows, making the script look frozen — check for it if nothing happens.",
-        "(Path B) Could not open camera with a URL — confirm adb reverse tcp:8080 tcp:8080 is still active (it resets if the phone was unplugged/replugged) and that IP Webcam's server is running on the phone.",
-        "Either path: Could not open camera — another app (Zoom, Teams, browser tab) already has the camera open; close it and retry.",
-        "Pressing q and nothing happening — the OpenCV window needs to be the focused/clicked window for cv2.waitKey to see the keypress; clicking the terminal instead of the video window is the most common cause.",
-        "Editor-only, not a real bug: VS Code/Pylance shows \"Import 'cv2' could not be resolved\" but the script runs fine from the terminal — VS Code has a different Python interpreter selected than the one with opencv-python installed (Step 4 covers checking this). Fix via Ctrl+Shift+P → \"Python: Select Interpreter\", matching the path printed by python -c \"import sys; print(sys.executable)\".",
+        { error: "AttributeError: module 'cv2' has no attribute 'cap_DSHOW' (or similar)", solution: "OpenCV's constants and camelCase function names are case-sensitive: it's cv2.CAP_DSHOW, cv2.waitKey, cv2.destroyAllWindows — not cv2.cap_DSHOW, cv2.waitkey, cv2.destroyAllwindows. This is the single most common typo in this whole script; if you see AttributeError, re-check casing against the code above character by character before anything else." },
+        { error: "Script shows one picture and then the window seems frozen", solution: "This happens when cap.read() is called once outside any loop, then the camera is released immediately after. There's no code pulling new frames, so nothing more will ever appear; the fix is the whole while True: loop above, with cv2.waitKey(1) (not waitKey(0), which blocks forever waiting for a keypress instead of looping)." },
+        { error: "Loop exits instantly, window never even appears, camera \"won't open\"", solution: "This is almost always an inverted condition, e.g. if ok: break instead of if not ok: break. if ok: break exits the very first time a frame is read successfully — before cv2.imshow() ever runs — so it looks like the camera failed when it actually worked perfectly for one frame you never saw. The loop should only break when a read fails." },
+        { error: "Live feed looks mirrored/reversed compared to what you'd expect", solution: "This is normal for a raw, unflipped webcam feed; movement looks reversed compared to a mirror. cv2.flip(frame, 1) before imshow fixes it by flipping horizontally, matching the \"selfie camera\" view everyone expects." },
+        { error: "(Laptop webcam) Window shows a black frame, or the wrong camera", solution: "Laptops with an IR camera (for Windows Hello face login) often register that as index 0. Try CAM_SOURCE = 1 instead." },
+        { error: "(Laptop webcam, macOS) Script looks frozen right after you run it", solution: "A \"Terminal would like to access the camera\" permission dialog can appear behind other windows — check for it if nothing happens." },
+        { error: "(Phone over USB) Could not open camera with a URL", solution: "Confirm adb reverse tcp:8080 tcp:8080 is still active (it resets if the phone was unplugged/replugged) and that IP Webcam's server is running on the phone." },
+        { error: "(Either path) Could not open camera", solution: "Another app (Zoom, Teams, browser tab) already has the camera open; close it and retry." },
+        { error: "Pressing q and nothing happening", solution: "The OpenCV window needs to be the focused/clicked window for cv2.waitKey to see the keypress; clicking the terminal instead of the video window is the most common cause." },
+        { error: "Editor-only, not a real bug: VS Code/Pylance shows \"Import 'cv2' could not be resolved\"", solution: "The script runs fine from the terminal — VS Code has a different Python interpreter selected than the one with opencv-python installed (Step 4 covers checking this). Fix via Ctrl+Shift+P → \"Python: Select Interpreter\", matching the path printed by python -c \"import sys; print(sys.executable)\"." },
       ],
     },
   ],

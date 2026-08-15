@@ -754,28 +754,61 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-}
-
-.ht-problems li {
-  font-size: 14.5px;
-  line-height: 1.6;
-  color: var(--ink-secondary);
-  padding-left: 20px;
-  position: relative;
+  gap: 6px;
   max-width: 46ch;
 }
 
-.ht-problems li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 8px;
-  width: 6px;
-  height: 6px;
-  background: var(--signal-magenta);
-  border-radius: 1px;
-  transform: rotate(45deg);
+.ht-problem {
+  border: 1px solid var(--line-hair);
+  border-radius: 4px;
+}
+
+.ht-problem-toggle {
+  appearance: none;
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--ink-primary);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: left;
+  padding: 10px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.ht-problem-toggle:hover {
+  color: var(--signal-magenta);
+}
+
+.ht-problem-toggle .ht-chevron {
+  display: inline-block;
+  flex-shrink: 0;
+  margin-top: 1px;
+  transition: transform 0.15s ease;
+  color: var(--signal-magenta);
+}
+
+.ht-problem-toggle[aria-expanded="true"] .ht-chevron {
+  transform: rotate(90deg);
+}
+
+.ht-problem-error {
+  flex: 1;
+}
+
+.ht-problem-solution {
+  padding: 0 12px 12px 34px;
+}
+
+.ht-problem-solution p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink-secondary);
 }
 
 .ht-detail-code-side {

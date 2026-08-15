@@ -196,8 +196,8 @@ export const handSession1: Session = {
         { term: "__file__", explanation: "a special variable that always holds the path to the current script itself." },
       ],
       commonProblems: [
-        "Running the script from a different folder than expected and being surprised the model later downloads somewhere unexpected — os.path.dirname(os.path.abspath(__file__)) is exactly what prevents this; point it out explicitly.",
-        "Copy-pasting CAM_SOURCE as a plain number when it should be a quoted URL string (Path B) — Python will happily accept CAM_SOURCE = http://localhost:8080/video as a syntax error; the quotes matter.",
+        { error: "Running the script from a different folder than expected", solution: "Being surprised the model later downloads somewhere unexpected — os.path.dirname(os.path.abspath(__file__)) is exactly what prevents this; point it out explicitly." },
+        { error: "(Phone over USB) Copy-pasting CAM_SOURCE as a plain number when it should be a quoted URL string", solution: "Python will happily accept CAM_SOURCE = http://localhost:8080/video as a syntax error; the quotes matter." },
       ],
     },
     {
@@ -216,9 +216,9 @@ export const handSession1: Session = {
         { term: "urllib.request.urlretrieve(url, path)", explanation: "downloads whatever's at that web address and saves it to that file path." },
       ],
       commonProblems: [
-        "No internet on first run — the download will fail with a network error; the model needs internet at least once, after which it works fully offline.",
-        "School network firewall blocking storage.googleapis.com — if the download hangs or errors, this is the first thing to check with IT.",
-        "An interrupted download can leave a corrupted, partial hand_landmarker.task file that then makes os.path.exists return True on the next run without actually being valid — if detection fails oddly next session, deleting the .task file and re-running to force a fresh download is the fix.",
+        { error: "No internet on first run", solution: "The download will fail with a network error; the model needs internet at least once, after which it works fully offline." },
+        { error: "School network firewall blocking storage.googleapis.com", solution: "If the download hangs or errors, this is the first thing to check with IT." },
+        { error: "An interrupted download can leave a corrupted, partial hand_landmarker.task file", solution: "os.path.exists still returns True on the next run without the file actually being valid — if detection fails oddly next session, deleting the .task file and re-running to force a fresh download is the fix." },
       ],
     },
     {
@@ -240,10 +240,10 @@ export const handSession1: Session = {
         { term: "if __name__ == \"__main__\":", explanation: "a standard Python pattern meaning \"only run this part when the file is run directly, not when it's imported into another file.\"" },
       ],
       commonProblems: [
-        "Path B: Could not open webcam — almost always means adb reverse tcp:8080 tcp:8080 isn't active anymore (it resets whenever the phone is unplugged/replugged) or IP Webcam's server was stopped on the phone. Re-run the adb reverse command and confirm the app still shows \"Streaming.\"",
-        "Path A: wrong camera opens (e.g. an IR camera instead of the real one) — try CAM_SOURCE = 1.",
-        "Either path: another app (Zoom, Teams, a browser tab) already has the camera open — close it first.",
-        "Forgetting the if __name__ == \"__main__\": guard entirely would still technically run in this file today, but it's the standard pattern that lets a file be imported elsewhere without auto-running — worth mentioning once, not worth dwelling on.",
+        { error: "(Phone over USB) Could not open webcam", solution: "Almost always means adb reverse tcp:8080 tcp:8080 isn't active anymore (it resets whenever the phone is unplugged/replugged) or IP Webcam's server was stopped on the phone. Re-run the adb reverse command and confirm the app still shows \"Streaming.\"" },
+        { error: "(Laptop webcam) Wrong camera opens (e.g. an IR camera instead of the real one)", solution: "Try CAM_SOURCE = 1." },
+        { error: "(Either path) Another app already has the camera open", solution: "Zoom, Teams, a browser tab, etc. — close it first." },
+        { error: "Forgetting the if __name__ == \"__main__\": guard entirely", solution: "Would still technically run in this file today, but it's the standard pattern that lets a file be imported elsewhere without auto-running — worth mentioning once, not worth dwelling on." },
       ],
     },
     {
@@ -262,9 +262,9 @@ export const handSession1: Session = {
         { term: "NumPy array", explanation: "the format OpenCV stores pictures in: a big grid of numbers representing pixel colors." },
       ],
       commonProblems: [
-        "Skipping the if not ok: break check \"because the camera obviously works\" — then being confused later when Path B's phone stream hiccups and the whole thing crashes instead of just ending the loop cleanly.",
-        "Forgetting cv2.flip makes every gesture in later sessions feel backwards — moving your hand right visually moves left on screen.",
-        "The window won't actually appear yet at the end of this step — that's expected, we haven't added cv2.waitKey() yet, which is what actually pumps the window's event loop. Don't run it yet; Step 5 finishes it.",
+        { error: "Skipping the if not ok: break check \"because the camera obviously works\"", solution: "Leads to confusion later when the phone stream (Path B) hiccups and the whole thing crashes instead of just ending the loop cleanly." },
+        { error: "Forgetting cv2.flip", solution: "Makes every gesture in later sessions feel backwards — moving your hand right visually moves left on screen." },
+        { error: "The window won't actually appear yet at the end of this step", solution: "That's expected — we haven't added cv2.waitKey() yet, which is what actually pumps the window's event loop. Don't run it yet; Step 5 finishes it." },
       ],
     },
     {
@@ -286,9 +286,9 @@ export const handSession1: Session = {
         { term: "cv2.destroyAllWindows()", explanation: "closes every window your script opened." },
       ],
       commonProblems: [
-        "Pressing q and nothing happening — the OpenCV window needs to be the focused/clicked window for cv2.waitKey to see the keypress; clicking the terminal instead of the video window is the most common cause.",
-        "Forgetting cap.release() (e.g. by editing out the bottom lines while experimenting) and then getting Could not open webcam on the next run — the fix is simply restarting the Python process, which forces the OS to reclaim the device.",
-        "Confusing this quit handling with a program crash — a clean break out of the loop followed by cleanup is the intended, correct way this program ends every single time.",
+        { error: "Pressing q and nothing happening", solution: "The OpenCV window needs to be the focused/clicked window for cv2.waitKey to see the keypress; clicking the terminal instead of the video window is the most common cause." },
+        { error: "Forgetting cap.release() (e.g. by editing out the bottom lines while experimenting)", solution: "Leads to \"Could not open webcam\" on the next run — the fix is simply restarting the Python process, which forces the OS to reclaim the device." },
+        { error: "Confusing this quit handling with a program crash", solution: "A clean break out of the loop followed by cleanup is the intended, correct way this program ends every single time." },
       ],
     },
   ],

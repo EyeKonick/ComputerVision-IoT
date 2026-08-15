@@ -29,10 +29,10 @@ export const troubleshootingCategories: TroubleshootingCategory[] = [
     scenarios: [
       {
         slug: "mediapipe-wheel-mismatch",
-        symptom: "ERROR: No matching distribution found for mediapipe==0.10.14",
+        symptom: "ERROR: No matching distribution found for mediapipe",
         cause:
-          "mediapipe 0.10.14 only ships install packages for Python 3.9–3.12. On a newer (3.13+) or older (3.8 and below) Python, there's nothing for pip to install — not a network or permissions problem.",
-        fixNote: "Create the venv with a matching Python version instead of the one that's first on PATH:",
+          "mediapipe's published wheels only cover a specific range of Python versions at any given time (recently CPython 3.9–3.12). On a newer or older Python, there's nothing for pip to install — not a network or permissions problem. This is more likely now that the guide installs mediapipe unpinned (whatever's newest), since that range shifts over time.",
+        fixNote: "Create the venv with a Python version from mediapipe's supported range instead of the one that's first on PATH:",
         fixCode: "py -3.11 -m venv venv        # Windows\npython3.11 -m venv venv      # macOS / Linux",
       },
       {
