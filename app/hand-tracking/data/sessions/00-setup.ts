@@ -13,10 +13,15 @@ else:
 if not cap.isOpened():
     raise RuntimeError("Could not open camera. Check CAM_SOURCE / camera permissions.")
 
-ok, frame = cap.read()
-if ok:
+while True:
+    ok, frame = cap.read()
+    if not ok:
+        break
+
+    frame = cv2.flip(frame, 1)
     cv2.imshow("Hello, Camera", frame)
-    cv2.waitKey(0)
+    if cv2.waitKey(1) & 0xFF == ord("q"):
+        break
 
 cap.release()
 cv2.destroyAllWindows()`;
@@ -223,7 +228,7 @@ export const setupSession: Session = {
       id: "setup-7",
       index: 7,
       title: "\"Hello, Camera\": prove your camera source works before writing anything real",
-      say: "Before we touch either real project, we isolate one question: does Python see your camera — whichever path you're on — at all? If this fails weeks from now inside a much bigger file, it's hard to tell a camera problem from a code problem. We rule it out now, with the smallest possible script.",
+      say: "Before we touch either real project, we isolate one question: does Python see your camera — whichever path you're on — at all? If this fails weeks from now inside a much bigger file, it's hard to tell a camera problem from a code problem. We rule it out now, with the smallest possible script — and we build it up in front of you step by step, mistakes included, because the mistakes below are ones most of you will hit today and it's faster to recognize them than to debug them cold.",
       file: {
         filename: "hello_webcam.py",
         code: helloWebcamCode,
@@ -233,24 +238,36 @@ export const setupSession: Session = {
       },
       commands: [],
       runCommand: "python hello_webcam.py",
-      why: "the isinstance(CAM_SOURCE, int) check is the whole trick — a plain number means \"open a local device by index\" (cv2.CAP_DSHOW is the Windows-specific backend for that), while a string means \"open this as a network/URL stream,\" and OpenCV picks its FFmpeg backend automatically. This exact branch is what both hand_ar.py and face_tracker.py use from here on, so this tiny script previews the pattern you'll recognize in every session that follows. cap.read() grabs one frame as a NumPy array; cv2.imshow/cv2.waitKey(0)/cap.release()/cv2.destroyAllWindows() are the same open → show → release pattern both real activities reuse throughout.",
+      runResult:
+        "You should see a mirrored, continuously updating camera window — not one static picture. Click the window to focus it, then press q to quit cleanly.",
+      why: "the isinstance(CAM_SOURCE, int) check is the whole trick — a plain number means \"open a local device by index\" (cv2.CAP_DSHOW is the Windows-specific backend for that), while a string means \"open this as a network/URL stream,\" and OpenCV picks its FFmpeg backend automatically. This exact branch is what both hand_ar.py and face_tracker.py use from here on, so this tiny script previews the pattern you'll recognize in every session that follows. The while True: loop with cap.read() inside it is what makes this a live feed rather than a single photo — every session after this one builds on exactly this read-loop shape, so it's worth getting right here first. cv2.flip(frame, 1) mirrors the image left-right: a raw webcam feed shows you as others see you, which feels backwards on screen — flipping it once here means every later session inherits the correct, natural view for free. cv2.waitKey(1) (not waitKey(0)) is what keeps the loop non-blocking — it waits at most 1 ms for a keypress and then lets the loop come back around for the next frame; waitKey(0) blocks forever until a key is pressed, which is exactly why it can only ever show one frame. cap.release()/cv2.destroyAllWindows() after the loop free the camera and close the window — without cap.release(), the camera can stay \"locked\" by Python even after the window closes, and the next run fails to open it until you restart.",
       glossary: [
         { term: "isinstance(x, int)", explanation: "checks whether a value is a certain type (here: a whole number), so the code can decide which of two paths to take." },
         { term: "cv2.VideoCapture(...)", explanation: "opens a connection to a camera or video stream." },
         { term: "cap.isOpened()", explanation: "checks whether that connection actually worked; gives back True or False." },
-        { term: "cap.read()", explanation: "grabs one picture from the camera right now." },
+        { term: "while True:", explanation: "a loop that repeats forever, until something inside it explicitly stops it." },
+        { term: "cap.read()", explanation: "grabs one picture from the camera right now; called once per loop, it's what turns single snapshots into a live feed." },
+        { term: "break", explanation: "immediately exits the loop it's inside." },
+        { term: "cv2.flip(frame, 1)", explanation: "flips a picture left-to-right, like a mirror." },
         { term: "cv2.imshow(...)", explanation: "opens a window on your screen and shows a picture in it." },
-        { term: "cv2.waitKey(0)", explanation: "pauses the program until you press a key, while keeping the window responsive while it waits." },
+        { term: "cv2.waitKey(1)", explanation: "pauses briefly (here, 1 millisecond) waiting for a keypress, and lets the window redraw while it waits." },
+        { term: "& 0xFF", explanation: "keeps only the lowest 8 bits of a number; used here to make key-code comparisons reliable across different computers." },
+        { term: "ord(\"q\")", explanation: "converts a single character into the number your computer uses to represent it." },
         { term: "cap.release()", explanation: "lets go of the camera, so other programs (or the next run of your own script) can use it." },
         { term: "cv2.destroyAllWindows()", explanation: "closes every window your script opened." },
         { term: "raise RuntimeError(...)", explanation: "stops the program immediately and shows an error message explaining what went wrong." },
       ],
       commonProblems: [
+        "AttributeError: module 'cv2' has no attribute 'cap_DSHOW' (or similar) — OpenCV's constants and camelCase function names are case-sensitive: it's cv2.CAP_DSHOW, cv2.waitKey, cv2.destroyAllWindows — not cv2.cap_DSHOW, cv2.waitkey, cv2.destroyAllwindows. This is the single most common typo in this whole script; if you see AttributeError, re-check casing against the code above character by character before anything else.",
+        "Script shows one picture and then the window seems frozen — this happens when cap.read() is called once outside any loop, then the camera is released immediately after. There's no code pulling new frames, so nothing more will ever appear; the fix is the whole while True: loop above, with cv2.waitKey(1) (not waitKey(0), which blocks forever waiting for a keypress instead of looping).",
+        "Loop exits instantly, window never even appears, camera \"won't open\" — this is almost always an inverted condition, e.g. if ok: break instead of if not ok: break. if ok: break exits the very first time a frame is read successfully — before cv2.imshow() ever runs — so it looks like the camera failed when it actually worked perfectly for one frame you never saw. The loop should only break when a read fails.",
+        "Live feed looks mirrored/reversed compared to what you'd expect — this is normal for a raw, unflipped webcam feed; movement looks reversed compared to a mirror. cv2.flip(frame, 1) before imshow fixes it by flipping horizontally, matching the \"selfie camera\" view everyone expects.",
         "(Path A) Window shows a black frame, or the wrong camera — laptops with an IR camera (for Windows Hello face login) often register that as index 0. Try CAM_SOURCE = 1 instead.",
         "(Path A) macOS: a permission dialog (\"Terminal would like to access the camera\") can appear behind other windows, making the script look frozen — check for it if nothing happens.",
         "(Path B) Could not open camera with a URL — confirm adb reverse tcp:8080 tcp:8080 is still active (it resets if the phone was unplugged/replugged) and that IP Webcam's server is running on the phone.",
         "Either path: Could not open camera — another app (Zoom, Teams, browser tab) already has the camera open; close it and retry.",
-        "Window opens but appears unresponsive/frozen — this is expected with cv2.waitKey(0); it's waiting for a keypress on the image window (click the window first, then press any key).",
+        "Pressing q and nothing happening — the OpenCV window needs to be the focused/clicked window for cv2.waitKey to see the keypress; clicking the terminal instead of the video window is the most common cause.",
+        "Editor-only, not a real bug: VS Code/Pylance shows \"Import 'cv2' could not be resolved\" but the script runs fine from the terminal — VS Code has a different Python interpreter selected than the one with opencv-python installed (Step 4 covers checking this). Fix via Ctrl+Shift+P → \"Python: Select Interpreter\", matching the path printed by python -c \"import sys; print(sys.executable)\".",
       ],
     },
   ],
