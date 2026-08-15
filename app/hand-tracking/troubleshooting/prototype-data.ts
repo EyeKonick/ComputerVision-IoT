@@ -92,9 +92,9 @@ export const troubleshootingCategories: TroubleshootingCategory[] = [
         slug: "adb-bind-listener-error",
         symptom: "adb.exe: error: cannot bind listener: 'tcp:8080': Address already in use",
         cause:
-          "A previous adb reverse tunnel from an earlier session is still registered, or another tool (Android Studio's emulator, scrcpy) already holds that port.",
-        fixNote: "Reset adb's server, then re-open the tunnel:",
-        fixCode: "adb kill-server\nadb start-server\nadb reverse tcp:8080 tcp:8080",
+          "This happens specifically with adb reverse: it opens its listener on the phone's port 8080 — but IP Webcam's own server is already bound to that exact port to serve the stream. Two listeners can't share one device port, so adb reverse fails every time IP Webcam is running, by design, not by accident.",
+        fixNote: "Use adb forward instead — its listener opens on the PC's port 8080 (which is free) and simply routes to the phone's already-running server:",
+        fixCode: "adb reverse --remove-all\nadb forward tcp:8080 tcp:8080",
       },
       {
         slug: "adb-more-than-one-device",

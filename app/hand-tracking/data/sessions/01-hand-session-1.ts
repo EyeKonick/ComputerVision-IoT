@@ -240,7 +240,7 @@ export const handSession1: Session = {
         { term: "if __name__ == \"__main__\":", explanation: "a standard Python pattern meaning \"only run this part when the file is run directly, not when it's imported into another file.\"" },
       ],
       commonProblems: [
-        { error: "(Phone over USB) Could not open webcam", solution: "Almost always means adb reverse tcp:8080 tcp:8080 isn't active anymore (it resets whenever the phone is unplugged/replugged) or IP Webcam's server was stopped on the phone. Re-run the adb reverse command and confirm the app still shows \"Streaming.\"" },
+        { error: "(Phone over USB) Could not open webcam", solution: "Almost always means adb forward tcp:8080 tcp:8080 isn't active anymore (it resets whenever the phone is unplugged/replugged) or IP Webcam's server was stopped on the phone. Re-run the adb forward command and confirm the app still shows \"Streaming.\"" },
         { error: "(Laptop webcam) Wrong camera opens (e.g. an IR camera instead of the real one)", solution: "Try CAM_SOURCE = 1." },
         { error: "(Either path) Another app already has the camera open", solution: "Zoom, Teams, a browser tab, etc. — close it first." },
         { error: "Forgetting the if __name__ == \"__main__\": guard entirely", solution: "Would still technically run in this file today, but it's the standard pattern that lets a file be imported elsewhere without auto-running — worth mentioning once, not worth dwelling on." },

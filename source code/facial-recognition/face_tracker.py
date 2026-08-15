@@ -31,7 +31,7 @@ WINDOW_NAME = "AR FACE TRACKER"
 CAM_SOURCE = 0
 # Laptop with a built-in webcam: leave as the device index above (0).
 # Lab PC with no webcam: set to your phone's IP Webcam stream tunneled over
-# USB via `adb reverse tcp:8080 tcp:8080`, e.g.:
+# USB via `adb forward tcp:8080 tcp:8080`, e.g.:
 #   CAM_SOURCE = "http://localhost:8080/video"
 
 THEMES = [

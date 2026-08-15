@@ -143,37 +143,46 @@ pip install opencv-python mediapipe numpy
 **Path B — Lab PC + Android phone over USB (no WiFi needed):**
 
 *One-time, first day only:*
-1. On your phone: Settings → About phone → tap "Build number" 7 times to unlock Developer Options.
-2. Settings → Developer Options → enable **USB debugging**.
+1. Confirm `adb` is installed on this PC — open a terminal and run `adb version`. If it's not found, install Android Platform Tools (the instructor typically does this once per lab machine ahead of time — `winget install --id Google.PlatformTools -e` on Windows).
+2. On your phone: Settings → About phone → tap "Build number" 7 times to unlock Developer Options.
 3. Install the **IP Webcam** app (by Pavel Khlebovich) from the Play Store.
 
 *Every session:*
-1. Plug your phone into the lab PC with a USB cable. On the phone, tap **Allow** on the "Allow USB debugging?" prompt — check **"Always allow from this computer"** the first time so it doesn't ask again on this PC.
-2. Open IP Webcam → scroll down → tap **Start server**. In the app's video preferences, make sure **"Keep screen on"** is enabled so the stream doesn't drop if the phone would otherwise auto-lock.
-3. On the PC, open a terminal and run:
+1. Plug your phone into the lab PC with a known-good **data** cable — not one bundled with a charger or power bank; some of those carry power only, no data.
+2. Only now, with the cable already connected, go to Settings → Developer Options and turn on **USB debugging**. On some phones the toggle doesn't reliably stick if it's enabled before the cable is plugged in. Then unplug and replug the cable once, so the phone re-announces itself to Windows with debugging switched on.
+3. Watch the phone screen for a dialog with a security-key fingerprint and an **"Always allow from this computer"** checkbox — check the box and tap **Allow**. This is a *different* popup than the Charging/File Transfer notification you've probably already seen; it only appears once adb has actually made contact with the phone.
+4. On the PC, confirm the phone shows up, authorized:
    ```bash
-   adb reverse tcp:8080 tcp:8080
+   adb devices
    ```
-   This tunnels the phone's local HTTP stream through the USB cable to `localhost:8080` on the PC — no WiFi or LAN involved at all.
-4. In the script you run today (and in both real activities from here on), set:
+   You should see your device listed as `device` — not blank, and not `unauthorized`. If it's not there yet, run `adb kill-server` then `adb start-server` and check again.
+5. Tunnel the phone's stream to the PC:
+   ```bash
+   adb forward tcp:8080 tcp:8080
+   ```
+6. Open IP Webcam → scroll down → tap **Start server**. In the app's video preferences, enable **"Keep screen on"** — and, in the phone's own Developer Options, **"Stay awake while charging"** — so the stream doesn't drop if the screen would otherwise lock.
+7. Sanity check in a browser on the PC before touching any code: visit `http://localhost:8080/video` and confirm you see the live stream.
+8. In the script you run today (and in both real activities from here on), set:
    ```python
    CAM_SOURCE = "http://localhost:8080/video"
    ```
 
 **New in this step:**
 - **adb** (Android Debug Bridge) — Google's official tool that lets a computer talk to an Android phone over a USB cable.
-- `adb reverse` — a specific adb command that makes something running on the phone reachable from the computer, through that same USB cable.
+- `adb forward` — a specific adb command that opens a listening port *on the computer* and routes it to a server already running on the phone, through that same USB cable.
 - **USB debugging** — an Android setting that allows tools like adb to actually communicate with the phone; it's off by default for security, which is why it needs turning on.
 - **localhost** — a special address meaning "this same computer." It's used here because the phone's video stream gets tunneled through USB to look like it's coming from the PC itself.
 
-**Why it matters:** `adb reverse` is official Android developer tooling — it's the *reverse* direction of port forwarding (device → host instead of host → device), so a server the phone is already running on itself becomes reachable on the PC. This avoids installing a third-party virtual-camera driver on every lab PC — school antivirus/locked-down images are far more likely to block or quarantine those than a plain, Google-signed `adb.exe`. Both real activities read whichever source you set through one shared `CAM_SOURCE` value, so nothing else in the code changes between Path A and Path B.
+**Why it matters:** `adb forward` and `adb reverse` both tunnel a port over the same USB cable, just in opposite directions — `forward` opens its listening socket on the *computer's* port 8080 and routes it to the phone; `reverse` does the opposite, opening its listener on the *phone's* port 8080. IP Webcam's own server already occupies port 8080 on the phone the moment you tap Start server, so `reverse` fails there every time with "address already in use" — not a fluke, but two things trying to listen on the same phone port. `forward` sidesteps this because its listener lives on the PC side, which is free. This also avoids installing a third-party virtual-camera driver on every lab PC — school antivirus/locked-down images are far more likely to block or quarantine those than a plain, Google-signed `adb.exe`. Both real activities read whichever source you set through one shared `CAM_SOURCE` value, so nothing else in the code changes between Path A and Path B.
 
 **Common problems:**
-- Phone not detected by `adb` at all — install the OEM USB driver for your phone brand (Samsung, Pixel, etc.); needed once per phone model.
-- `adb reverse` "command not found" — Android Platform Tools isn't installed/on PATH on this PC; the instructor installs this once per lab machine ahead of time, not per student.
-- Stream drops mid-class — the phone's screen locked or IP Webcam got backgrounded; re-open the app and tap Start server again, and double-check "Keep screen on."
+- Phone not detected by `adb` at all — plug in first, *then* enable USB debugging in Developer Options, then unplug/replug once; enabling it before the cable is connected doesn't reliably stick on some phones.
+- Only ever see "Transfer photos / File transfer / Charging" on the phone, never a security prompt — that's a different, phone-local popup (the USB *connection mode* picker), unrelated to adb. Keep going; the debugging-authorization dialog is a separate fingerprint prompt that only appears once adb has actually made contact.
+- Nothing shows up in Windows' Device Manager at all, even though the phone charges — try a different cable first (some charging cables carry power only, no data); if that's not it, re-check the plug-in-then-enable-debugging order above.
+- `adb.exe: error: cannot bind listener: 'tcp:8080': Address already in use` — this means IP Webcam's own server already owns port 8080 on the phone; the fix is using `adb forward` (as in this step), not `adb reverse`.
+- Stream drops mid-class — the phone's screen locked or IP Webcam got backgrounded; re-open the app and tap Start server again, and confirm both "Keep screen on" (in IP Webcam) and "Stay awake while charging" (in Developer Options) are enabled.
 - Different PC than last time — the "Allow USB debugging?" prompt reappears, since authorization is per phone-PC pairing, not global to the phone. Tap Allow again.
-- **Documented fallback** if IP Webcam / `adb reverse` won't cooperate on a given phone: try **DroidCam** (USB mode, free, official Windows client, bundles its own `adb`) — install the Windows client, connect via USB in the client, then use its assigned device index the same way as Path A.
+- **Documented fallback** if IP Webcam / `adb` won't cooperate on a given phone: try **DroidCam** (USB mode, free, official Windows client, bundles its own `adb`) — install the Windows client, connect via USB in the client, then use its assigned device index the same way as Path A.
 
 ---
 
@@ -231,7 +240,17 @@ You should see a mirrored, *continuously updating* camera window — not one sta
 - `cv2.destroyAllWindows()` — closes every window your script opened.
 - `raise RuntimeError(...)` — stops the program immediately and shows an error message explaining what went wrong.
 
-**Why it matters:** the `isinstance(CAM_SOURCE, int)` check is the whole trick — a plain number means "open a local device by index" (`cv2.CAP_DSHOW` is the Windows-specific backend for that), while a string means "open this as a network/URL stream," and OpenCV picks its FFmpeg backend automatically. This exact branch is what both `hand_ar.py` and `face_tracker.py` use from here on, so this tiny script previews the pattern you'll recognize in every session that follows. The `while True:` loop with `cap.read()` inside it is what makes this a *live* feed rather than a single photo — every session after this one builds on exactly this read-loop shape, so it's worth getting right here first. `cv2.flip(frame, 1)` mirrors the image left-right: a raw webcam feed shows you as *others* see you, which feels backwards on screen — flipping it once here means every later session inherits the correct, natural view for free. `cv2.waitKey(1)` (not `waitKey(0)`) is what keeps the loop non-blocking — it waits at most 1&nbsp;ms for a keypress and then lets the loop come back around for the next frame; `waitKey(0)` blocks forever until a key is pressed, which is exactly why it can only ever show one frame. `cap.release()`/`cv2.destroyAllWindows()` after the loop free the camera and close the window — without `cap.release()`, the camera can stay "locked" by Python even after the window closes, and the *next* run fails to open it until you restart.
+**Why it matters:**
+
+The `isinstance(CAM_SOURCE, int)` check is the whole trick — a plain number means "open a local device by index" (`cv2.CAP_DSHOW` is the Windows-specific backend for that), while a string means "open this as a network/URL stream," and OpenCV picks its FFmpeg backend automatically. This exact branch is what both `hand_ar.py` and `face_tracker.py` use from here on, so this tiny script previews the pattern you'll recognize in every session that follows.
+
+The `while True:` loop with `cap.read()` inside it is what makes this a *live* feed rather than a single photo — every session after this one builds on exactly this read-loop shape, so it's worth getting right here first.
+
+`cv2.flip(frame, 1)` mirrors the image left-right: a raw webcam feed shows you as *others* see you, which feels backwards on screen — flipping it once here means every later session inherits the correct, natural view for free.
+
+`cv2.waitKey(1)` (not `waitKey(0)`) is what keeps the loop non-blocking — it waits at most 1&nbsp;ms for a keypress and then lets the loop come back around for the next frame; `waitKey(0)` blocks forever until a key is pressed, which is exactly why it can only ever show one frame.
+
+`cap.release()`/`cv2.destroyAllWindows()` after the loop free the camera and close the window — without `cap.release()`, the camera can stay "locked" by Python even after the window closes, and the *next* run fails to open it until you restart.
 
 **Common problems (in the order you're likely to hit them, building this up live):**
 - `AttributeError: module 'cv2' has no attribute 'cap_DSHOW'` (or similar) — OpenCV's constants and camelCase function names are case-sensitive: it's `cv2.CAP_DSHOW`, `cv2.waitKey`, `cv2.destroyAllWindows` — not `cv2.cap_DSHOW`, `cv2.waitkey`, `cv2.destroyAllwindows`. This is the single most common typo in this whole script; if you see `AttributeError`, re-check casing against the code above character by character before anything else.
@@ -240,7 +259,7 @@ You should see a mirrored, *continuously updating* camera window — not one sta
 - Live feed looks mirrored/reversed compared to what you'd expect — this is normal for a raw, unflipped webcam feed; movement looks reversed compared to a mirror. `cv2.flip(frame, 1)` before `imshow` fixes it by flipping horizontally, matching the "selfie camera" view everyone expects.
 - (Path A) Window shows a black frame, or the wrong camera — laptops with an IR camera (for Windows Hello face login) often register *that* as index `0`. Try `CAM_SOURCE = 1` instead.
 - (Path A) macOS: a permission dialog ("Terminal would like to access the camera") can appear *behind* other windows, making the script look frozen — check for it if nothing happens.
-- (Path B) `Could not open camera` with a URL — confirm `adb reverse tcp:8080 tcp:8080` is still active (it resets if the phone was unplugged/replugged) and that IP Webcam's server is running on the phone.
+- (Path B) `Could not open camera` with a URL — confirm `adb forward tcp:8080 tcp:8080` is still active (it resets if the phone was unplugged/replugged) and that IP Webcam's server is running on the phone.
 - Either path: `Could not open camera` — another app (Zoom, Teams, browser tab) already has the camera open; close it and retry.
 - Pressing `q` and nothing happening — the OpenCV window needs to be the *focused/clicked* window for `cv2.waitKey` to see the keypress; clicking the terminal instead of the video window is the most common cause.
 - **Editor-only, not a real bug:** VS Code/Pylance shows "Import 'cv2' could not be resolved" but the script runs fine from the terminal — VS Code has a different Python interpreter selected than the one with `opencv-python` installed (Step 4 covers checking this). Fix via `Ctrl+Shift+P` → "Python: Select Interpreter", matching the path printed by `python -c "import sys; print(sys.executable)"`.
