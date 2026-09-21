@@ -31,6 +31,7 @@ Actual visual/UI design (via Fable) and building the real app happen **after** t
 - [Hand Tracking Session 3](issues/04-hand-session-3-trails-gestures.md) — 4-step drafted content (fingertip trails → `count_fingers()` → pinch + handedness → HUD readout). Orb-interaction bookkeeping (`pinch_active_any`/`index_tip_px`) deferred entirely to Session 4.
 - [Hand Tracking Session 4](issues/05-hand-session-4-orb-wrapup.md) — 5-step drafted content (orb state + hand selection → grab/drag → draw orb → FPS/title HUD → 'r' reset), completing `hand_ar.py`. Includes the required IoT-actuation framing note. **Hand Tracking track fully drafted.**
 - [Face Tracking Session 1](issues/06-face-session-1-webcam-detection.md) — 4-step drafted content (imports/config/camera-open with extra `CAP_DSHOW` retry → capture loop → load `FaceDetection` + run per frame → plain bounding box).
+- [Face Tracking Session 2](issues/07-face-session-2-hud-mesh.md) — 4-step drafted content (corner-bracket reticle → animated scan-line sweep → "FACE LOCK" confidence label → `FaceMesh` overlay chained alongside `FaceDetection`). Content was already fully drafted when this ticket was picked back up; formally resolved once transcribed into real app pages on the sibling build map and every step's cumulative file verified to `py_compile` cleanly.
 
 ## Not yet specified
 

@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ITE 3 — Hand Tracking Guide",
-  description: "Interactive step-by-step guide for the Hand Tracking classroom activity.",
+  title: "ITE 3 — CV/IoT Student Guide",
+  description: "Interactive step-by-step guides for the Hand Tracking and Facial Recognition classroom activities.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

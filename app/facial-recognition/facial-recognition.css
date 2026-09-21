@@ -2,7 +2,7 @@
    (ticket 01: https://claude.ai/code/artifact/0ef32d70-0ff0-4bf9-a42c-4d19748a630d).
    Design tokens and component styles kept as close to the mockup as possible. */
 
-.ht-scope {
+.fr-scope {
   --bg-void: #0a0d12;
   --bg-panel: #12171f;
   --bg-panel-raised: #171d27;
@@ -27,22 +27,22 @@
   min-height: 100dvh;
 }
 
-.ht-scope * {
+.fr-scope * {
   box-sizing: border-box;
 }
 
-.ht-scope a {
+.fr-scope a {
   color: inherit;
 }
 
-.ht-wrap {
+.fr-wrap {
   max-width: 1180px;
   margin: 0 auto;
   padding: 0 28px 120px;
 }
 
 /* ---------- background texture: faint landmark field ---------- */
-.ht-void-field {
+.fr-void-field {
   position: fixed;
   inset: 0;
   z-index: 0;
@@ -53,14 +53,14 @@
 }
 
 /* ---------- hero (first step only) ---------- */
-.ht-hero {
+.fr-hero {
   position: relative;
   z-index: 1;
   padding: 88px 0 64px;
   border-bottom: 1px solid var(--line-hair);
 }
 
-.ht-hero-eyebrow {
+.fr-hero-eyebrow {
   font-family: var(--mono);
   font-size: 12.5px;
   letter-spacing: 0.14em;
@@ -72,7 +72,7 @@
   margin-bottom: 22px;
 }
 
-.ht-dot {
+.fr-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
@@ -81,7 +81,7 @@
   flex-shrink: 0;
 }
 
-.ht-hero h1 {
+.fr-hero h1 {
   font-family: var(--sans);
   font-weight: 700;
   font-size: clamp(34px, 5vw, 52px);
@@ -92,29 +92,29 @@
   max-width: 16ch;
 }
 
-.ht-hero h1 em {
+.fr-hero h1 em {
   font-style: normal;
   color: var(--signal-magenta);
 }
 
-.ht-hero p {
+.fr-hero p {
   font-size: 17px;
   color: var(--ink-secondary);
   max-width: 56ch;
   margin: 0 0 32px;
 }
 
-.ht-hero-stats {
+.fr-hero-stats {
   display: flex;
   gap: 36px;
   flex-wrap: wrap;
 }
 
-.ht-stat {
+.fr-stat {
   font-family: var(--mono);
 }
 
-.ht-stat .ht-n {
+.fr-stat .fr-n {
   font-size: 26px;
   font-weight: 600;
   color: var(--ink-primary);
@@ -122,7 +122,7 @@
   display: block;
 }
 
-.ht-stat .ht-l {
+.fr-stat .fr-l {
   font-size: 11.5px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -130,13 +130,13 @@
 }
 
 /* ---------- section headers ---------- */
-.ht-section {
+.fr-section {
   position: relative;
   z-index: 1;
   padding: 64px 0 0;
 }
 
-.ht-section-head {
+.fr-section-head {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -145,14 +145,14 @@
   flex-wrap: wrap;
 }
 
-.ht-section-head h2 {
+.fr-section-head h2 {
   font-size: 22px;
   font-weight: 700;
   margin: 0;
   letter-spacing: -0.01em;
 }
 
-.ht-section-head .ht-tag {
+.fr-section-head .fr-tag {
   font-family: var(--mono);
   font-size: 11.5px;
   letter-spacing: 0.08em;
@@ -160,7 +160,7 @@
   color: var(--ink-muted);
 }
 
-.ht-section-note {
+.fr-section-note {
   color: var(--ink-secondary);
   font-size: 15.5px;
   line-height: 1.6;
@@ -169,7 +169,7 @@
 }
 
 /* ---------- node chain (signature element) ---------- */
-.ht-chain {
+.fr-chain {
   display: flex;
   flex-direction: column;
   gap: 28px;
@@ -180,9 +180,9 @@
    position and the next step's, drawn whenever the row wraps (mid-session,
    like the camera fork's merge, or between sessions) so the chain reads as
    one unbroken string start-to-finish instead of disconnected fragments.
-   On the same line, the plain .ht-link bar already connects them and no
+   On the same line, the plain .fr-link bar already connects them and no
    curve is drawn. */
-.ht-chain-connectors {
+.fr-chain-connectors {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -192,7 +192,7 @@
   z-index: -1;
 }
 
-.ht-chain-connector-path {
+.fr-chain-connector-path {
   fill: none;
   stroke: var(--line-hair-bright);
   stroke-width: 2;
@@ -200,11 +200,11 @@
   opacity: 0.85;
 }
 
-.ht-chain-connector-path.ht-lit {
+.fr-chain-connector-path.fr-lit {
   stroke: var(--signal-magenta-dim);
 }
 
-.ht-track-label {
+.fr-track-label {
   font-family: var(--mono);
   font-size: 10.5px;
   letter-spacing: 0.1em;
@@ -216,11 +216,11 @@
   gap: 10px;
 }
 
-.ht-track-label .ht-idx {
+.fr-track-label .fr-idx {
   color: var(--ink-muted);
 }
 
-.ht-node-row {
+.fr-node-row {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -234,11 +234,11 @@
    flips. Paired with the measured SVG connectors in ChainRail, this turns
    the transition between sessions into a short natural U-turn instead of
    always looping back across the full rail width. */
-.ht-node-row-reversed {
+.fr-node-row-reversed {
   flex-direction: row-reverse;
 }
 
-.ht-link {
+.fr-link {
   width: 22px;
   height: 2px;
   background: var(--line-hair-bright);
@@ -246,23 +246,23 @@
   position: relative;
 }
 
-.ht-link.ht-lit {
+.fr-link.fr-lit {
   background: var(--signal-magenta-dim);
 }
 
 /* ---------- fork: camera setup splits into two connected paths, then flows back into one ---------- */
-.ht-fork {
+.fr-fork {
   display: flex;
   align-items: center;
   flex-shrink: 0;
 }
 
-.ht-fork-curves {
+.fr-fork-curves {
   display: block;
   flex-shrink: 0;
 }
 
-.ht-fork-curve {
+.fr-fork-curve {
   fill: none;
   stroke: var(--line-hair-bright);
   stroke-width: 2;
@@ -270,27 +270,27 @@
   transition: stroke 0.2s ease;
 }
 
-.ht-fork-curve.ht-chosen-a {
+.fr-fork-curve.fr-chosen-a {
   stroke: var(--signal-cyan);
 }
-.ht-fork-curve.ht-chosen-b {
+.fr-fork-curve.fr-chosen-b {
   stroke: var(--signal-amber);
 }
 
-.ht-fork-branches {
+.fr-fork-branches {
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
 
-.ht-fork-branch {
+.fr-fork-branch {
   position: relative;
   height: 52px;
   display: flex;
   align-items: center;
 }
 
-.ht-fork-tag {
+.fr-fork-tag {
   position: absolute;
   left: 7.5px;
   top: 2px;
@@ -304,23 +304,23 @@
   transition: color 0.2s ease;
 }
 
-.ht-fork-tag.ht-below {
+.fr-fork-tag.fr-below {
   top: auto;
   bottom: 2px;
 }
 
-.ht-fork-tag.ht-chosen-a {
+.fr-fork-tag.fr-chosen-a {
   color: var(--signal-cyan);
 }
-.ht-fork-tag.ht-chosen-b {
+.fr-fork-tag.fr-chosen-b {
   color: var(--signal-amber);
 }
 
-.ht-node.ht-unchosen {
+.fr-node.fr-unchosen {
   opacity: 0.35;
 }
 
-.ht-node {
+.fr-node {
   appearance: none;
   border: none;
   background: none;
@@ -337,33 +337,33 @@
   display: inline-block;
 }
 
-.ht-node:hover,
-.ht-node:focus-visible {
+.fr-node:hover,
+.fr-node:focus-visible {
   transform: scale(1.6);
   z-index: 2;
 }
 
-.ht-node:focus-visible {
+.fr-node:focus-visible {
   outline: 2px solid var(--signal-cyan);
   outline-offset: 3px;
 }
 
-.ht-node.ht-done {
+.fr-node.fr-done {
   border-color: var(--signal-green);
   background: color-mix(in srgb, var(--signal-green) 22%, var(--bg-panel));
 }
 
-.ht-node.ht-current {
+.fr-node.fr-current {
   border-color: var(--signal-amber);
   background: var(--signal-amber);
   box-shadow: 0 0 0 4px rgba(255, 193, 60, 0.16), 0 0 14px 2px rgba(255, 193, 60, 0.55);
 }
 
-.ht-node.ht-upcoming {
+.fr-node.fr-upcoming {
   border-color: var(--line-hair-bright);
 }
 
-.ht-node.ht-has-detail::after {
+.fr-node.fr-has-detail::after {
   content: "";
   position: absolute;
   inset: -5px;
@@ -372,31 +372,31 @@
   opacity: 0.55;
 }
 
-.ht-node.ht-locked {
+.fr-node.fr-locked {
   cursor: not-allowed;
   border-style: dashed;
   border-color: var(--ink-muted);
   background: var(--bg-void);
 }
 
-.ht-node.ht-locked:hover,
-.ht-node.ht-locked:focus-visible {
+.fr-node.fr-locked:hover,
+.fr-node.fr-locked:focus-visible {
   transform: none;
   outline: none;
 }
 
-.ht-legend-dot.ht-locked-dot {
+.fr-legend-dot.fr-locked-dot {
   border-style: dashed;
   border-color: var(--ink-muted);
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .ht-node.ht-current {
-    animation: ht-pulse 2.2s ease-in-out infinite;
+  .fr-node.fr-current {
+    animation: fr-pulse 2.2s ease-in-out infinite;
   }
 }
 
-@keyframes ht-pulse {
+@keyframes fr-pulse {
   0%,
   100% {
     box-shadow: 0 0 0 4px rgba(255, 193, 60, 0.16), 0 0 14px 2px rgba(255, 193, 60, 0.55);
@@ -407,7 +407,7 @@
 }
 
 /* tooltip */
-.ht-tooltip {
+.fr-tooltip {
   position: fixed;
   pointer-events: none;
   background: var(--bg-panel-raised);
@@ -425,12 +425,12 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
-.ht-tooltip.ht-show {
+.fr-tooltip.fr-show {
   opacity: 1;
   transform: translateY(0);
 }
 
-.ht-legend {
+.fr-legend {
   display: flex;
   gap: 22px;
   flex-wrap: wrap;
@@ -439,7 +439,7 @@
   border-top: 1px solid var(--line-hair);
 }
 
-.ht-legend-item {
+.fr-legend-item {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -449,26 +449,26 @@
   letter-spacing: 0.02em;
 }
 
-.ht-legend-dot {
+.fr-legend-dot {
   width: 9px;
   height: 9px;
   border-radius: 50%;
   border: 1.5px solid var(--line-hair-bright);
 }
 
-.ht-legend-dot.ht-done {
+.fr-legend-dot.fr-done {
   border-color: var(--signal-green);
   background: color-mix(in srgb, var(--signal-green) 22%, var(--bg-panel));
 }
-.ht-legend-dot.ht-current {
+.fr-legend-dot.fr-current {
   border-color: var(--signal-amber);
   background: var(--signal-amber);
 }
-.ht-legend-dot.ht-has-detail {
+.fr-legend-dot.fr-has-detail {
   border: 1px dashed var(--signal-cyan);
 }
 
-.ht-progress-note {
+.fr-progress-note {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -480,7 +480,7 @@
   flex-wrap: wrap;
 }
 
-.ht-reset-btn {
+.fr-reset-btn {
   appearance: none;
   background: none;
   border: 1px solid var(--line-hair-bright);
@@ -492,13 +492,13 @@
   cursor: pointer;
 }
 
-.ht-reset-btn:hover {
+.fr-reset-btn:hover {
   border-color: var(--signal-magenta);
   color: var(--ink-primary);
 }
 
 /* ---------- page-shell: real two-column layout, chain rail + main content ---------- */
-.ht-page-shell {
+.fr-page-shell {
   display: flex;
   align-items: flex-start;
   gap: 32px;
@@ -507,7 +507,7 @@
   z-index: 1;
 }
 
-.ht-chain-rail {
+.fr-chain-rail {
   position: sticky;
   top: 0;
   flex-shrink: 0;
@@ -522,22 +522,22 @@
   scrollbar-color: var(--line-hair-bright) transparent;
 }
 
-.ht-chain-rail::-webkit-scrollbar {
+.fr-chain-rail::-webkit-scrollbar {
   width: 8px;
 }
-.ht-chain-rail::-webkit-scrollbar-track {
+.fr-chain-rail::-webkit-scrollbar-track {
   background: transparent;
 }
-.ht-chain-rail::-webkit-scrollbar-thumb {
+.fr-chain-rail::-webkit-scrollbar-thumb {
   background: var(--line-hair-bright);
   border-radius: 4px;
   border: 2px solid var(--bg-void);
 }
-.ht-chain-rail::-webkit-scrollbar-thumb:hover {
+.fr-chain-rail::-webkit-scrollbar-thumb:hover {
   background: var(--ink-muted);
 }
 
-.ht-chain-rail-header {
+.fr-chain-rail-header {
   position: sticky;
   top: 0;
   z-index: 2;
@@ -557,7 +557,7 @@
   text-align: left;
 }
 
-.ht-chain-rail-title {
+.fr-chain-rail-title {
   font-family: var(--mono);
   font-size: 11.5px;
   letter-spacing: 0.14em;
@@ -570,7 +570,7 @@
   overflow: hidden;
 }
 
-.ht-rail-toggle-btn {
+.fr-rail-toggle-btn {
   appearance: none;
   background: none;
   border: 1px solid var(--line-hair-bright);
@@ -588,19 +588,19 @@
   justify-content: center;
 }
 
-.ht-rail-toggle-btn:hover {
+.fr-rail-toggle-btn:hover {
   border-color: var(--signal-cyan);
   color: var(--ink-primary);
 }
 
-.ht-chain-rail-body {
+.fr-chain-rail-body {
   padding: 18px 20px 32px;
 }
 
 /* Cross-guide switcher — lets a student jump between the Hand Tracking and
    Facial Recognition tracks without losing their place in either one
    (each track's own progress/localStorage stays independent). */
-.ht-track-switch-link {
+.fr-track-switch-link {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -616,38 +616,38 @@
   transition: border-color 0.15s ease, color 0.15s ease;
 }
 
-.ht-track-switch-link:hover {
+.fr-track-switch-link:hover {
   border-color: var(--signal-cyan);
   color: var(--ink-primary);
 }
 
-.ht-chain-rail-body .ht-section-note {
+.fr-chain-rail-body .fr-section-note {
   font-size: 12.5px;
 }
 
-.ht-chain-rail.ht-collapsed {
+.fr-chain-rail.fr-collapsed {
   width: 56px;
 }
 
-.ht-chain-rail.ht-collapsed .ht-chain-rail-body {
+.fr-chain-rail.fr-collapsed .fr-chain-rail-body {
   display: none;
 }
 
-.ht-chain-rail.ht-collapsed .ht-chain-rail-title span:not(.ht-dot) {
+.fr-chain-rail.fr-collapsed .fr-chain-rail-title span:not(.fr-dot) {
   display: none;
 }
 
-.ht-main-col {
+.fr-main-col {
   flex: 1;
   min-width: 0;
 }
 
 @media (max-width: 1000px) {
-  .ht-page-shell {
+  .fr-page-shell {
     flex-direction: column;
     padding: 0;
   }
-  .ht-chain-rail {
+  .fr-chain-rail {
     position: static;
     width: 100%;
     max-width: none;
@@ -656,7 +656,7 @@
 }
 
 /* ---------- step detail panel ---------- */
-.ht-detail {
+.fr-detail {
   margin-top: 56px;
   border: 1px solid var(--line-hair);
   background: var(--bg-panel);
@@ -666,30 +666,30 @@
 }
 
 @media (max-width: 860px) {
-  .ht-detail {
+  .fr-detail {
     grid-template-columns: 1fr;
   }
 }
 
-.ht-detail-narration {
+.fr-detail-narration {
   padding: 40px 40px 40px 40px;
   border-right: 1px solid var(--line-hair);
   min-width: 0;
 }
 
-.ht-detail-narration.ht-full-width {
+.fr-detail-narration.fr-full-width {
   grid-column: 1 / -1;
   border-right: none;
 }
 
 @media (max-width: 860px) {
-  .ht-detail-narration {
+  .fr-detail-narration {
     border-right: none;
     border-bottom: 1px solid var(--line-hair);
   }
 }
 
-.ht-detail-eyebrow {
+.fr-detail-eyebrow {
   font-family: var(--mono);
   font-size: 11.5px;
   letter-spacing: 0.1em;
@@ -698,7 +698,7 @@
   margin-bottom: 10px;
 }
 
-.ht-detail-title {
+.fr-detail-title {
   font-size: 24px;
   font-weight: 700;
   letter-spacing: -0.01em;
@@ -706,7 +706,7 @@
   text-wrap: balance;
 }
 
-.ht-detail-say {
+.fr-detail-say {
   font-size: 16.5px;
   line-height: 1.65;
   color: var(--ink-secondary);
@@ -715,7 +715,7 @@
   white-space: pre-line;
 }
 
-.ht-detail-block-label {
+.fr-detail-block-label {
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.1em;
@@ -724,7 +724,7 @@
   margin: 0 0 10px;
 }
 
-.ht-good-to-know {
+.fr-good-to-know {
   font-size: 14.5px;
   line-height: 1.55;
   color: var(--signal-amber);
@@ -736,7 +736,7 @@
   padding: 12px 14px;
 }
 
-.ht-glossary {
+.fr-glossary {
   margin: 0 0 32px;
   max-width: 46ch;
   display: flex;
@@ -744,7 +744,7 @@
   gap: 14px;
 }
 
-.ht-glossary dt {
+.fr-glossary dt {
   font-family: var(--mono);
   font-size: 12.5px;
   color: var(--signal-cyan);
@@ -756,14 +756,14 @@
   width: fit-content;
 }
 
-.ht-glossary dd {
+.fr-glossary dd {
   margin: 0;
   font-size: 14.5px;
   color: var(--ink-secondary);
   line-height: 1.6;
 }
 
-.ht-detail-why {
+.fr-detail-why {
   font-size: 15.5px;
   line-height: 1.65;
   color: var(--ink-secondary);
@@ -772,7 +772,7 @@
   white-space: pre-line;
 }
 
-.ht-problems {
+.fr-problems {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -782,12 +782,12 @@
   max-width: 46ch;
 }
 
-.ht-problem {
+.fr-problem {
   border: 1px solid var(--line-hair);
   border-radius: 4px;
 }
 
-.ht-problem-toggle {
+.fr-problem-toggle {
   appearance: none;
   width: 100%;
   background: none;
@@ -804,11 +804,11 @@
   gap: 8px;
 }
 
-.ht-problem-toggle:hover {
+.fr-problem-toggle:hover {
   color: var(--signal-magenta);
 }
 
-.ht-problem-toggle .ht-chevron {
+.fr-problem-toggle .fr-chevron {
   display: inline-block;
   flex-shrink: 0;
   margin-top: 1px;
@@ -816,33 +816,33 @@
   color: var(--signal-magenta);
 }
 
-.ht-problem-toggle[aria-expanded="true"] .ht-chevron {
+.fr-problem-toggle[aria-expanded="true"] .fr-chevron {
   transform: rotate(90deg);
 }
 
-.ht-problem-error {
+.fr-problem-error {
   flex: 1;
 }
 
-.ht-problem-solution {
+.fr-problem-solution {
   padding: 0 12px 12px 34px;
 }
 
-.ht-problem-solution p {
+.fr-problem-solution p {
   margin: 0;
   font-size: 14px;
   line-height: 1.6;
   color: var(--ink-secondary);
 }
 
-.ht-detail-code-side {
+.fr-detail-code-side {
   background: var(--bg-void);
   display: flex;
   flex-direction: column;
   min-width: 0;
 }
 
-.ht-code-header {
+.fr-code-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -854,7 +854,7 @@
   gap: 10px;
 }
 
-.ht-code-header .ht-badge {
+.fr-code-header .fr-badge {
   color: var(--signal-amber);
   background: rgba(255, 193, 60, 0.1);
   border: 1px solid rgba(255, 193, 60, 0.35);
@@ -866,16 +866,16 @@
 
 /* ---------- "type this" snippet: isolated new code, with an approximate
    line-range label and one line of trailing context per group ---------- */
-.ht-snippet-panel {
+.fr-snippet-panel {
   position: relative;
   padding: 22px 24px 8px;
 }
 
-.ht-snippet-group {
+.fr-snippet-group {
   margin-bottom: 4px;
 }
 
-.ht-snippet-linelabel {
+.fr-snippet-linelabel {
   font-family: var(--mono);
   font-size: 10.5px;
   letter-spacing: 0.06em;
@@ -885,7 +885,7 @@
   margin-bottom: 4px;
 }
 
-.ht-snippet-code {
+.fr-snippet-code {
   font-family: var(--mono);
   font-size: 14.5px;
   line-height: 1.7;
@@ -897,30 +897,30 @@
   margin: 0;
 }
 
-.ht-snippet-context {
+.fr-snippet-context {
   font-family: var(--mono);
   font-size: 12.5px;
   color: var(--ink-muted);
   padding: 4px 0 10px;
 }
 
-.ht-snippet-context code {
+.fr-snippet-context code {
   color: var(--ink-secondary);
   background: rgba(255, 255, 255, 0.04);
   padding: 1px 5px;
   border-radius: 2px;
 }
 
-.ht-snippet-context.ht-eof {
+.fr-snippet-context.fr-eof {
   font-style: italic;
 }
 
-.ht-snippet-context-arrow {
+.fr-snippet-context-arrow {
   color: var(--signal-cyan);
   margin-right: 2px;
 }
 
-.ht-snippet-gap {
+.fr-snippet-gap {
   color: var(--ink-muted);
   font-family: var(--mono);
   font-size: 13px;
@@ -928,33 +928,33 @@
   text-align: center;
 }
 
-.ht-snippet-empty {
+.fr-snippet-empty {
   font-family: var(--sans);
   font-size: 13.5px;
   color: var(--ink-muted);
   font-style: italic;
 }
 
-.ht-snippet-label {
+.fr-snippet-label {
   font-family: var(--mono);
   font-size: 11px;
   color: var(--ink-muted);
   margin: 0 0 6px;
 }
 
-.ht-snippet-personalized {
+.fr-snippet-personalized {
   font-family: var(--sans);
   font-size: 12px;
   color: var(--signal-cyan);
   margin: 0 24px 12px;
 }
 
-.ht-snippet-personalized code {
+.fr-snippet-personalized code {
   font-family: var(--mono);
 }
 
 /* ---------- "create a new file" callout ---------- */
-.ht-new-file-note {
+.fr-new-file-note {
   display: flex;
   align-items: flex-start;
   gap: 10px;
@@ -968,22 +968,22 @@
   line-height: 1.5;
 }
 
-.ht-new-file-note code {
+.fr-new-file-note code {
   font-family: var(--mono);
   color: var(--signal-green);
 }
 
-.ht-new-file-icon {
+.fr-new-file-icon {
   flex-shrink: 0;
 }
 
 /* ---------- collapsible full-file reference (line-numbered, for comparison only) ---------- */
-.ht-full-file-panel {
+.fr-full-file-panel {
   border-top: 1px solid var(--line-hair);
   margin-top: 10px;
 }
 
-.ht-full-file-toggle {
+.fr-full-file-toggle {
   appearance: none;
   width: 100%;
   background: none;
@@ -1000,21 +1000,21 @@
   gap: 8px;
 }
 
-.ht-full-file-toggle:hover {
+.fr-full-file-toggle:hover {
   color: var(--ink-primary);
 }
 
-.ht-full-file-toggle .ht-chevron {
+.fr-full-file-toggle .fr-chevron {
   display: inline-block;
   transition: transform 0.15s ease;
   color: var(--ink-muted);
 }
 
-.ht-full-file-toggle[aria-expanded="true"] .ht-chevron {
+.fr-full-file-toggle[aria-expanded="true"] .fr-chevron {
   transform: rotate(90deg);
 }
 
-.ht-full-file-body {
+.fr-full-file-body {
   position: relative;
   padding: 0 24px 20px;
   max-height: 480px;
@@ -1024,22 +1024,22 @@
   scrollbar-color: var(--line-hair-bright) transparent;
 }
 
-.ht-full-file-body::-webkit-scrollbar {
+.fr-full-file-body::-webkit-scrollbar {
   width: 8px;
 }
-.ht-full-file-body::-webkit-scrollbar-thumb {
+.fr-full-file-body::-webkit-scrollbar-thumb {
   background: var(--line-hair-bright);
   border-radius: 4px;
 }
 
-.ht-full-file-note {
+.fr-full-file-note {
   font-family: var(--sans);
   font-size: 12px;
   color: var(--ink-muted);
   margin: 0 0 12px;
 }
 
-.ht-code-lines {
+.fr-code-lines {
   font-family: var(--mono);
   font-size: 13.5px;
   line-height: 1.7;
@@ -1048,11 +1048,11 @@
   min-width: fit-content;
 }
 
-.ht-code-line {
+.fr-code-line {
   display: flex;
 }
 
-.ht-line-no {
+.fr-line-no {
   flex-shrink: 0;
   width: 36px;
   text-align: right;
@@ -1061,7 +1061,7 @@
   font-variant-numeric: tabular-nums;
 }
 
-.ht-line-text {
+.fr-line-text {
   white-space: pre;
   color: var(--ink-secondary);
   flex: 1;
@@ -1069,21 +1069,21 @@
   border-left: 2px solid transparent;
 }
 
-.ht-code-line.ht-new {
+.fr-code-line.fr-new {
   background: rgba(255, 46, 156, 0.08);
 }
 
-.ht-code-line.ht-new .ht-line-no {
+.fr-code-line.fr-new .fr-line-no {
   color: var(--signal-magenta);
   font-weight: 600;
 }
 
-.ht-code-line.ht-new .ht-line-text {
+.fr-code-line.fr-new .fr-line-text {
   color: var(--ink-primary);
   border-left-color: var(--signal-magenta);
 }
 
-.ht-copy-toast {
+.fr-copy-toast {
   position: absolute;
   top: 12px;
   right: 16px;
@@ -1102,13 +1102,13 @@
   z-index: 5;
 }
 
-.ht-copy-toast.ht-show {
+.fr-copy-toast.fr-show {
   opacity: 1;
   transform: translateY(0);
 }
 
 /* ---------- run-it callout ---------- */
-.ht-run-it {
+.fr-run-it {
   margin: 0 24px 20px;
   padding: 14px 16px;
   border: 1px solid var(--line-hair-bright);
@@ -1116,11 +1116,11 @@
   background: rgba(62, 217, 139, 0.06);
 }
 
-.ht-run-it .ht-detail-block-label {
+.fr-run-it .fr-detail-block-label {
   color: var(--signal-green);
 }
 
-.ht-run-it code {
+.fr-run-it code {
   display: block;
   font-family: var(--mono);
   font-size: 14px;
@@ -1128,14 +1128,14 @@
   margin-bottom: 8px;
 }
 
-.ht-run-it p {
+.fr-run-it p {
   margin: 0;
   font-size: 14px;
   line-height: 1.5;
   color: var(--ink-secondary);
 }
 
-.ht-detail-footer {
+.fr-detail-footer {
   padding: 14px 24px;
   border-top: 1px solid var(--line-hair);
   display: flex;
@@ -1148,17 +1148,17 @@
   margin-top: auto;
 }
 
-.ht-detail-footer > span:first-child {
+.fr-detail-footer > span:first-child {
   flex: 1;
   min-width: 0;
 }
 
-.ht-nav-hint {
+.fr-nav-hint {
   display: flex;
   gap: 6px;
 }
 
-.ht-key {
+.fr-key {
   border: 1px solid var(--line-hair-bright);
   border-radius: 3px;
   padding: 1px 6px;
@@ -1166,7 +1166,7 @@
 }
 
 /* ---------- signature callout ---------- */
-.ht-signature-note {
+.fr-signature-note {
   margin-top: 20px;
   display: flex;
   gap: 14px;
@@ -1176,12 +1176,12 @@
   max-width: 62ch;
 }
 
-.ht-signature-note svg {
+.fr-signature-note svg {
   flex-shrink: 0;
   margin-top: 2px;
 }
 
-.ht-footer-meta {
+.fr-footer-meta {
   position: relative;
   z-index: 1;
   margin-top: 90px;
@@ -1197,7 +1197,7 @@
 }
 
 /* ---------- prev/next step navigation ---------- */
-.ht-step-nav {
+.fr-step-nav {
   display: flex;
   justify-content: space-between;
   gap: 16px;
@@ -1205,7 +1205,7 @@
   flex-wrap: wrap;
 }
 
-.ht-step-nav-link {
+.fr-step-nav-link {
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -1218,16 +1218,16 @@
   transition: border-color 0.15s ease;
 }
 
-.ht-step-nav-link:hover {
+.fr-step-nav-link:hover {
   border-color: var(--signal-cyan);
 }
 
-.ht-step-nav-link.ht-next {
+.fr-step-nav-link.fr-next {
   text-align: right;
   margin-left: auto;
 }
 
-.ht-step-nav-eyebrow {
+.fr-step-nav-eyebrow {
   font-family: var(--mono);
   font-size: 10.5px;
   letter-spacing: 0.1em;
@@ -1235,27 +1235,27 @@
   color: var(--ink-muted);
 }
 
-.ht-step-nav-title {
+.fr-step-nav-title {
   font-size: 14px;
   color: var(--ink-primary);
 }
 
 /* ---------- fork step's two-path narrative (within the code-side column) ---------- */
-.ht-fork-detail {
+.fr-fork-detail {
   display: flex;
   flex-direction: column;
 }
 
-.ht-fork-path {
+.fr-fork-path {
   padding: 20px 24px;
   border-bottom: 1px solid var(--line-hair);
 }
 
-.ht-fork-path:last-child {
+.fr-fork-path:last-child {
   border-bottom: none;
 }
 
-.ht-fork-path-label {
+.fr-fork-path-label {
   font-family: var(--mono);
   font-size: 12px;
   letter-spacing: 0.06em;
@@ -1263,14 +1263,14 @@
   margin-bottom: 12px;
 }
 
-.ht-fork-path[data-letter="A"] .ht-fork-path-label {
+.fr-fork-path[data-letter="A"] .fr-fork-path-label {
   color: var(--signal-cyan);
 }
-.ht-fork-path[data-letter="B"] .ht-fork-path-label {
+.fr-fork-path[data-letter="B"] .fr-fork-path-label {
   color: var(--signal-amber);
 }
 
-.ht-fork-path-body {
+.fr-fork-path-body {
   font-size: 14.5px;
   color: var(--ink-secondary);
   white-space: pre-line;
@@ -1278,7 +1278,7 @@
   line-height: 1.65;
 }
 
-.ht-fork-path-header {
+.fr-fork-path-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1286,11 +1286,11 @@
   margin-bottom: 12px;
 }
 
-.ht-fork-path-header .ht-fork-path-label {
+.fr-fork-path-header .fr-fork-path-label {
   margin-bottom: 0;
 }
 
-.ht-fork-switch-btn {
+.fr-fork-switch-btn {
   appearance: none;
   background: none;
   border: 1px solid var(--line-hair-bright);
@@ -1303,13 +1303,13 @@
   white-space: nowrap;
 }
 
-.ht-fork-switch-btn:hover {
+.fr-fork-switch-btn:hover {
   border-color: var(--signal-cyan);
   color: var(--ink-primary);
 }
 
 /* ---------- fork step: choose-a-path prompt (shown until a path is picked) ---------- */
-.ht-fork-choice-prompt {
+.fr-fork-choice-prompt {
   font-size: 14.5px;
   line-height: 1.55;
   color: var(--ink-secondary);
@@ -1317,14 +1317,14 @@
   padding: 20px 24px 4px;
 }
 
-.ht-fork-choice-row {
+.fr-fork-choice-row {
   display: flex;
   flex-direction: column;
   gap: 12px;
   padding: 16px 24px 24px;
 }
 
-.ht-fork-choice-card {
+.fr-fork-choice-card {
   appearance: none;
   text-align: left;
   background: var(--bg-panel);
@@ -1338,17 +1338,17 @@
   transition: border-color 0.15s ease, background 0.15s ease;
 }
 
-.ht-fork-choice-card[data-letter="A"]:hover {
+.fr-fork-choice-card[data-letter="A"]:hover {
   border-color: var(--signal-cyan);
   background: rgba(41, 225, 255, 0.06);
 }
 
-.ht-fork-choice-card[data-letter="B"]:hover {
+.fr-fork-choice-card[data-letter="B"]:hover {
   border-color: var(--signal-amber);
   background: rgba(255, 193, 60, 0.06);
 }
 
-.ht-fork-choice-hint {
+.fr-fork-choice-hint {
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.04em;
@@ -1357,7 +1357,7 @@
 }
 
 /* ---------- session-level framing (instructor notes / wrap-up) ---------- */
-.ht-session-panel {
+.fr-session-panel {
   margin: 32px 0;
   padding: 18px 20px;
   border: 1px solid var(--line-hair);
@@ -1366,11 +1366,11 @@
   border-radius: 4px;
 }
 
-.ht-session-panel.ht-wrapup {
+.fr-session-panel.fr-wrapup {
   border-left-color: var(--signal-green);
 }
 
-.ht-session-panel h3 {
+.fr-session-panel h3 {
   margin: 0 0 10px;
   font-size: 12px;
   font-family: var(--mono);
@@ -1379,18 +1379,18 @@
   color: var(--ink-muted);
 }
 
-.ht-session-panel p {
+.fr-session-panel p {
   margin: 0 0 10px;
   font-size: 15px;
   color: var(--ink-secondary);
   line-height: 1.65;
 }
 
-.ht-session-panel p:last-child {
+.fr-session-panel p:last-child {
   margin-bottom: 0;
 }
 
-.ht-session-panel ul {
+.fr-session-panel ul {
   margin: 0;
   padding-left: 18px;
   display: flex;
@@ -1398,7 +1398,7 @@
   gap: 8px;
 }
 
-.ht-session-panel li {
+.fr-session-panel li {
   font-size: 14.5px;
   color: var(--ink-secondary);
   line-height: 1.6;

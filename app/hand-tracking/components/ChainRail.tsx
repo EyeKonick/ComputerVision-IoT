@@ -323,6 +323,10 @@ export function ChainRail() {
       </button>
 
       <div className="ht-chain-rail-body">
+        <Link href="/facial-recognition" className="ht-track-switch-link">
+          ↔ Switch to Facial Recognition guide
+        </Link>
+
         <p className="ht-section-note">
           Every step is a landmark; every session, a joint. Steps unlock in order — finish one to
           reveal the next.
