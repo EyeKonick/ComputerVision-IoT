@@ -56,9 +56,11 @@ interface ConnectorPath {
 }
 
 // Every other session row reads right-to-left instead of left-to-right —
-// a boustrophedon (serpentine) flow, same convention as Hand Tracking.
+// a boustrophedon (serpentine) flow. Session 1 runs left→right, session 2
+// right→left, and so on. (Hand Tracking offsets this by one because its
+// Setup session wraps across two rows; Face Tracking has no Setup session.)
 function isReversedTrack(ti: number): boolean {
-  return ti > 0 && ti % 2 === 0;
+  return ti % 2 === 1;
 }
 
 function stepDir(stepId: string): 1 | -1 {

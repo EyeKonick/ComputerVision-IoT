@@ -1,0 +1,28 @@
+- generic [active] [ref=f2e1]:
+  - complementary [ref=f2e4]:
+    - button "Collapse the chain" [expanded] [ref=f2e5] [cursor=pointer]:
+      - generic [ref=f2e6]: The chain
+      - generic [aria-hidden] [ref=f2e9]: −
+    - generic [ref=f2e10]:
+      - link "↔ Switch to Hand Tracking guide" [ref=f2e11] [cursor=pointer]:
+        - /url: /hand-tracking
+      - paragraph [ref=f2e12]: Every step is a landmark; every session, a joint. Steps unlock in order — finish one to reveal the next.
+      - generic [ref=f2e14]:
+        - generic [ref=f2e15]:
+          - generic [ref=f2e16]: //
+          - text: 01 — Face Tracking — Session 1 (Webcam & Face Detection)
+        - generic [ref=f2e17]:
+          - link "Imports, config, and opening the camera" [ref=f2e18] [cursor=pointer]:
+            - /url: /facial-recognition/face-s1-1
+          - 'generic "The capture loop: read, mirror, show, quit — locked" [ref=f2e20]'
+          - generic "Load MediaPipe's face detector and run it on every frame — locked" [ref=f2e22]
+          - generic "Draw a plain box around each detected face — locked" [ref=f2e24]
+      - generic [ref=f2e25]:
+        - generic [ref=f2e26]: Completed
+        - generic [ref=f2e28]: Current
+        - generic [ref=f2e30]: Upcoming
+        - generic [ref=f2e32]: Locked
+      - generic [ref=f2e34]:
+        - generic [ref=f2e35]: Progress is saved only in this browser
+        - button "Reset saved progress" [ref=f2e36] [cursor=pointer]
+  - button "Open Next.js Dev Tools" [ref=f2e42] [cursor=pointer]

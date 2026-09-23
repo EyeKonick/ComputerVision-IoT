@@ -1,11 +1,10 @@
 import type { FlatStep, FaceTrackingData } from "./types";
 import { faceSession1 } from "./sessions/01-face-session-1";
 import { faceSession2 } from "./sessions/02-face-session-2";
+import { faceSession3 } from "./sessions/03-face-session-3";
+import { faceSession4 } from "./sessions/04-face-session-4";
 
-// Sessions 3-4 (mood detection, themes/controls) land here as their own
-// tickets resolve on the CV/IoT Student Guide map — see
-// .scratch/cv-iot-student-guide/issues/08-09.
-export const faceTrackingData: FaceTrackingData = [faceSession1, faceSession2];
+export const faceTrackingData: FaceTrackingData = [faceSession1, faceSession2, faceSession3, faceSession4];
 
 export const flatSteps: FlatStep[] = faceTrackingData.flatMap((session) =>
   session.steps.map((step, i) => ({
