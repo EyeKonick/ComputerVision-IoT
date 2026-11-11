@@ -7,8 +7,9 @@ export interface Progress {
   lastFlatIndex: number;
   visited: number[];
   /** Per-fork-step choice ("A" or "B"), keyed by the fork step's own id.
-   * QR has one fork: Session 0's camera-source chooser
-   * (QR_CAMERA_FORK_STEP_ID) — A = laptop webcam, B = phone over USB. */
+   * QR has two forks: Session 0's camera-source chooser
+   * (QR_CAMERA_FORK_STEP_ID — A = laptop webcam, B = phone over USB) and
+   * Session 2's show-your-card chooser (QR_SHOW_CARD_FORK_STEP_ID). */
   forkChoices: Record<string, "A" | "B">;
 }
 
@@ -86,10 +87,19 @@ export function loadCameraChoice(): "A" | "B" | null {
   return loadProgress()?.forkChoices[QR_CAMERA_FORK_STEP_ID] ?? loadSharedCameraPath();
 }
 
-// A fork step's displayed choice — QR's camera fork falls back to the
-// pre-selection above; any other fork uses only its own stored choice.
+// Session 2's "how are you showing your card?" fork (A = laptop webcam,
+// phone shows the card; B = phone is the camera). Its paths line up with
+// the camera choice, so it pre-selects from it.
+export const QR_SHOW_CARD_FORK_STEP_ID = "qr-s2-3";
+
+// A fork step's displayed choice — QR's camera fork falls back to Hand
+// Tracking's stored choice; the show-your-card fork falls back to the
+// camera choice; any other fork uses only its own stored choice.
 export function forkChoiceFor(stepId: string, forkChoices: Record<string, "A" | "B">): "A" | "B" | null {
   if (stepId === QR_CAMERA_FORK_STEP_ID) return forkChoices[stepId] ?? loadSharedCameraPath();
+  if (stepId === QR_SHOW_CARD_FORK_STEP_ID) {
+    return forkChoices[stepId] ?? forkChoices[QR_CAMERA_FORK_STEP_ID] ?? loadSharedCameraPath();
+  }
   return forkChoices[stepId] ?? null;
 }
 

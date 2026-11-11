@@ -24,12 +24,14 @@ A third guide track, **QR Attendance**, built as real pages under `app/qr-attend
 <!-- one line per closed ticket -->
 
 - [Scaffold, switcher & Session 0](issues/01-scaffold-switcher-session-0.md) — `app/qr-attendance/` live with a 6-step Project setup, shared `TrackSwitcher` in all three rails, QR camera fork `qr-s0-5` (pre-selects Hand's choice). CAM_SOURCE personalisation keys on the bare line `CAM_SOURCE = 0`, and `Step.links` is available for cross-track links.
+- [QR Session 1 — Generator](issues/02-qr-session-1-generator.md) — 6 steps ending byte-identical to `qr_generator.py`. The only non-insertion is the temporary `return qr_img` → `return card` swap.
+- [QR Session 2 — Scanner basics](issues/03-qr-session-2-scanner-basics.md) — 4 steps, including the "how to show your card" fork (`qr-s2-3`, pre-selected from the camera choice). Its two stand-ins and the short `draw_qr_outline` were all reconciled later.
+- [QR Session 3 — Attendance logic](issues/04-qr-session-3-attendance-logic.md) — 5 steps: roster import, cooldown, CSV log/load, final-form `handle_scan` replacing both S2 stand-ins, and a no-code three-result test. No stand-ins remain after it.
+- [QR Session 4 — Polished UI & wrap-up](issues/05-qr-session-4-ui-wrapup.md) — 7 pure-insertion steps ending byte-identical to `qr_scanner.py`. Closing note covers attendance-data privacy and consent, Module 8, and the photo-of-a-card limit. **Track complete.**
 
 ## Not yet specified
 
-- Exact number of steps and step boundaries within each session — settled as each session ticket resolves.
-- Wrap-up closing framing note for Session 4 — likely privacy of student attendance data (who sees `attendance.csv`, consent) and how this connects to the syllabus's ID/Card Scanner + Smart Attendance module; exact wording decided while drafting.
-- Which syllabus module(s) each session's `syllabusMapping` names — read from `source-code/ITE 3 - Course Syllabus (SY. 2026 - 2027).docx` while drafting Session 1.
+_Nothing — every patch graduated: step boundaries, the Session 4 framing note and each session's syllabusMapping were all settled while drafting._
 
 ## Out of scope
 

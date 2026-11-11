@@ -5,9 +5,9 @@ import type { TwoPathFork } from "../data/types";
 import { forkChoiceFor, loadProgress, saveProgress, subscribeToProgress } from "../lib/progress";
 import { CommandBlockView } from "./CommandBlockView";
 
-// Mirrors `app/hand-tracking/components/ForkPathChooser.tsx`. QR's one fork
-// is Session 0's camera-source chooser, which shows Hand Tracking's stored
-// camera choice as pre-selected until the student picks here (forkChoiceFor).
+// Mirrors `app/hand-tracking/components/ForkPathChooser.tsx`. QR's forks
+// (Session 0's camera source, Session 2's show-your-card) show a
+// pre-selected path until the student picks here — see forkChoiceFor.
 const readChoice = (stepId: string) => forkChoiceFor(stepId, loadProgress()?.forkChoices ?? {});
 export function ForkPathChooser({
   fork,
