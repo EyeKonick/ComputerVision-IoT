@@ -173,6 +173,9 @@
   flex-direction: column;
   gap: 28px;
   position: relative;
+  /* Own stacking context, so the z-index: -1 connector layer stays above
+     the rail's background (on narrow screens the rail is opaque). */
+  isolation: isolate;
 }
 
 /* S-curve connectors: measured, real bridges between a step's actual
@@ -222,7 +225,8 @@
 .qr-node-row {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
+  /* Rows are split explicitly in ChainRail (splitIntoRows) — never wrap. */
+  flex-wrap: nowrap;
   column-gap: 0;
   row-gap: 22px;
 }
@@ -235,6 +239,12 @@
    always looping back across the full rail width. */
 .qr-node-row-reversed {
   flex-direction: row-reverse;
+}
+
+/* A session split into several rows (see splitIntoRows in ChainRail):
+   space its rows apart like the old wrapped rows were. */
+.qr-node-row + .qr-node-row {
+  margin-top: 26px;
 }
 
 .qr-link {
@@ -507,6 +517,8 @@
 }
 
 .qr-chain-rail {
+  /* Reserve scrollbar space so revealing a session never narrows the rail. */
+  scrollbar-gutter: stable;
   position: sticky;
   top: 0;
   flex-shrink: 0;

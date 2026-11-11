@@ -34,11 +34,6 @@ const sessionEndFlatIndex: number[] = (() => {
   return ends;
 })();
 
-const stepTrackIndex = new Map<string, number>();
-qrAttendanceData.forEach((session, ti) => {
-  session.steps.forEach((step) => stepTrackIndex.set(step.id, ti));
-});
-
 function trackLabel(session: Session, ti: number) {
   return `${String(session.sessionNumber ?? ti).padStart(2, "0")} — ${session.title}`;
 }
@@ -55,15 +50,73 @@ interface ConnectorPath {
   flatIndex: number;
 }
 
-// Every other session row reads right-to-left instead of left-to-right —
-// a boustrophedon (serpentine) flow. Session 1 runs left→right, session 2
-// right→left, and so on. Session 0 (Project setup) is row 0, left→right.
-function isReversedTrack(ti: number): boolean {
-  return ti % 2 === 1;
+// Each session's steps are split into explicit visual rows that always fit
+// the rail — never left to the browser's flex-wrap. Relying on wrap broke
+// whenever the rail's width shifted by a few pixels (e.g. revealing the
+// next session makes the rail scroll, and the scrollbar eats width), which
+// pushed a session's last node onto a stray line the connectors didn't
+// expect. Widths below mirror qr-attendance.css: node 15px, link 22px,
+// fork = two 28px curve blocks around a 15px node.
+const NODE_W = 15;
+const LINK_W = 22;
+const FORK_W = 28 + 15 + 28;
+// Rail content is ~248px (300px rail − 2×20px padding − the reserved
+// scrollbar gutter); leave ≥24px for the connector's U-turn lane outside
+// the outermost node. Six plain steps (222px) still fit on one row.
+const ROW_BUDGET = 224;
+
+function stepWidth(step: Step): number {
+  return step.fork ? FORK_W : NODE_W;
+}
+
+// Every row carries a leading link span (visible or hidden), so count it.
+function rowWidth(steps: Step[]): number {
+  return steps.reduce((sum, s) => sum + LINK_W + stepWidth(s), 0);
+}
+
+function splitIntoRows(steps: Step[]): Step[][] {
+  // Greedy pass finds how many rows are needed; then rebalance so rows hold
+  // similar counts (e.g. 7 steps → 4 + 3, not 6 + 1), still within budget.
+  let rowsNeeded = 1;
+  let width = 0;
+  for (const s of steps) {
+    const w = LINK_W + stepWidth(s);
+    if (width > 0 && width + w > ROW_BUDGET) {
+      rowsNeeded++;
+      width = 0;
+    }
+    width += w;
+  }
+  const perRow = Math.ceil(steps.length / rowsNeeded);
+  const rows: Step[][] = [[]];
+  for (const s of steps) {
+    const row = rows[rows.length - 1];
+    if (row.length > 0 && (row.length >= perRow || rowWidth([...row, s]) > ROW_BUDGET)) rows.push([s]);
+    else row.push(s);
+  }
+  return rows;
+}
+
+// Visual rows across the whole track, alternating direction row by row —
+// a boustrophedon (serpentine) flow, so every row-to-row turn is a short
+// U-turn on the edge where the two rows actually meet. Keyed per step,
+// since a session that splits into two rows has two directions.
+const sessionRows: { steps: Step[]; reversed: boolean }[][] = (() => {
+  let visualRow = 0;
+  return qrAttendanceData.map((session) =>
+    splitIntoRows(session.steps).map((steps) => ({ steps, reversed: visualRow++ % 2 === 1 }))
+  );
+})();
+
+const stepRowReversed = new Map<string, boolean>();
+sessionRows.forEach((rows) => rows.forEach((row) => row.steps.forEach((s) => stepRowReversed.set(s.id, row.reversed))));
+
+function isReversedStep(stepId: string): boolean {
+  return stepRowReversed.get(stepId) ?? false;
 }
 
 function stepDir(stepId: string): 1 | -1 {
-  return isReversedTrack(stepTrackIndex.get(stepId) ?? 0) ? -1 : 1;
+  return isReversedStep(stepId) ? -1 : 1;
 }
 
 function connectionPoint(
@@ -115,8 +168,8 @@ export function ChainRail() {
       const elB = nodeRefs.current.get(stepB.id);
       if (!elA || !elB) continue;
 
-      const pA = connectionPoint(stepA, elA, "exit", isReversedTrack(stepTrackIndex.get(stepA.id) ?? 0));
-      const pB = connectionPoint(stepB, elB, "entry", isReversedTrack(stepTrackIndex.get(stepB.id) ?? 0));
+      const pA = connectionPoint(stepA, elA, "exit", isReversedStep(stepA.id));
+      const pB = connectionPoint(stepB, elB, "entry", isReversedStep(stepB.id));
 
       if (Math.abs(pA.y - pB.y) < 6) continue; // same line — the plain link already connects them
 
@@ -257,8 +310,9 @@ export function ChainRail() {
                 <div className="qr-track-label">
                   <span className="qr-idx">//</span> {trackLabel(session, ti)}
                 </div>
-                <div className={`qr-node-row${isReversedTrack(ti) ? " qr-node-row-reversed" : ""}`}>
-                  {session.steps.map((step) => {
+                {sessionRows[ti].map((row, ri) => (
+                <div key={ri} className={`qr-node-row${row.reversed ? " qr-node-row-reversed" : ""}`}>
+                  {row.steps.map((step) => {
                     flatIndexCursor++;
                     const myIndex = flatIndexCursor;
                     const showLink = myIndex > 0;
@@ -313,6 +367,7 @@ export function ChainRail() {
                     );
                   })}
                 </div>
+                ))}
               </div>
             );
           })}
