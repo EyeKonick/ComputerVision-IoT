@@ -165,7 +165,7 @@ export const handSession1: Session = {
   track: "Hand Tracking (1 of 4)",
   title: "Hand Tracking — Session 1 (Webcam Loop)",
   syllabusMapping: "Module 10 — Hand Tracking & Gesture Control (lead-in)",
-  buildsToward: "source code/hand-tracking/hand_ar.py",
+  buildsToward: "source-code/hand-tracking/hand_ar.py",
   sessionGoal:
     "Today we don't detect a single hand — we just get a live, mirrored camera window on screen that we can cleanly quit. Every session after this adds one more layer on top of exactly this loop.",
   instructorNotes: [

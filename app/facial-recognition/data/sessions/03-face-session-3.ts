@@ -968,7 +968,7 @@ export const faceSession3: Session = {
   title: "Face Tracking — Session 3 (Mood Detection)",
   syllabusMapping: "Module 11 — Face Detection & Recognition (guided)",
   buildsOn: "Face Tracking Session 2's sci-fi HUD and face mesh",
-  buildsToward: "source code/facial-recognition/face_tracker.py",
+  buildsToward: "source-code/facial-recognition/face_tracker.py",
   sessionGoal:
     "Today the code stops just finding a face and starts reading it — we measure the mouth and decide whether the face looks happy, sad, surprised, or neutral.",
   instructorNotes: [

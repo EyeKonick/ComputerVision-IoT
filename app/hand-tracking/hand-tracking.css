@@ -597,30 +597,6 @@
   padding: 18px 20px 32px;
 }
 
-/* Cross-guide switcher — lets a student jump between the Hand Tracking and
-   Facial Recognition tracks without losing their place in either one
-   (each track's own progress/localStorage stays independent). */
-.ht-track-switch-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.02em;
-  color: var(--ink-secondary);
-  border: 1px solid var(--line-hair-bright);
-  border-radius: 3px;
-  padding: 6px 10px;
-  margin-bottom: 18px;
-  text-decoration: none;
-  transition: border-color 0.15s ease, color 0.15s ease;
-}
-
-.ht-track-switch-link:hover {
-  border-color: var(--signal-cyan);
-  color: var(--ink-primary);
-}
-
 .ht-chain-rail-body .ht-section-note {
   font-size: 12.5px;
 }

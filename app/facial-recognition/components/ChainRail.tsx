@@ -14,6 +14,7 @@ import {
   subscribeToProgress,
   type Progress,
 } from "../lib/progress";
+import { TrackSwitcher } from "../../components/TrackSwitcher";
 import { ChainForkNode } from "./ChainForkNode";
 
 const flatIndexById = new Map(flatSteps.map((fs) => [fs.step.id, fs.flatIndex]));
@@ -231,9 +232,7 @@ export function ChainRail() {
       </button>
 
       <div className="fr-chain-rail-body">
-        <Link href="/hand-tracking" className="fr-track-switch-link">
-          ↔ Switch to Hand Tracking guide
-        </Link>
+        <TrackSwitcher current="face" />
 
         <p className="fr-section-note">
           Every step is a landmark; every session, a joint. Steps unlock in order — finish one to

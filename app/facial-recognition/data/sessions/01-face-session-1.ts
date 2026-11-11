@@ -181,7 +181,7 @@ export const faceSession1: Session = {
   track: "Face Tracking (1 of 4)",
   title: "Face Tracking — Session 1 (Webcam & Face Detection)",
   syllabusMapping: "Module 11 — Face Detection & Recognition (guided)",
-  buildsToward: "source code/facial-recognition/face_tracker.py",
+  buildsToward: "source-code/facial-recognition/face_tracker.py",
   sessionGoal:
     "New activity, same foundation. Today we get a live camera window again — and this time, a plain box drawn around any face MediaPipe finds.",
   instructorNotes: [

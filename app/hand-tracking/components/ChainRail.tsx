@@ -14,6 +14,7 @@ import {
   subscribeToProgress,
   type Progress,
 } from "../lib/progress";
+import { TrackSwitcher } from "../../components/TrackSwitcher";
 import { ChainForkNode } from "./ChainForkNode";
 
 const flatIndexById = new Map(flatSteps.map((fs) => [fs.step.id, fs.flatIndex]));
@@ -323,9 +324,7 @@ export function ChainRail() {
       </button>
 
       <div className="ht-chain-rail-body">
-        <Link href="/facial-recognition" className="ht-track-switch-link">
-          ↔ Switch to Facial Recognition guide
-        </Link>
+        <TrackSwitcher current="hand" />
 
         <p className="ht-section-note">
           Every step is a landmark; every session, a joint. Steps unlock in order — finish one to

@@ -1,0 +1,5 @@
+qr_codes/
+attendance.csv
+scanner_*.png
+__pycache__/
+venv/

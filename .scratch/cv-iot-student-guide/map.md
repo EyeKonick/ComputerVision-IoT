@@ -4,7 +4,7 @@
 
 A detailed **Claude Code + Fable build-prompt**, delivered together with a **complete drafted content spec** (real per-session step explanations, cumulative code with new lines highlighted, and common-problems notes — not placeholders), describing an in-repo (this Next.js app), presenter-driven, linear node-chain step guide.
 
-Coverage: environment setup, the **Hand & Finger AR Tracker** activity (`source code/hand-tracking/hand_ar.py`, ~4 class sessions), and the **AR Face Tracker** activity (`source code/facial-recognition/face_tracker.py`, ~4 class sessions).
+Coverage: environment setup, the **Hand & Finger AR Tracker** activity (`source-code/hand-tracking/hand_ar.py`, ~4 class sessions), and the **AR Face Tracker** activity (`source-code/facial-recognition/face_tracker.py`, ~4 class sessions).
 
 No in-browser code execution — students code in VS Code on their own machines; the guide is a live-class reference the instructor drives on a projector, with next/previous plus jump-to-any-step navigation over a visible node-chain overview.
 

@@ -2,7 +2,7 @@ import type { Session } from "../types";
 
 // Full-cumulative-file text + new-line indices verified programmatically
 // against this session's own "Full file so far" checkpoint (Step 1) and
-// cross-checked against the real shipped `source code/hand-tracking/hand_ar.py`.
+// cross-checked against the real shipped `source-code/hand-tracking/hand_ar.py`.
 // See the conversion ticket for the verification script. Note: this
 // session's own Step 1 checkpoint already shows the print() message
 // mentioning the 'r' reset key (unmarked, i.e. treated as pre-existing

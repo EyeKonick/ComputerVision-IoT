@@ -2036,14 +2036,14 @@ export const faceSession4: Session = {
   title: "Face Tracking — Session 4 (Themes, Controls & Wrap-up)",
   syllabusMapping: "Module 11 — Face Detection & Recognition (guided)",
   buildsOn: "Face Tracking Session 3's mood detection",
-  buildsToward: "source code/facial-recognition/face_tracker.py",
+  buildsToward: "source-code/facial-recognition/face_tracker.py",
   sessionGoal:
     "Today we finish the tracker: colour themes, on/off switches, screenshots, a proper HUD with a live FPS counter — and by the end your file is exactly face_tracker.py.",
   instructorNotes: [
     "Code-display convention (used in every session): each step shows the entire file so far, with lines added or changed in that step marked as new.",
     "Say this before Step 2: some lines in this session aren't new — they're lines students already typed that have to move four spaces to the right, because Python decides what is inside an `if` by indentation. In VS Code: select the lines and press Tab. Step 4 also rewrites a few lines they already have (the window title and the end of the loop), and Step 6 is a tidy-up pass that changes nothing about behaviour.",
     "Step 4's focus fix is Windows-only (it calls the Win32 API through ctypes). On macOS or Linux it does nothing and is harmless — students there just click the window.",
-    "Step 6 ends on the finished file: it should match source code/facial-recognition/face_tracker.py line for line (396 lines). That is the checkpoint students compare against.",
+    "Step 6 ends on the finished file: it should match source-code/facial-recognition/face_tracker.py line for line (396 lines). That is the checkpoint students compare against.",
   ],
   wrapUp:
     "face_tracker.py is finished: a reticle HUD, a glowing mesh, a mood readout, four colour themes, screenshots and a live FPS counter — one file, every line typed and explained. Notice how it grew: every feature started as one small measurable idea, and that's how most computer-vision projects are built.",

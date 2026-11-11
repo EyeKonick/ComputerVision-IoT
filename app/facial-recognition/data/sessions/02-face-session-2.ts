@@ -465,7 +465,7 @@ export const faceSession2: Session = {
   title: "Face Tracking — Session 2 (Sci-Fi HUD + Face Mesh)",
   syllabusMapping: "Module 11 — Face Detection & Recognition (guided)",
   buildsOn: "Face Tracking Session 1's plain bounding box",
-  buildsToward: "source code/facial-recognition/face_tracker.py",
+  buildsToward: "source-code/facial-recognition/face_tracker.py",
   sessionGoal:
     "Today the plain green box becomes a targeting-reticle HUD, and we add a full glowing mesh across the whole face.",
   instructorNotes: [
